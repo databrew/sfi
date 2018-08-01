@@ -5,6 +5,11 @@ library(rmarkdown)
 # rebuild data files or not 
 reconstruct_data <- TRUE
 
+# Install font files
+library(extrafont)
+font_import(pattern="[CMU/cmu]")
+
+
 # document and install the package
 document('.')
 install('.')
