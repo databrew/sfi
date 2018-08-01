@@ -20,7 +20,7 @@
 #' @export
 
 theme_sfi <- function(base_size = 12, # size of font
-                      base_family = "CMU Bright Roman", # font famly 
+                      base_family = "CMU Bright", # font famly 
                       nomargin = FALSE, #margins for plot 
                       fc = "black", # font color
                       gM = TRUE, # major grid
@@ -52,7 +52,7 @@ theme_sfi <- function(base_size = 12, # size of font
                legend.text = element_text(colour = fc, face = "plain",
                                           size = base_size * 0.8),
                legend.title = element_text(colour = fc,
-                                           face = "italic",
+                                           face = "plain",
                                            size = base_size),
                axis.title.x = element_text(colour = fc,
                                            face = "plain",
