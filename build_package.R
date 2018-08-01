@@ -23,5 +23,8 @@ if(reconstruct_data){
   setwd('data-raw')
   source('create_data_files.R')
   setwd('..')
+  # re-document and install the package
+  document('.')
+  install('.')
 }
 

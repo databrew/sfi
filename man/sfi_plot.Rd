@@ -4,14 +4,12 @@
 \alias{sfi_plot}
 \title{SFI plot}
 \usage{
-sfi_plot(author = "Joe", figure = 1, save = FALSE)
+sfi_plot(author = "laquer", figure = "1")
 }
 \arguments{
 \item{author}{Character. The last name of the publishing author.}
 
-\item{figure}{Integer. The figure number in the corresponding paper.}
-
-\item{save}{Boolean. Whether to save as a file or simple return the plot (the default).}
+\item{figure}{Character. The figure number in the corresponding paper.}
 }
 \value{
 a plot object.

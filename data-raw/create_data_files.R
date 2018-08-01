@@ -26,9 +26,9 @@ names(livermore_ashley_riddell_carlson_rockmore_1) <-
 livermore_ashley_riddell_carlson_rockmore <- list()
 livermore_ashley_riddell_carlson_rockmore$f1 <- 
   livermore_ashley_riddell_carlson_rockmore_1
-
-# save folder list 
-devtools::use_data(livermore_ashley_riddell_carlson_rockmore, overwrite = TRUE)
+livermore <- livermore_ashley_riddell_carlson_rockmore
+# save data
+devtools::use_data(livermore, overwrite = TRUE)
 
 
 # --------------------
@@ -88,10 +88,10 @@ names(laquer_venancio_1) <- c('year', 'number_of_grants')
 names(laquer_venancio_2) <- c('year', 'percent_of_conducted_hearings_resulting_in_a_grant')
 
 # restructre variable types
-laquer_venancio_1$year <- as.character(laquer_venancio_1$year)
+laquer_venancio_1$year <- as.numeric(as.character(laquer_venancio_1$year))
 laquer_venancio_1$number_of_grants <- as.numeric(laquer_venancio_1$number_of_grants)
 
-laquer_venancio_2$year <- as.character(laquer_venancio_2$year)
+laquer_venancio_2$year <- as.numeric(as.character(laquer_venancio_2$year))
 laquer_venancio_2$percent_of_conducted_hearings_resulting_in_a_grant <- 
   as.numeric(gsub('%', '', laquer_venancio_2$percent_of_conducted_hearings_resulting_in_a_grant, 
                   fixed = TRUE))
@@ -102,7 +102,8 @@ laquer_venancio$f1 <- laquer_venancio_1
 laquer_venancio$f2 <- laquer_venancio_2
 
 # save folder list 
-devtools::use_data(laquer_venancio, overwrite = TRUE)
+laquer <- laquer_venancio
+devtools::use_data(laquer, overwrite = TRUE)
 
 # --------------------
 # Alexander et al
@@ -130,7 +131,8 @@ alexander_et_al$f7 <- alexander_et_al_7
 
 
 # save folder list 
-devtools::use_data(alexander_et_al, overwrite = TRUE)
+alexander <- alexander_et_al
+devtools::use_data(alexander, overwrite = TRUE)
 
 # --------------------
 # Feldman
@@ -155,17 +157,40 @@ feldman$f1 <- feldman_1
 feldman$f2 <- feldman_2
 
 # save folder list 
-devtools::use_data(alexander_et_al, overwrite = TRUE)
+devtools::use_data(feldman, overwrite = TRUE)
 
 # -----------
 # store all author lists into one main list 
 all_data <- list()
 all_data$frankenreiter <- frankenreiter
-all_data$laquer <- laquer_venancio
-all_data$livemore <- livermore_ashley_riddell_carlson_rockmore
-all_data$alexander <- alexander_et_al
+all_data$laquer <- laquer
+all_data$livemore <- livermore
+all_data$alexander <- alexander
 all_data$feldman <- feldman
 
 # save folder list 
 devtools::use_data(all_data, overwrite = TRUE)
 
+# Create dataframe of all plots
+plots_row <- data.frame(author = NA,
+                        figure = NA)
+plots_df <- list()
+authors <- names(all_data)
+counter <- 0
+for(i in 1:length(authors)){
+  this_author <- authors[i]
+  message(this_author)
+  sub_data <- all_data[[this_author]]
+  for(j in 1:length(sub_data)){
+    counter <- counter +1
+    this_figure <- (gsub('f', '', names(sub_data)[j]))
+    message('---', this_figure)
+    out <- plots_row
+    out$author <- this_author
+    out$figure <- this_figure
+    plots_df[[counter]] <- out
+  }
+}
+plots_dict <- bind_rows(plots_df) %>%
+  arrange(author, figure)
+devtools::use_data(plots_dict, overwrite = TRUE)
