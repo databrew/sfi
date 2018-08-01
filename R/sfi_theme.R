@@ -20,7 +20,7 @@
 #' @export
 
 theme_sfi <- function(base_size = 12, # size of font
-                      base_family = "Computer modern", # font famly 
+                      base_family = "CMU Bright Roman", # font famly 
                       nomargin = FALSE, #margins for plot 
                       fc = "black", # font color
                       gM = TRUE, # major grid
@@ -45,7 +45,7 @@ theme_sfi <- function(base_size = 12, # size of font
                axis.ticks = element_line(colour = gc,
                                          size = 0.2),
                plot.title = element_text(colour = fc,
-                                         face = "bold",
+                                         face = "plain",
                                          size = base_size * 1.2),
                axis.text = element_text(colour = fc,
                                         face = "plain", size = base_size * 0.8),
