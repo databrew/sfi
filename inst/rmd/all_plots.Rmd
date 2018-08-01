@@ -2,12 +2,16 @@
 title: "Concept note"
 subtitle: "Modeling positive externalities (spillover) in IRS protection"
 date: ''
+params: 
+  date: ''
 output: 
- pdf_document:
-   keep_tex: true
-   latex_engine: xelatex
-   includes:
-     in_header: preamble.sty
+  html_document:
+    df_print: paged
+  pdf_document:
+    keep_tex: true
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
 fig_width: 4
 fig_height: 2.6
 bibliography: bibliography.bib
