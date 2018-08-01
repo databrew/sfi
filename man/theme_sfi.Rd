@@ -4,7 +4,7 @@
 \alias{theme_sfi}
 \title{SFI visualization theme}
 \usage{
-theme_sfi(base_size = 12, base_family = "CMU Bright Roman",
+theme_sfi(base_size = 12, base_family = "CMU Bright",
   nomargin = FALSE, fc = "black", gM = TRUE, gm = FALSE,
   gc = "grey", gl = "dashed", boxes = FALSE, bc = "white",
   pc = "transparent", lp = "right", axis = 1)
