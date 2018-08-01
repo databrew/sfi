@@ -2,4 +2,7 @@
 
 export(generate_all)
 export(sfi_plot)
+export(theme_sfi)
+import(ggplot2)
+import(ggthemes)
 importFrom(rmarkdown,render)
