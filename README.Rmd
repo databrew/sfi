@@ -12,13 +12,74 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SFI and databrew project
+# "Law as Data: DataBrew's collaboration with the Santa Fe Institute
 
-Here are some instructions:
+## Installation instructions instructions
 
-1. Do this.
-2. Do that.
+1. Ensure that the `cmu-bright` font family is installed on your system (font available in the `fonts/cmu-bright` directory).
+
+2. Install the package by running the following within an R session:
+
+```
+devtools::install_github('databrew/sfi')
+```
+
+## Developer instructions
+
+Clone this repository by running the following from the command line:
+
+```
+git clone https://github.com/databrew/sfi
+```
+
+Then copy the "Databrew Graphics" folder from the privately shared "Box" drive into the `data-raw` directory of `sfi`.
+
+Finally install the package by setting the working directory to the newly cloned `sfi` repo and running the following:
+
+```
+Rscript build_package.R
+```
+
+
+## Usage instructions
+
+### Generate all plots
+
+The below produces `all_plots.pdf` and populates the `figures` directory with individual image files.
+
+```
+library(sfi)
+generate_all()
+```
+
+### Use the SFI "theme"
+
+The package includes `sfi_theme`, a ggplot2-compatible "theme" object which stylizes plots to match SFI's aesthetics. 
 
 ```{r}
-barplot(1:10)
+library(sfi)
+library(ggplot2)
+df <- data.frame(a = 1:10,
+                 b = rnorm(10) + 10,
+                 c = sample(letters[1:3], 10, replace = TRUE))
+g <- ggplot(data = df,
+             aes(x = a,
+                 y = b,
+                 color = c)) +
+  geom_point(size = 5,
+             pch = 1) +
+  geom_point(size = 5,
+             alpha = 0.5) +
+  theme(legend.position = 'bottom') +
+  scale_color_manual(name = 'Legend',
+                     values = make_colors(n = 3,
+                                                    bw = TRUE)) +
+  labs(x = 'The horizontal x axis',
+       y = 'The vertical y axis',
+       title = 'Some title',
+       subtitle = 'A detailed subtitle')
+Rmisc::multiplot(g,
+                 g + theme_sfi() +
+                   theme(legend.position = 'bottom'),
+                 cols = 2)
 ```
