@@ -1,12 +1,10 @@
 ---
-title: "Concept note"
-subtitle: "Modeling positive externalities (spillover) in IRS protection"
+title: "Visualizations for Law as Data"
+subtitle: ""
 date: ''
 params: 
   date: ''
 output: 
-  html_document:
-    df_print: paged
   pdf_document:
     keep_tex: true
     latex_engine: xelatex
@@ -17,9 +15,39 @@ fig_height: 2.6
 bibliography: bibliography.bib
 ---
 
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+
+# Packages
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(brew)
+library(maragra)
+library(knitr)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              # dev = "cairo_pdf",
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+
+```
+
 # Text example 
 
-```{r}
+```{r, echo=FALSE}
 
 barplot(1:10)
 
