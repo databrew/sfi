@@ -1,6 +1,6 @@
 ---
-title: "Visualizations for Law as Data"
-subtitle: ""
+title: 'Law as Data'
+subtitle: "Visualizations"
 date: ''
 params: 
   date: ''
@@ -16,17 +16,17 @@ bibliography: bibliography.bib
 ---
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
-
 # Packages
 library(tidyverse)
 library(knitr)
 library(Hmisc)
-library(brew)
-library(maragra)
 library(knitr)
 library(RColorBrewer)
 library(extrafont)
 library(kableExtra)
+library(sfi)
+library(ggplot2)
+library(grid)
 loadfonts()
 ## Global options
 options(max.print="75")
@@ -37,18 +37,83 @@ opts_chunk$set(echo=FALSE,
               comment=NA,
               message=FALSE,
               warning=FALSE,
+              dpi = 300,
               # dev = "cairo_pdf",
+              dev = c("png", "cairo_pdf"),
               fig.pos="!h",
               fig.path = 'figures/')
 opts_knit$set(width=75)
 options(xtable.comment = FALSE)
+```
+
+```{r}
+  # Dummy plot / data
+dummy_plot <- function(){
+   df <- data.frame(a = 1:100,
+                   b = rnorm(100) + 10,
+                   c = sample(letters[1:3], 10, replace = TRUE),
+                   d = runif(100))
+  g <- ggplot(data = df,
+               aes(x = a,
+                   y = b,
+                   color = c)) +
+    geom_point(aes(size = d),
+               alpha = 0.3) +
+    theme(legend.position = 'bottom') +
+    scale_color_manual(name = 'Legend',
+                       values = make_colors(n = 3,
+                                                      bw = TRUE)) +
+    labs(x = 'The horizontal x axis',
+         y = 'The vertical y axis',
+         title = 'Some title',
+         subtitle = 'A detailed subtitle') +
+    geom_smooth(se = FALSE) + 
+    theme_sfi() +
+   theme(legend.position = 'bottom') 
+  print(g)
+}
+```
+
+```{r}
+# Write an RMD with all our content
+chunks <- paste0('## Some header\n\nSome text\n\n```{r dummy}\ndummy_plot()\n```\n')
+file_connection <- file('content.Rmd')
+writeLines(paste0('---\noutput: pdf_document\n---\n\n', 
+                  chunks), 
+           file_connection)
+close(file_connection)
+```
+
+
+```{r, eval = TRUE}
+# Build document from contents of directory
+# Get a list of all the child documents
+rmds <- list.files(pattern = '*.Rmd', recursive = FALSE, include.dirs = FALSE)
+# # Must include an underscore!
+# rmds <- rmds[grepl('_', rmds)]
+
+# Should not include the parent doc
+rmds <- rmds[rmds != 'all_plots.Rmd']
+
+
+chunks <- paste0("\n\n```{r child = '", 
+                 rmds, 
+                 "'}\n```\n")
+
+# Write our order / child-calls to a doc
+file_connection <- file('children.Rmd')
+writeLines(paste0('---\noutput: pdf_document\n---\n\n', 
+                  chunks), 
+           file_connection)
+close(file_connection)
+```
+
+```{r child='children.Rmd', echo = FALSE}
 
 ```
 
-# Text example 
-
-```{r, echo=FALSE}
-
-barplot(1:10)
-
+```{r, results='hide'}
+file.remove('children.Rmd')
+file.remove('content.Rmd')
 ```
+

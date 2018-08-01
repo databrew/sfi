@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# "Law as Data: DataBrew's collaboration with the Santa Fe Institute
+# "Law as Data": DataBrew's collaboration with the Santa Fe Institute
 
 ## Installation instructions instructions
 
