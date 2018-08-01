@@ -23,6 +23,11 @@ generate_all <- function(output_dir = NULL,
     date <- Sys.Date()
   }
   
+  # Create a "figures" directory if it doesn't already exist
+  if(!dir.exists('figures')){
+    dir.create('figures')
+  }
+  
   # Combine parameters into a list, so as to pass to Rmd
   parameters <- list(date = date)
   

@@ -3,3 +3,4 @@
 .RData
 all_plots.html
 all_plots.pdf
+man/*
