@@ -38,10 +38,10 @@ generate_all <- function(output_dir = NULL,
                     output_format = 'pdf_document',
                     params = parameters)
   
-  # Knit html
-  rmarkdown::render(file_to_knit,
-                    output_dir = output_dir,
-                    output_file = 'all_plots.html',
-                    output_format = 'html_document',
-                    params = parameters)
+  # # Knit html
+  # rmarkdown::render(file_to_knit,
+  #                   output_dir = output_dir,
+  #                   output_file = 'all_plots.html',
+  #                   output_format = 'html_document',
+  #                   params = parameters)
 }
