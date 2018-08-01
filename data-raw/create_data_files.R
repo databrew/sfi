@@ -11,7 +11,6 @@ library(tidyverse)
 folder_names <- c('Alexander et al', 'Feldman', 'Laqueur and Venancio', 'Frankenreiter', 
                   'Livermore, Ashley, Riddell, Carlson, Rockmore')
 
-
 # --------------------
 # 'Livermore, Ashley, Riddell, Carlson, Rockmore'
 
@@ -24,6 +23,12 @@ names(livermore_ashley_riddell_carlson_rockmore_1) <-
   tolower(names(livermore_ashley_riddell_carlson_rockmore_1))
 
 # create list to store data
+livermore_ashley_riddell_carlson_rockmore <- list()
+livermore_ashley_riddell_carlson_rockmore$f1 <- 
+  livermore_ashley_riddell_carlson_rockmore_1
+
+# save folder list 
+devtools::use_data(livermore_ashley_riddell_carlson_rockmore, overwrite = TRUE)
 
 
 # --------------------
@@ -52,14 +57,11 @@ names(frankenreiter_6_1) <- tolower(names(frankenreiter_6_1))
 names(frankenreiter_6_2) <- tolower(names(frankenreiter_6_2))
 
 # convert year to character
-names(frankenreiter_2)[names(frankenreiter_2) == 'var2'] <- 'year'
-frankenreiter_2$year <- as.character(frankenreiter_2$year)
-
 frankenreiter_5_1$year <- as.character(frankenreiter_5_1$year)
 frankenreiter_5_2$year <- as.character(frankenreiter_5_2$year)
 names(frankenreiter_6_1)[names(frankenreiter_6_1) == 'var2'] <- 'year'
 frankenreiter_6_1$year <- as.character(frankenreiter_6_1$year)
-names(frankenreiter_6_2)[names(frankenreiter_6_2) == 'var2'] <- 'year'
+names(frankenreiter_6_2)[names(frankenreiter_6_2) =='var2'] <- 'year'
 frankenreiter_6_2$year <- as.character(frankenreiter_6_2$year)
 
 # create list to store data
@@ -71,6 +73,9 @@ frankenreiter$f5_1 <- frankenreiter_5_1
 frankenreiter$f5_2 <- frankenreiter_5_1
 frankenreiter$f6_1 <- frankenreiter_6_1
 frankenreiter$f6_2 <- frankenreiter_6_2
+
+# save folder list 
+devtools::use_data(frankenreiter, overwrite = TRUE)
 
 
 # --------------------
@@ -152,45 +157,15 @@ feldman$f2 <- feldman_2
 # save folder list 
 devtools::use_data(alexander_et_al, overwrite = TRUE)
 
+# -----------
+# store all author lists into one main list 
+all_data <- list()
+all_data$frankenreiter <- frankenreiter
+all_data$laquer <- laquer_venancio
+all_data$livemore <- livermore_ashley_riddell_carlson_rockmore
+all_data$alexander <- alexander_et_al
+all_data$feldman <- feldman
 
-
-
-
-# # loop through each folder and read in data files 
-# folder_list <- list()
-# for(i in 1:length(folder_names)){
-#   message(i)
-#   folder_name <- folder_names[i]
-#   data_files <- list.files(paste0('Databrew Graphics/', folder_name))
-#   
-#   # only keep the files with "csv, .xlsx"
-#   data_names <- data_files[grepl('csv|xlsx', data_files)]
-#   
-#   
-#   if(length(data_names) != 0){
-#     message('---data names is okay')
-#     # create list to store data
-#     data_list <- list()
-#     for(j in 1:length(data_names)){
-#       
-#       # get name of individual data
-#       data_name <- data_names[j]
-#       # read in data 
-#       sub_data <- suppressWarnings(read_csv(paste0('Databrew Graphics/', folder_name, '/', data_name )))
-#       
-#       # store in data_list
-#       data_list[[j]] <- sub_data
-#       
-#     } 
-#     # tools::use_data(data_list, overwrite = TRUE)
-#     
-#     # store data_list into folder_list
-#     folder_list[[i]] <- data_list
-#   } else {
-#     message('---', i, ': data names not okay')
-#   }
-# }
-
-
-
+# save folder list 
+devtools::use_data(all_data, overwrite = TRUE)
 

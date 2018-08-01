@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-"Law as Data: DataBrew's collaboration with the Santa Fe Institute
-==================================================================
+"Law as Data": DataBrew's collaboration with the Santa Fe Institute
+===================================================================
 
 Installation instructions instructions
 --------------------------------------
