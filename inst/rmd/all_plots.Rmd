@@ -55,7 +55,7 @@ chunks <- paste0(ifelse(plots_dict$figure == 1,
       '\n\n',
       collapse = NULL),
       ''),
-      '## Figure ', plots_dict$figure,
+      '## Figure ', gsub('_', '.', plots_dict$figure),
       '\n\n```{r ', 
       tolower(plots_dict$author),
       plots_dict$figure,
@@ -63,7 +63,7 @@ chunks <- paste0(ifelse(plots_dict$figure == 1,
       'sfi_plot(author = "',
       plots_dict$author,
       '", figure = "', 
-      gsub('_', '.', plots_dict$figure),
+      plots_dict$figure,
       '")\n```\n\n')
 chunks <- paste0(chunks, collapse = '')
 
