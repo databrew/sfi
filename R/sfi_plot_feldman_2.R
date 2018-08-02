@@ -35,7 +35,7 @@ sfi_plot_feldman_2 <- function(){
                  position="identity",
                  geom="line", 
                  kernel = "gaussian", 
-                 size = 0.5) +
+                 size = 1) +
     labs(x = 'Words', 
          y = 'Density', 
          title = 'Version 2') + 

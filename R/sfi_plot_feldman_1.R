@@ -8,7 +8,7 @@
 #' @import knitr
 
 
-sfi_plot_feldman_1 <- function(){
+sfi_plot_feldman_1 <- function() {
   
   # Get data
   data <- all_data$feldman$f1 
@@ -38,7 +38,8 @@ sfi_plot_feldman_1 <- function(){
                aes(x=federal,
                    y=clarity_score)) + 
     geom_jitter(width = 0.3,
-                alpha = 0.1) + 
+                alpha = 0.1,
+                size = 1) + 
     labs(x = '',
          y = 'Clarity Score',
          title = 'Version 2') + 
@@ -48,7 +49,7 @@ sfi_plot_feldman_1 <- function(){
   g3 <- ggplot(data, 
                aes(x=clarity_score, 
                    fill = federal)) + 
-    geom_density() + 
+    geom_density(alpha = 0.5) + 
     labs(x = 'Clarity Score',
          y = 'Density',
          title = 'Version 3') + 
@@ -63,7 +64,8 @@ sfi_plot_feldman_1 <- function(){
                aes(x=federal,
                    y=clarity_score)) + 
     geom_jitter(width = 0.4, 
-                alpha = 0.2) +
+                alpha = 0.2,
+                size = 1) +
     geom_violin(alpha = 0.5, fill = 'darkgrey') +
     labs(x = '',
          y = 'Clarity Score',
