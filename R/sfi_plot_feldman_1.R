@@ -25,7 +25,7 @@ sfi_plot_feldman_1 <- function(){
                    alpha = 0.6) +
     labs(x = 'Clarity score', 
          y = 'Density', 
-         title = '') + 
+         title = 'Version 1') + 
     theme_sfi() + 
     scale_fill_manual(name = '',
                       values = make_colors(length(unique(data$federal)),
@@ -40,7 +40,8 @@ sfi_plot_feldman_1 <- function(){
     geom_jitter(width = 0.3,
                 alpha = 0.1) + 
     labs(x = '',
-         y = 'Clarity Score') + 
+         y = 'Clarity Score',
+         title = 'Version 2') + 
     theme_sfi()
   
   # density
@@ -49,7 +50,8 @@ sfi_plot_feldman_1 <- function(){
                    fill = federal)) + 
     geom_density() + 
     labs(x = 'Clarity Score',
-         y = 'Density') + 
+         y = 'Density',
+         title = 'Version 3') + 
     theme_sfi() +
     scale_fill_manual(name = '',
                       values = make_colors(length(unique(data$federal)),
@@ -64,7 +66,8 @@ sfi_plot_feldman_1 <- function(){
                 alpha = 0.2) +
     geom_violin(alpha = 0.5, fill = 'darkgrey') +
     labs(x = '',
-         y = 'Clarity Score') + 
+         y = 'Clarity Score',
+         title = 'Version 4') + 
     theme_sfi() +
     scale_fill_manual(name = '',
                       values = make_colors(length(unique(data$federal)),
