@@ -88,10 +88,10 @@ sfi_plot <- function(author = 'laquer',
   if(author == 'feldman'){
     # FELDMAN FIGURE 1 
     if(figure == '1'){
-      g <- list(dummy)
+      g <- sfi_plot_feldman_1()
       # FELDMAN FIGURE 2
     } else if(figure == '2'){
-      g <- list(dummy)
+      g <- sfi_plot_feldman_2()
     }
   }
   
