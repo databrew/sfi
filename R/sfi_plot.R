@@ -33,10 +33,72 @@ sfi_plot <- function(author = 'laquer',
   }
   data <- data[[figure_name]]
   
+  # ALEXANDER
+  if(author == 'alexander'){
+    # ALEXANDER FIGURE 1 
+    if(figure == '1'){
+      g <- list(dummy)
+      # ALEXANDER FIGURE 4
+    } else if(figure == '4'){
+      g <- list(dummy)
+      
+      # ALEXANDER FIGURE 6
+    } else if(figure == '6'){
+      g <- list(dummy)
+      
+      # ALEXANDER FIGURE 7
+    } else if(figure == '7'){
+      g <- list(dummy)
+    } 
+  }
+  
+  # FRANKENREITER
+  if(author == 'frankenreiter'){
+    # FRANKENREITER FIGURE 2 
+    if(figure == '2'){
+      g <- list(dummy)
+      # FRANKENREITER FIGURE 3
+    } else if(figure == '3'){
+      g <- list(dummy)
+      
+      # FRANKENREITER FIGURE 4
+    } else if(figure == '4'){
+      g <- list(dummy)
+      
+      # FRANKENREITER FIGURE 5_1
+    } else if(figure == '5_1'){
+      g <- list(dummy)
+      
+      # FRANKENREITER FIGURE 5_2
+    } else if(figure == '5_2'){
+      g <- list(dummy)
+      
+      # FRANKENREITER FIGURE 5_1
+    } else if(figure == '6_1'){
+      g <- list(dummy)
+      
+      # FRANKENREITER FIGURE 6_2
+    } else if(figure == '6_2'){
+      g <- list(dummy)
+    } 
+    
+  }
+  
+  # FELDMAN
+  if(author == 'feldman'){
+    # FELDMAN FIGURE 1 
+    if(figure == '1'){
+      g <- list(dummy)
+      # FELDMAN FIGURE 2
+    } else if(figure == '2'){
+      g <- list(dummy)
+    }
+  }
+  
   # LAQUER
   if(author == 'laquer'){
     # LAQUER FIGURE 1
-    if(figure == 1){
+    if(figure == '1'){
       g <- 
         ggplot(data = data,
                aes(x = year,
@@ -48,10 +110,17 @@ sfi_plot <- function(author = 'laquer',
              y = 'Number of grants',
              title = 'Number of Hearings Resulting in a Grant: 1978-2015')
       g <- list(g)
-    } else if(figure == 2){
+    } else if(figure == '2'){
       # LAQUER FIGURE 2
       g <- list(dummy)
     }
+  } 
+  # LIVMORE
+  if(author == 'livemore'){
+    # LIVMORE Figure 1
+    if(figure == '1'){
+      g <- list(dummy)
+    } 
   } else {
     g <- list(dummy)
   }
