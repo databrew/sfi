@@ -60,11 +60,11 @@ chunks <- paste0(ifelse(plots_dict$figure == 1,
       tolower(plots_dict$author),
       plots_dict$figure,
       '}\n',
-      'sfi_plot(author = "',
+      'sfi_plot_unlist(sfi_plot(author = "',
       plots_dict$author,
       '", figure = "', 
       plots_dict$figure,
-      '")\n```\n\n')
+      '"))\n```\n\n')
 chunks <- paste0(chunks, collapse = '')
 
 file_connection <- file('content.Rmd')

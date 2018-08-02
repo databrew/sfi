@@ -12,7 +12,7 @@ sfi_plot(author = "laquer", figure = "1")
 \item{figure}{Character. The figure number in the corresponding paper.}
 }
 \value{
-a plot object.
+a list of plots
 }
 \description{
 Generate a plot for the SFI Law as Data Project, specfic to each Author and figure type.

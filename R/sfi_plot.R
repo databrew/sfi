@@ -2,7 +2,7 @@
 #' 
 #' Generate a plot for the SFI Law as Data Project, specfic to each Author and figure type. 
 #' @export
-#' @return a plot object.
+#' @return a list of plots
 #' @param author Character. The last name of the publishing author.
 #' @param figure Character. The figure number in the corresponding paper.
 #' @import ggplot2
