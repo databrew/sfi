@@ -23,10 +23,10 @@ sfi_plot_alexander_6 <- function(){
           format = 'latex',
           booktabs = TRUE, 
           longtable = TRUE) %>%
-    # kable_styling(#latex_options = "striped",
-    #               # full_width = TRUE,
-    #               position = 'center') %>%
-    column_spec(3, width = "30em")
+    kable_styling(#latex_options = "striped",
+                  full_width = TRUE,
+                  position = 'center') #%>%
+    # column_spec(3, width = "30em")
   
   return(out)
   

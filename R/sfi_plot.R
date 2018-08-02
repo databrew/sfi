@@ -44,7 +44,7 @@ sfi_plot <- function(author = 'laquer',
       
       # ALEXANDER FIGURE 6
     } else if(figure == '6'){
-      g <- list(sfi_plot_alexander_1())
+      g <- list(sfi_plot_alexander_6())
       
       # ALEXANDER FIGURE 7
     } else if(figure == '7'){

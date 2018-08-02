@@ -61,5 +61,5 @@ sfi_plot_alexander_4 <- function(){
                                      hjust = 0.5)) +
     ylim(0, 75)
   
-  return(list(Rmisc::multiplot(g1, g2, cols = 2)))
+  return(list(g1, g2))
   }
