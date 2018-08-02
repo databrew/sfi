@@ -48,7 +48,6 @@ opts_knit$set(width=75)
 options(xtable.comment = FALSE)
 ```
 
-# Plots
 
 ```{r}
 plots_dict_plots <- plots_dict %>% filter(!table)
@@ -70,7 +69,9 @@ chunks <- paste0(ifelse(plots_dict_plots$figure == '1',
       '"))\n```\n\n')
 chunks <- paste0(chunks, collapse = '')
 
-file_connection <- file('content.Rmd')
+chunks <- paste0('# Plots\n\n', chunks, collapse = '')
+
+file_connection <- file('plots.Rmd')
 writeLines(paste0('---\noutput: pdf_document\n---\n\n', 
                   chunks), 
            file_connection)
@@ -78,7 +79,6 @@ close(file_connection)
 ```
 
 
-# Tables
 
 ```{r}
 plots_dict_tables <- plots_dict %>% filter(table)
@@ -104,6 +104,9 @@ chunks <- paste0(ifelse(plots_dict_tables$figure_first,
       '"))\n```\n\n')
 chunks <- paste0(chunks, collapse = '')
 
+
+chunks <- paste0('# Tables\n\n', chunks, collapse = '')
+
 file_connection <- file('tables.Rmd')
 writeLines(paste0('---\noutput: pdf_document\n---\n\n', 
                   chunks), 
@@ -111,14 +114,14 @@ writeLines(paste0('---\noutput: pdf_document\n---\n\n',
 close(file_connection)
 ```
 
-```{r child='content.Rmd', echo = FALSE}
+```{r child='plots.Rmd', echo = FALSE}
 ```
 
 ```{r child='tables.Rmd', echo = FALSE}
 ```
 
 ```{r, results='hide'}
-file.remove('content.Rmd')
+file.remove('plots.Rmd')
 file.remove('tables.Rmd')
 ```
 

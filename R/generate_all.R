@@ -62,7 +62,8 @@ generate_all <- function(output_dir = NULL,
         file = paste0('tables/',
                       this_row$author,
                       '_',
-                      this_row$figure))
+                      this_row$figure,
+                      '.tex'))
   }
 
   # # Knit html
