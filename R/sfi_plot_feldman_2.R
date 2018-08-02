@@ -1,6 +1,6 @@
 #' Feldman 2
 #' 
-#' Generate a plot for Feldman Figure 1 
+#' Generate a plot for Feldman Figure 2
 #' @export
 #' @return a list of plots
 #' @import ggplot2

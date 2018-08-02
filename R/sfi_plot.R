@@ -91,7 +91,7 @@ sfi_plot <- function(author = 'laquer',
       g <- sfi_plot_feldman_1()
       # FELDMAN FIGURE 2
     } else if(figure == '2'){
-      g <- sfi_plot_feldman_1()
+      g <- sfi_plot_feldman_2()
     }
   }
   
