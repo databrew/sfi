@@ -52,7 +52,7 @@ options(xtable.comment = FALSE)
 ```{r}
 plots_dict_plots <- plots_dict %>% filter(!table)
 chunks <- paste0(ifelse(plots_dict_plots$figure == '1',
-              paste0('\n\newpage\n\n\n## ',
+              paste0('\nnewpage\n\n\n## ',
       Hmisc::capitalize(plots_dict_plots$author), 
       '\n\n',
       collapse = NULL),
@@ -87,7 +87,7 @@ plots_dict_tables <- plots_dict_tables %>%
   mutate(figure_first = dplyr::first(figure) == figure) %>%
   ungroup
 chunks <- paste0(ifelse(plots_dict_tables$figure_first,
-              paste0('\n\newpage\n\n\n## ',
+              paste0('\nnewpage\n\n\n## ',
       Hmisc::capitalize(plots_dict_tables$author), 
       '\n\n',
       collapse = NULL),
