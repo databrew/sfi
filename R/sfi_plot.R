@@ -121,8 +121,6 @@ sfi_plot <- function(author = 'laquer',
     if(figure == '1'){
       g <- list(dummy)
     } 
-  } else {
-    g <- list(dummy)
-  }
+  } 
   return(g)
 }

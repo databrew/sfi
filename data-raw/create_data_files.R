@@ -193,4 +193,11 @@ for(i in 1:length(authors)){
 }
 plots_dict <- bind_rows(plots_df) %>%
   arrange(author, figure)
+
+# Adjust for tables
+plots_dict$table <-
+  ifelse(plots_dict$author == 'alexander' &
+           plots_dict$figure %in% c('1', '4'), 
+         TRUE,
+         FALSE)
 devtools::use_data(plots_dict, overwrite = TRUE)
