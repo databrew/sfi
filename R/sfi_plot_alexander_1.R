@@ -27,6 +27,5 @@ sfi_plot_alexander_1 <- function(){
     #               position = 'center') %>%
     column_spec(3, width = "30em")
   
-  
   return(out)
 }

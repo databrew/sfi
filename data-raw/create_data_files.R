@@ -197,7 +197,7 @@ plots_dict <- bind_rows(plots_df) %>%
 # Adjust for tables
 plots_dict$table <-
   ifelse(plots_dict$author == 'alexander' &
-           plots_dict$figure %in% c('1', '4'), 
+           plots_dict$figure %in% c('1', '6'), 
          TRUE,
          FALSE)
 devtools::use_data(plots_dict, overwrite = TRUE)
