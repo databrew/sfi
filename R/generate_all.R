@@ -48,6 +48,24 @@ generate_all <- function(output_dir = NULL,
                     output_format = 'pdf_document',
                     params = parameters)
   
+  # Save all tables
+  plots_dict_tables <- plots_dict %>%
+    dplyr::filter(table)
+  
+  for(i in 1:nrow(plots_dict_tables)){
+    this_row <- plots_dict_tables[i,]
+    this_table <- get(paste0('sfi_plot_',
+                             this_row$author, 
+                             '_',
+                             this_row$figure))
+    cat(unlist(this_table()), 
+        file = paste0('tables/',
+                      this_row$author,
+                      '_',
+                      this_row$figure,
+                      '.tex'))
+  }
+
   # # Knit html
   # rmarkdown::render(file_to_knit,
   #                   output_dir = output_dir,

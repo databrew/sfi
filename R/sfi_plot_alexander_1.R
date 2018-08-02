@@ -22,11 +22,11 @@ sfi_plot_alexander_1 <- function(){
         format = 'latex',
         booktabs = TRUE, 
         longtable = TRUE) %>%
-    kable_styling(latex_options = "striped",
-                  full_width = TRUE,
-                  position = 'center') %>%
+    # kable_styling(#latex_options = "striped",
+    #               # full_width = TRUE,
+    #               position = 'center') %>%
     column_spec(3, width = "30em")
-  cat(out, file = 'tables/alexander_1.tex')
+  
   
   return(out)
 }
