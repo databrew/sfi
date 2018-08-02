@@ -3,6 +3,7 @@
 export(generate_all)
 export(make_colors)
 export(sfi_plot)
+export(sfi_plot_unlist)
 export(theme_sfi)
 import(dplyr)
 import(ggplot2)
