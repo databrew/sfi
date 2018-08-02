@@ -49,7 +49,7 @@ options(xtable.comment = FALSE)
 ```
 
 ```{r}
-chunks <- paste0(ifelse(plots_dict$figure == 1,
+chunks <- paste0(ifelse(plots_dict$figure == '1',
               paste0('\newpage\n\n\n# ',
       Hmisc::capitalize(plots_dict$author), 
       '\n\n',
