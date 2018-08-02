@@ -47,12 +47,13 @@ sfi_plot <- function(author = 'laquer',
         labs(x = 'Year',
              y = 'Number of grants',
              title = 'Number of Hearings Resulting in a Grant: 1978-2015')
+      g <- list(g)
     } else if(figure == 2){
       # LAQUER FIGURE 2
-      g <- dummy
+      g <- list(dummy)
     }
   } else {
-    g <- dummy
+    g <- list(dummy)
   }
   return(g)
 }
