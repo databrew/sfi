@@ -1,0 +1,24 @@
+---
+output: pdf_document
+---
+
+
+
+ewpage
+
+
+## Alexander
+
+### Table 1
+
+```{r alexander1,  results = "asis"}
+sfi_plot_unlist(sfi_plot(author = "alexander", figure = "1"))
+```
+
+### Table 4
+
+```{r alexander4,  results = "asis"}
+sfi_plot_unlist(sfi_plot(author = "alexander", figure = "4"))
+```
+
+
