@@ -48,22 +48,25 @@ opts_knit$set(width=75)
 options(xtable.comment = FALSE)
 ```
 
+# Plots
+
 ```{r}
-chunks <- paste0(ifelse(plots_dict$figure == '1',
-              paste0('\newpage\n\n\n# ',
-      Hmisc::capitalize(plots_dict$author), 
+plots_dict_plots <- plots_dict %>% filter(!table)
+chunks <- paste0(ifelse(plots_dict_plots$figure == '1',
+              paste0('\n\newpage\n\n\n## ',
+      Hmisc::capitalize(plots_dict_plots$author), 
       '\n\n',
       collapse = NULL),
       ''),
-      '## Figure ', gsub('_', '.', plots_dict$figure),
+      '### Figure ', gsub('_', '.', plots_dict_plots$figure),
       '\n\n```{r ', 
-      tolower(plots_dict$author),
-      plots_dict$figure,
+      tolower(plots_dict_plots$author),
+      plots_dict_plots$figure,
       '}\n',
       'sfi_plot_unlist(sfi_plot(author = "',
-      plots_dict$author,
+      plots_dict_plots$author,
       '", figure = "', 
-      plots_dict$figure,
+      plots_dict_plots$figure,
       '"))\n```\n\n')
 chunks <- paste0(chunks, collapse = '')
 
@@ -75,23 +78,33 @@ close(file_connection)
 ```
 
 
-```{r, eval = FALSE}
-# Build document from contents of directory
-# Get a list of all the child documents
-rmds <- list.files(pattern = '*.Rmd', recursive = FALSE, include.dirs = FALSE)
-# # Must include an underscore!
-# rmds <- rmds[grepl('_', rmds)]
+# Tables
 
-# Should not include the parent doc
-rmds <- rmds[rmds != 'all_plots.Rmd']
+```{r}
+plots_dict_tables <- plots_dict %>% filter(table)
+plots_dict_tables <- plots_dict_tables %>%
+  group_by(author) %>%
+  mutate(figure_first = dplyr::first(figure) == figure) %>%
+  ungroup
+chunks <- paste0(ifelse(plots_dict_tables$figure_first,
+              paste0('\n\newpage\n\n\n## ',
+      Hmisc::capitalize(plots_dict_tables$author), 
+      '\n\n',
+      collapse = NULL),
+      ''),
+      '### Table ', gsub('_', '.', plots_dict_tables$figure),
+      '\n\n```{r ', 
+      tolower(plots_dict_tables$author),
+      plots_dict_tables$figure,
+      ',  results = "asis"}\n',
+      'sfi_plot_unlist(sfi_plot(author = "',
+      plots_dict_tables$author,
+      '", figure = "', 
+      plots_dict_tables$figure,
+      '"))\n```\n\n')
+chunks <- paste0(chunks, collapse = '')
 
-
-chunks <- paste0("\n\n```{r child = '", 
-                 rmds, 
-                 "'}\n```\n")
-
-# Write our order / child-calls to a doc
-file_connection <- file('children.Rmd')
+file_connection <- file('tables.Rmd')
 writeLines(paste0('---\noutput: pdf_document\n---\n\n', 
                   chunks), 
            file_connection)
@@ -101,8 +114,11 @@ close(file_connection)
 ```{r child='content.Rmd', echo = FALSE}
 ```
 
+```{r child='tables.Rmd', echo = FALSE}
+```
+
 ```{r, results='hide'}
-# file.remove('children.Rmd')
 file.remove('content.Rmd')
+file.remove('tables.Rmd')
 ```
 

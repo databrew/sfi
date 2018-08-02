@@ -17,7 +17,7 @@ make_colors <- function(n = 3,
   
   if(categorical){
     if(bw){
-      cols <- sample(grey(seq(0.05, 0.95, by = 0.05)), 9)
+      cols <- grey(c(0.05, 0.5, 0.95, 0.2, 0.65, 0.85, 0.3, 0.7, 0.4))
     } else {
       cols <- c('#ffd700' ,'#f69500', '#f29672', '#d66857', '#9c4040', '#8d65a0', '#5e498d', '#328cc1', '#076d86', '#5cd29a', '#206535', '#5c8939', '#d0d3c5',
                 '#b0acac', '#3e3e3e')
