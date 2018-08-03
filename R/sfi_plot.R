@@ -64,7 +64,7 @@ sfi_plot <- function(author = 'laquer',
       
       # FRANKENREITER FIGURE 4
     } else if(figure == '4'){
-      g <- list(dummy)
+      g <- sfi_plot_frankenreiter_4()
       
       # FRANKENREITER FIGURE 5_1
     } else if(figure == '5_1'){

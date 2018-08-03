@@ -35,7 +35,8 @@ sfi_plot_alexander_4 <- function(){
              alpha = 0.8) +
     theme_sfi() +
     labs(x = 'Claim type',
-         y = 'Percent') +
+         y = 'Percent',
+         title = 'Version 1') +
     geom_text(aes(label = round(value, digits = 1)),
               nudge_y = 4,
               size = 4,
@@ -52,7 +53,8 @@ sfi_plot_alexander_4 <- function(){
              alpha = 0.8) +
     theme_sfi() +
     labs(x = 'National origin',
-         y = 'Percent') +
+         y = 'Percent',
+         title = 'Version 2') +
     geom_text(aes(label = round(value, digits = 1)),
               nudge_y = 4,
               size = 4,
