@@ -153,6 +153,9 @@ sfi_plot_frankenreiter_3 <- function(){
          subtitle = '(Grouped every 10 years)') +
     ylim(0, 1)
   
+  data10 <- data %>%
+    mutate(diff = round(diff, digits = -1)) %>%
+    mutate(diff = factor(diff))
   g10 <- ggplot(data = data10,
                 aes(x = similarity,
                     group = diff,
