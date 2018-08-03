@@ -28,6 +28,6 @@ sfi_plot_alexander_6 <- function(){
                   position = 'center') #%>%
     # column_spec(3, width = "30em")
   
-  return(out)
+  return(list(out))
   
 }
