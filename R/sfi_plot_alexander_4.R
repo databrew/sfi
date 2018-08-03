@@ -53,8 +53,7 @@ sfi_plot_alexander_4 <- function(){
              alpha = 0.8) +
     theme_sfi() +
     labs(x = 'National origin',
-         y = 'Percent',
-         title = 'Version 2') +
+         y = 'Percent') +
     geom_text(aes(label = round(value, digits = 1)),
               nudge_y = 4,
               size = 4,

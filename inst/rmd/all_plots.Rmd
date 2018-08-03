@@ -200,7 +200,7 @@ for(i in 1:nrow(plots_dict_tables)){
 chunks <- paste0(chunks, collapse = '\n')
 
 
-chunks <- paste0('# Tables\n\n', chunks, collapse = '')
+chunks <- paste0('\\newpage# Tables\n\n', chunks, collapse = '')
 
 file_connection <- file('tables.Rmd')
 writeLines(paste0('---\noutput: pdf_document\n---\n\n', 

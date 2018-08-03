@@ -1,9 +1,0 @@
----
-output: pdf_document
----
-
-
-
-```{r child = 'content.Rmd'}
-```
-

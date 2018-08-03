@@ -239,6 +239,8 @@ sfi_plot_frankenreiter_2 <- function(){
     labs(x = 'Date',
          y = '',
          title = 'Version 10') 
+  
+  
 
   return(list(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10))
 }
