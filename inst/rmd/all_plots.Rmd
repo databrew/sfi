@@ -1,12 +1,9 @@
 ---
-title: 'Law as Data'
+title: \vspace{2.5in}"LAW AS DATA"
 subtitle: "Visualizations"
 date: ''
-params: 
-  date: ''
 output: 
   pdf_document:
-    toc: true
     latex_engine: xelatex
     includes:
       in_header: preamble.sty
@@ -51,23 +48,75 @@ options(xtable.comment = FALSE)
 
 ```{r}
 plots_dict_plots <- plots_dict %>% filter(!table)
-chunks <- paste0(ifelse(plots_dict_plots$figure == '1',
-              paste0('\nnewpage\n\n\n## ',
-      Hmisc::capitalize(plots_dict_plots$author), 
+plots_dict_plots <- plots_dict_plots %>%
+  group_by(author) %>%
+  mutate(figure_first = dplyr::first(figure) == figure) %>%
+  ungroup
+chunks <- c()
+
+make_plot_chunk <- function(author,
+                            figure, 
+                            plot_list){
+  
+  out <- c()
+  for(i in 1:length(plot_list)){
+    version <- i
+    out[[i]] <- 
+      paste0('\n```{r ', 
+      tolower(author), '_figure_',
+      figure, '_version_',
+      version,
+      '}\n',
+      'sfi_plot(author = "',
+      author,
+      '", figure = "', 
+      figure,
+      '")[[',
+      version,
+      ']]\n```\n\n'
+      )
+  }  
+  out <- paste0(unlist(out),collapse = '\n')
+  return(out)
+}
+counter <- 0
+for(i in 1:nrow(plots_dict_plots)){
+  this_row <- plots_dict_plots[i,]
+  this_author <- this_row$author
+  this_figure <- this_row$figure
+  this_function <- paste0('sfi_plot_',
+                               this_author, 
+                               '_',
+                               this_figure)
+  if(exists(this_function)){
+    counter <- counter +1
+    this_plot_list <- get(this_function)
+  is_first <- this_row$figure_first
+  result <- 
+    paste0(
+      # Author name
+      ifelse(is_first,
+           paste0('\\newpage\n\n\\begin{center}\n\\begin{Huge}\n',
+                  Hmisc::capitalize(this_author),
+                  '\n\\end{Huge}\n\\end{center}\n\n## ',
+      Hmisc::capitalize(this_author), 
       '\n\n',
       collapse = NULL),
       ''),
-      '### Figure ', gsub('_', '.', plots_dict_plots$figure),
-      '\n\n```{r ', 
-      tolower(plots_dict_plots$author),
-      plots_dict_plots$figure,
-      '}\n',
-      'sfi_plot_unlist(sfi_plot(author = "',
-      plots_dict_plots$author,
-      '", figure = "', 
-      plots_dict_plots$figure,
-      '"))\n```\n\n')
-chunks <- paste0(chunks, collapse = '')
+      # Figure number
+      '\n\n### Figure ', gsub('_', '.', this_figure),
+      '\n\n')
+      # Actual plots
+    out <- make_plot_chunk(author = this_author,
+                      figure = this_figure,
+                      plot_list = this_plot_list())
+    out <- paste0(result, out, collapse = '\n')
+  }
+  chunks[counter] <- out
+}
+chunks <- paste0(chunks, collapse = '\n')
+
+
 
 chunks <- paste0('# Plots\n\n', chunks, collapse = '')
 
@@ -86,23 +135,69 @@ plots_dict_tables <- plots_dict_tables %>%
   group_by(author) %>%
   mutate(figure_first = dplyr::first(figure) == figure) %>%
   ungroup
-chunks <- paste0(ifelse(plots_dict_tables$figure_first,
-              paste0('\nnewpage\n\n\n## ',
-      Hmisc::capitalize(plots_dict_tables$author), 
+chunks <- c()
+
+make_plot_chunk <- function(author,
+                            figure, 
+                            plot_list){
+  
+  out <- c()
+  for(i in 1:length(plot_list)){
+    version <- i
+    out[[i]] <- 
+      paste0('\n```{r, ', 
+      tolower(author), '_table_',
+      figure, '_version_',
+      version,
+      ', results = "asis"}\n',
+      'sfi_plot(author = "',
+      author,
+      '", figure = "', 
+      figure,
+      '")[[',
+      version,
+      ']]\n```\n\n'
+      )
+  }  
+  out <- paste0(unlist(out),collapse = '\n')
+  return(out)
+}
+counter <- 0
+for(i in 1:nrow(plots_dict_tables)){
+  this_row <- plots_dict_tables[i,]
+  this_author <- this_row$author
+  this_figure <- this_row$figure
+  this_function <- paste0('sfi_plot_',
+                               this_author, 
+                               '_',
+                               this_figure)
+  if(exists(this_function)){
+    counter <- counter +1
+    this_plot_list <- get(this_function)
+  is_first <- this_row$figure_first
+  result <- 
+    paste0(
+      # Author name
+      ifelse(is_first,
+           paste0('\\newpage\n\n\\begin{center}\n\\begin{Huge}\n',
+                  Hmisc::capitalize(this_author),
+                  '\n\\end{Huge}\n\\end{center}\n\n## ',
+      Hmisc::capitalize(this_author), 
       '\n\n',
       collapse = NULL),
       ''),
-      '### Table ', gsub('_', '.', plots_dict_tables$figure),
-      '\n\n```{r ', 
-      tolower(plots_dict_tables$author),
-      plots_dict_tables$figure,
-      ',  results = "asis"}\n',
-      'sfi_plot_unlist(sfi_plot(author = "',
-      plots_dict_tables$author,
-      '", figure = "', 
-      plots_dict_tables$figure,
-      '"))\n```\n\n')
-chunks <- paste0(chunks, collapse = '')
+      # Figure number
+      '\n\n### Table ', gsub('_', '.', this_figure),
+      '\n\n')
+      # Actual plots
+      out <- make_plot_chunk(author = this_author,
+                      figure = this_figure,
+                      plot_list = this_plot_list())
+      out <- paste0(result, out, collapse = '\n')
+  }
+  chunks[counter] <- out
+}
+chunks <- paste0(chunks, collapse = '\n')
 
 
 chunks <- paste0('# Tables\n\n', chunks, collapse = '')
@@ -113,6 +208,10 @@ writeLines(paste0('---\noutput: pdf_document\n---\n\n',
            file_connection)
 close(file_connection)
 ```
+
+\newpage 
+\tableofcontents 
+\newpage
 
 ```{r child='plots.Rmd', echo = FALSE}
 ```
