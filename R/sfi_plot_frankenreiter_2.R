@@ -54,7 +54,8 @@ sfi_plot_frankenreiter_2 <- function(){
                      labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '')
+         y = '',
+         title = 'Version 1')
   g2 <- ggplot(data = data,
                aes(x = docdate,
                    y = value)) +
@@ -71,7 +72,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '') + 
+         y = '',
+         title = 'Version 2') + 
     geom_line(stat="smooth",method = "auto",
               alpha = 0.8)
   
@@ -96,7 +98,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '')
+         y = '',
+         title = 'Version 3')
   
   g4 <- ggplot(data = x,
                aes(x = year,
@@ -114,7 +117,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '') +
+         y = '',
+         title = 'Version 4') +
     geom_line(stat="smooth",method = "loess",
               alpha = 0.5)
   
@@ -135,7 +139,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '') +
+         y = '',
+         title = 'Version 5') +
     geom_line(stat="smooth",method = "loess",
               alpha = 0.5)
   
@@ -154,7 +159,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '')
+         y = '',
+         title = 'Version 6')
   
   g7 <- 
     ggplot(data = x,
@@ -171,7 +177,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '') +
+         y = '',
+         title = 'Version 7') +
     geom_line(stat="smooth",method = "auto",
               alpha = 0.8)
   
@@ -190,7 +197,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '') +
+         y = '',
+         title = 'Version 8') +
     geom_line(stat="smooth",method = "auto",
               alpha = 0.8)
   
@@ -210,7 +218,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '') 
+         y = '',
+         title = 'Version 9') 
   
   g10 <-
     ggplot(data = x,
@@ -228,7 +237,8 @@ sfi_plot_frankenreiter_2 <- function(){
                  labels = date_labels) +
     theme_sfi() +
     labs(x = 'Date',
-         y = '') 
+         y = '',
+         title = 'Version 10') 
 
   return(list(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10))
 }
