@@ -26,7 +26,8 @@ sfi_plot_feldman_2 <- function(){
     labs(x = 'Words', 
          y = 'Density', 
          title = 'Version 1') + 
-    theme_sfi() 
+    theme_sfi() + scale_linetype_discrete(name = '')
+
   
   # density with color for groups
   g2 <- ggplot(data, aes(x = words)) +
@@ -35,7 +36,7 @@ sfi_plot_feldman_2 <- function(){
                  position="identity",
                  geom="line", 
                  kernel = "gaussian", 
-                 size = 1) +
+                 size = 0.8) +
     labs(x = 'Words', 
          y = 'Density', 
          title = 'Version 2') + 
@@ -76,7 +77,7 @@ sfi_plot_feldman_2 <- function(){
     scale_fill_manual(name = '',
                       values = make_colors(length(unique(data$federal)),
                                            categorical = TRUE, 
-                                           bw = TRUE))
+                                           bw = TRUE)) + guides(fill = FALSE)
     
   
   # boxplot
@@ -106,32 +107,16 @@ sfi_plot_feldman_2 <- function(){
          title = 'Version 6') + 
     theme_sfi()
   
-  # jitter with legned
-  g7 <- ggplot(data, 
-               aes(x=federal,
-                   y=words,
-                   color = federal)) + 
-    geom_jitter(width = 0.3,
-                alpha = 0.3,
-                size = 1) + 
-    labs(x = '',
-         y = 'Words',
-         title = 'Version 7') + 
-    theme_sfi() +
-    scale_color_manual(name = '',
-                      values = make_colors(length(unique(data$federal)),
-                                           categorical = TRUE, 
-                                           bw = TRUE)) 
   
   # density
-  g8 <- ggplot(data, 
+  g7 <- ggplot(data, 
                aes(x=words, 
                    fill = federal)) + 
     geom_density(alpha = 0.7, 
                  color = 'grey') + 
     labs(x = 'Words',
          y = 'Density',
-         title = 'Version 8') + 
+         title = 'Version 7') + 
     theme_sfi() +
     scale_fill_manual(name = '',
                       values = make_colors(length(unique(data$federal)),
@@ -139,7 +124,7 @@ sfi_plot_feldman_2 <- function(){
                                            bw = TRUE))
   
   # violin plot
-  g9 <- ggplot(data, 
+  g8 <- ggplot(data, 
                aes(x=federal,
                    y=words)) + 
     geom_jitter(width = 0.2, 
@@ -150,7 +135,7 @@ sfi_plot_feldman_2 <- function(){
                 fill = 'white') +
     labs(x = '',
          y = 'Words',
-         title = 'Version 9') + 
+         title = 'Version 8') + 
     theme_sfi() +
     scale_fill_manual(name = '',
                       values = make_colors(length(unique(data$federal)),
@@ -158,7 +143,7 @@ sfi_plot_feldman_2 <- function(){
                                            bw = TRUE))
   
   # violin plot
-   g10 <- ggplot(data, 
+   g9 <- ggplot(data, 
                aes(x=federal,
                    y=words)) + 
     geom_jitter(width = 0.2, 
@@ -169,7 +154,7 @@ sfi_plot_feldman_2 <- function(){
                 fill = 'white') +
     labs(x = '',
          y = 'Words',
-         title = 'Version 10') + 
+         title = 'Version 9') + 
     theme_sfi() +
     scale_fill_manual(name = '',
                       values = make_colors(length(unique(data$federal)),
@@ -177,14 +162,14 @@ sfi_plot_feldman_2 <- function(){
                                            bw = TRUE))
    
    # violin plot
-   g11 <- ggplot(data, 
+   g10 <- ggplot(data, 
                  aes(x=federal,
                      y=words)) + 
      geom_violin(alpha = 0.5, 
                  fill = 'black') +
      labs(x = '',
           y = 'Words',
-          title = 'Version 11') + 
+          title = 'Version 10') + 
      theme_sfi() +
      scale_fill_manual(name = '',
                        values = make_colors(length(unique(data$federal)),
@@ -195,7 +180,7 @@ sfi_plot_feldman_2 <- function(){
   
   out <- list(g1, g2, g3, g4,
               g5, g6, g7, g8, 
-              g9, g10, g11)
+              g9, g10)
   
   return(out)
   

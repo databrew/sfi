@@ -58,8 +58,9 @@ sfi_plot <- function(author = 'laquer',
     if(figure == '2'){
       g <- sfi_plot_frankenreiter_2()
       # FRANKENREITER FIGURE 3
+      
     } else if(figure == '3'){
-      g <- list(dummy)
+      g <- sfi_plot_frankenreiter_3()
       
       # FRANKENREITER FIGURE 4
     } else if(figure == '4'){
@@ -110,7 +111,7 @@ sfi_plot <- function(author = 'laquer',
   if(author == 'livemore'){
     # LIVMORE Figure 1
     if(figure == '1'){
-      g <- list(dummy)
+      g <- sfi_plot_livemore_1()
     } 
   } 
   return(g)
