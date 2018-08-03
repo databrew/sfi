@@ -83,9 +83,40 @@ sfi_plot_laqueur_1 <- function(){
          title = 'Version 6') +
     theme_sfi()
   
+  # version 7
+  g7 <- ggplot(data, 
+               aes(x = year, 
+                   y = number_of_grants)) +
+    geom_area(stat = 'identity', 
+              alpha = 0.9,
+              color = 'grey') +
+    labs(x = 'Year',
+         y = 'Hearings resulting in grant',
+         title = 'Version 7') +
+    theme_sfi()
+  
+  # version 8
+  g8 <- ggplot(data, 
+               aes(x = year, 
+                   y = number_of_grants)) +
+    geom_area(stat = 'identity', 
+              alpha = 0.9,
+              color = 'grey') +
+    geom_smooth(size = 0.5, 
+                color = 'black', 
+                se = F) +
+    labs(x = 'Year',
+         y = 'Hearings resulting in grant',
+         title = 'Version 8') +
+    theme_sfi()
+  
+  
+  
+  
   
   out <- list(g1, g2, g3, 
-              g4, g5, g6)
+              g4, g5, g6, 
+              g7, g8)
   
   return(out)
 }
