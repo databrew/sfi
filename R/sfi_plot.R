@@ -99,20 +99,11 @@ sfi_plot <- function(author = 'laquer',
   if(author == 'laquer'){
     # LAQUER FIGURE 1
     if(figure == '1'){
-      g <- 
-        ggplot(data = data,
-               aes(x = year,
-                   y = number_of_grants)) +
-        geom_line(alpha = 0.8) +
-        geom_area(alpha = 0.3) +
-        theme_sfi() +
-        labs(x = 'Year',
-             y = 'Number of grants',
-             title = 'Number of Hearings Resulting in a Grant: 1978-2015')
-      g <- list(g)
+      g <- sfi_plot_laqueur_1()
+       
     } else if(figure == '2'){
       # LAQUER FIGURE 2
-      g <- list(dummy)
+      g <- sfi_plot_laqueur_2()
     }
   } 
   # LIVMORE
