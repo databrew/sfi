@@ -1,22 +1,21 @@
-#' Frankenreiter 3
+#' Frankenreiter 4
 #' 
-#' Generate a plot for Frankenreiter figure 3
+#' Generate a plot for Frankenreiter figure 4
 #' @export
 #' @return a list of plots
 #' @import ggplot2
 #' @import dplyr
 #' @import tidyr
+#' @import ggridges
 
-sfi_plot_frankenreiter_3 <- function(){
+sfi_plot_frankenreiter_4 <- function(){
   
   # Get data
-  data <- all_data$frankenreiter$f3
+  data <- all_data$frankenreiter$f4 %>%
+    filter(diff >= 0) # we are making this modification to match the vis from the paper
   
   # FILTERING OUT SOME DATA TO MATCH THEIRS
-  data <- data %>%
-    filter(!(similarity < 0.3 & diff < 25)) %>%
-    filter(diff <= 57)
-  
+
   liney <- data %>%
     group_by(diff) %>%
     summarise(similarity = mean(similarity, na.rm = TRUE)) %>%
@@ -113,7 +112,7 @@ sfi_plot_frankenreiter_3 <- function(){
                  mutate(diff = round(diff, digits = -1)),
          aes(x = diff,
              y = similarity)) +
-    geom_jitter(alpha = 0.5) +
+    geom_jitter(alpha = 0.5, size = 0.5) +
     geom_boxplot(aes(group = diff),
                  alpha = 0.6) +
     theme_sfi() +
@@ -127,7 +126,7 @@ sfi_plot_frankenreiter_3 <- function(){
                  mutate(diff = round(diff, digits = -1)),
                aes(x = diff,
                    y = similarity)) +
-    geom_jitter(alpha = 0.5) +
+    geom_jitter(alpha = 0.5, size = 0.5) +
     geom_violin(aes(group = diff),
                  alpha = 0.6) +
     theme_sfi() +
@@ -153,10 +152,13 @@ sfi_plot_frankenreiter_3 <- function(){
          subtitle = '(Grouped every 10 years)') +
     ylim(0, 1)
   
+  data10 <- data %>%
+    mutate(diff = round(diff, digits = -1)) %>%
+    mutate(diff = factor(diff))
   g10 <- ggplot(data = data10,
-                aes(x = similarity,
-                    group = diff,
-                    fill = diff)) +
+               aes(x = similarity,
+                   group = diff,
+                   fill = diff)) +
     geom_density(alpha = 0.95) +
     scale_fill_manual(name = 'Difference\n in years',
                       values = make_colors(n = length(unique(data10$diff)),
@@ -166,7 +168,6 @@ sfi_plot_frankenreiter_3 <- function(){
          y = 'Density',
          title = 'Version 10',
          subtitle = '(Grouped every 10 years)') 
-  
   
   g11 <- ggplot(data = data10,
                 aes(x = similarity,
