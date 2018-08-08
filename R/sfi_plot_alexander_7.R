@@ -18,5 +18,5 @@ sfi_plot_alexander_7 <- function(){
   
   # side bar chart
   
-  return(list(g1, g2, g3, g4, g5))
+  # return(list(g1, g2, g3, g4, g5))
 }
