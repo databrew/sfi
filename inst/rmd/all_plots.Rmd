@@ -81,6 +81,7 @@ make_plot_chunk <- function(author,
 }
 counter <- 0
 for(i in 1:nrow(plots_dict_plots)){
+  message(i)
   this_row <- plots_dict_plots[i,]
   this_author <- this_row$author
   this_figure <- this_row$figure
