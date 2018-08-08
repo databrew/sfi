@@ -95,10 +95,84 @@ sfi_plot_alexander_4 <- function(){
 
   
   # Floating bubbles
-  
   # diagnoal 
+  #g7 <- 
+  ggplot(data = data %>% filter(group == 'Claim type') %>%
+                 arrange(value), 
+               aes(x = c(1, 2, 3, 4, 5, 6, 7),
+                   y = c(1, 2, 3, 4, 5, 6, 7))) +
+    xlim(c(0, 8)) + ylim(c(0,8)) +
+    geom_point(aes(size = value), 
+               alpha = 0.9,
+               color ='grey') + 
+    geom_text(aes(label = key), 
+              size = 3,
+              color = '#535353')+
+    labs(x = '',
+         y = '',
+         title = 'Version 4 (Claim type)') + 
+    scale_size_continuous(name = '',
+                          breaks = c(0, 10, 20, 30),
+                          labels = c('0%','10%', '20%', '30%'),
+                          range = c(6,17)) +    theme(
+      axis.text.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks = element_blank()) + 
+    theme_sfi()
   
-  # jitter
+  #g8 <- 
+    ggplot(data = data %>% filter(group == 'National origin') %>%
+                 arrange(value), 
+               aes(x = c(1, 2, 3, 4, 5, 6),
+                   y = c(1, 2, 3, 4, 5, 6))) +
+    xlim(c(0, 8)) + ylim(c(0,8)) +
+    geom_point(aes(size = value), 
+               alpha = 0.4,
+               color ='black') + 
+    geom_text(aes(label = key),
+              alpha = 0.7,
+              size = 3,
+              color = 'black')+
+    labs(x = '',
+         y = '',
+         title = 'Version 4 (National origin)') + 
+    scale_size_continuous(name = '',
+                          breaks = c(25, 50, 71),
+                          labels = c('25%', '50%', '75%'),
+                          range = c(5,18)) +
+    theme(
+      axis.text.x = element_blank(),
+      axis.text.y = element_blank(),
+      axis.ticks = element_blank()) + 
+    theme_sfi()
+  
+    #g9 <- 
+    ggplot(data = data %>% filter(group == 'Claim type') %>%
+             arrange(value), 
+           aes(x = c(1, 4, 7, 1, 4, 7, 1),
+               y = c(1, 1, 1, 4, 4, 4, 7))) +
+      xlim(c(0, 8)) + ylim(c(0,8)) +
+      geom_point(aes(size = value), 
+                 alpha = 0.4,
+                 color ='black') + 
+      geom_text(aes(label = key),
+                alpha = 0.7,
+                size = 3,
+                color = 'black')+
+      labs(x = '',
+           y = '',
+           title = 'Version 8 (Claim type)') + 
+      scale_size_continuous(name = '',
+                            breaks = c(10, 20, 30),
+                            labels = c('10%', '20%', '30%'),
+                            range = c(10,25)) +
+      theme(legend.position = 'none',
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank()) + 
+      theme_sfi(gM = FALSE,lp = 'none',
+                gm = FALSE)
+    
   
   # grid
   
@@ -185,4 +259,4 @@ sfi_plot_alexander_4 <- function(){
  
   
   return(list(g1, g2, g3, g4, g5, g6))
-  }
+}
