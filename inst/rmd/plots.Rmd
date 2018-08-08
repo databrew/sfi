@@ -1,0 +1,32 @@
+---
+output: pdf_document
+---
+
+# Plots
+
+\newpage
+
+\begin{center}
+\begin{Huge}
+Alexander
+\end{Huge}
+\end{center}
+
+## Alexander
+
+
+
+### Figure 4
+
+
+```{r alexander_figure_4_version_1}
+sfi_plot(author = "alexander", figure = "4")[[1]]
+```
+
+
+
+```{r alexander_figure_4_version_2}
+sfi_plot(author = "alexander", figure = "4")[[2]]
+```
+
+
