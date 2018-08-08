@@ -33,7 +33,8 @@ sfi_plot_alexander_4 <- function(){
   
   # flipped stacked bar plot
   g1 <- 
-    ggplot(data = data %>% filter(group == 'Claim type'),
+    ggplot(data = data %>% 
+             filter(group == 'Claim type'),
            aes(reorder(x = key, value),
                y = value)) +
     geom_bar(stat = 'identity',
