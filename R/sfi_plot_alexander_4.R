@@ -96,7 +96,7 @@ sfi_plot_alexander_4 <- function(){
   
   # Floating bubbles
   # diagnoal 
-  #g7 <- 
+  g7 <- 
   ggplot(data = data %>% filter(group == 'Claim type') %>%
                  arrange(value), 
                aes(x = c(1, 2, 3, 4, 5, 6, 7),
@@ -120,7 +120,7 @@ sfi_plot_alexander_4 <- function(){
       axis.ticks = element_blank()) + 
     theme_sfi()
   
-  #g8 <- 
+  g8 <- 
     ggplot(data = data %>% filter(group == 'National origin') %>%
                  arrange(value), 
                aes(x = c(1, 2, 3, 4, 5, 6),
@@ -146,7 +146,7 @@ sfi_plot_alexander_4 <- function(){
       axis.ticks = element_blank()) + 
     theme_sfi()
   
-    #g9 <- 
+    g9 <- 
     ggplot(data = data %>% filter(group == 'Claim type') %>%
              arrange(value), 
            aes(x = c(1, 4, 7, 1, 4, 7, 1),
@@ -258,5 +258,5 @@ sfi_plot_alexander_4 <- function(){
  
  
   
-  return(list(g1, g2, g3, g4, g5, g6))
+  return(list(g1, g2, g3, g4, g5, g6, g7, g8, g9))
 }
