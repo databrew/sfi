@@ -194,6 +194,11 @@ for(i in 1:length(authors)){
 plots_dict <- bind_rows(plots_df) %>%
   arrange(author, figure)
 
+# Adjust for frankenreiter combination
+plots_dict$figure[plots_dict$figure == '5_2' & plots_dict$author == 'frankenreiter'] <- '5'
+plots_dict <- plots_dict %>%
+  filter(!(author == 'frankenreiter' & figure == '5_1'))
+
 # Adjust for tables
 plots_dict$table <-
   ifelse(plots_dict$author == 'alexander' &

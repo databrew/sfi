@@ -67,15 +67,10 @@ sfi_plot <- function(author = 'laquer',
       g <- sfi_plot_frankenreiter_4()
       
       # FRANKENREITER FIGURE 5_1
-    } else if(figure == '5_1'){
-      g <- list(dummy)
+    } else if(figure == '5'){
+      g <- sfi_plot_frankenreiter_5()
       
-      # FRANKENREITER FIGURE 5_2
-    } else if(figure == '5_2'){
-      g <- list(dummy)
-      
-      # FRANKENREITER FIGURE 5_1
-    } else if(figure == '6_1'){
+    }  else if(figure == '6_1'){
       g <- list(dummy)
       
       # FRANKENREITER FIGURE 6_2
