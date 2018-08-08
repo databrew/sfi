@@ -36,6 +36,8 @@ sfi_plot_alexander_4 <- function(){
   values <- data$value[data$group == 'Claim type']
   names(values) <- paste0(data$key[data$group == 'Claim type'], ' (',values,'%)')
   values <- sort(values, decreasing = TRUE)
+  colors <- make_colors(length(values), bw = TRUE)
+  
   
   values_2 <- data$value[data$group == 'National origin']
   names(values_2) <- paste0(data$key[data$group == 'National origin'], ' (',values_2,'%)')
@@ -93,6 +95,12 @@ sfi_plot_alexander_4 <- function(){
 
   
   # Floating bubbles
+  
+  # diagnoal 
+  
+  # jitter
+  
+  # grid
   
   # sliced (size) pie charts
   
