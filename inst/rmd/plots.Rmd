@@ -30,3 +30,443 @@ sfi_plot(author = "alexander", figure = "4")[[2]]
 ```
 
 
+
+```{r alexander_figure_4_version_3}
+sfi_plot(author = "alexander", figure = "4")[[3]]
+```
+
+
+
+```{r alexander_figure_4_version_4}
+sfi_plot(author = "alexander", figure = "4")[[4]]
+```
+
+
+
+```{r alexander_figure_4_version_5}
+sfi_plot(author = "alexander", figure = "4")[[5]]
+```
+
+
+
+```{r alexander_figure_4_version_6}
+sfi_plot(author = "alexander", figure = "4")[[6]]
+```
+
+
+
+```{r alexander_figure_4_version_7}
+sfi_plot(author = "alexander", figure = "4")[[7]]
+```
+
+
+
+```{r alexander_figure_4_version_8}
+sfi_plot(author = "alexander", figure = "4")[[8]]
+```
+
+
+
+```{r alexander_figure_4_version_9}
+sfi_plot(author = "alexander", figure = "4")[[9]]
+```
+
+
+\newpage
+
+\begin{center}
+\begin{Huge}
+Feldman
+\end{Huge}
+\end{center}
+
+## Feldman
+
+
+
+### Figure 1
+
+
+```{r feldman_figure_1_version_1}
+sfi_plot(author = "feldman", figure = "1")[[1]]
+```
+
+
+
+```{r feldman_figure_1_version_2}
+sfi_plot(author = "feldman", figure = "1")[[2]]
+```
+
+
+
+```{r feldman_figure_1_version_3}
+sfi_plot(author = "feldman", figure = "1")[[3]]
+```
+
+
+
+```{r feldman_figure_1_version_4}
+sfi_plot(author = "feldman", figure = "1")[[4]]
+```
+
+
+
+
+### Figure 2
+
+
+```{r feldman_figure_2_version_1}
+sfi_plot(author = "feldman", figure = "2")[[1]]
+```
+
+
+
+```{r feldman_figure_2_version_2}
+sfi_plot(author = "feldman", figure = "2")[[2]]
+```
+
+
+
+```{r feldman_figure_2_version_3}
+sfi_plot(author = "feldman", figure = "2")[[3]]
+```
+
+
+
+```{r feldman_figure_2_version_4}
+sfi_plot(author = "feldman", figure = "2")[[4]]
+```
+
+
+
+```{r feldman_figure_2_version_5}
+sfi_plot(author = "feldman", figure = "2")[[5]]
+```
+
+
+
+```{r feldman_figure_2_version_6}
+sfi_plot(author = "feldman", figure = "2")[[6]]
+```
+
+
+
+```{r feldman_figure_2_version_7}
+sfi_plot(author = "feldman", figure = "2")[[7]]
+```
+
+
+
+```{r feldman_figure_2_version_8}
+sfi_plot(author = "feldman", figure = "2")[[8]]
+```
+
+
+
+```{r feldman_figure_2_version_9}
+sfi_plot(author = "feldman", figure = "2")[[9]]
+```
+
+
+
+```{r feldman_figure_2_version_10}
+sfi_plot(author = "feldman", figure = "2")[[10]]
+```
+
+
+\newpage
+
+\begin{center}
+\begin{Huge}
+Frankenreiter
+\end{Huge}
+\end{center}
+
+## Frankenreiter
+
+
+
+### Figure 2
+
+
+```{r frankenreiter_figure_2_version_1}
+sfi_plot(author = "frankenreiter", figure = "2")[[1]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_2}
+sfi_plot(author = "frankenreiter", figure = "2")[[2]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_3}
+sfi_plot(author = "frankenreiter", figure = "2")[[3]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_4}
+sfi_plot(author = "frankenreiter", figure = "2")[[4]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_5}
+sfi_plot(author = "frankenreiter", figure = "2")[[5]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_6}
+sfi_plot(author = "frankenreiter", figure = "2")[[6]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_7}
+sfi_plot(author = "frankenreiter", figure = "2")[[7]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_8}
+sfi_plot(author = "frankenreiter", figure = "2")[[8]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_9}
+sfi_plot(author = "frankenreiter", figure = "2")[[9]]
+```
+
+
+
+```{r frankenreiter_figure_2_version_10}
+sfi_plot(author = "frankenreiter", figure = "2")[[10]]
+```
+
+
+
+
+### Figure 3
+
+
+```{r frankenreiter_figure_3_version_1}
+sfi_plot(author = "frankenreiter", figure = "3")[[1]]
+```
+
+
+
+```{r frankenreiter_figure_3_version_2}
+sfi_plot(author = "frankenreiter", figure = "3")[[2]]
+```
+
+
+
+```{r frankenreiter_figure_3_version_3}
+sfi_plot(author = "frankenreiter", figure = "3")[[3]]
+```
+
+
+
+```{r frankenreiter_figure_3_version_4}
+sfi_plot(author = "frankenreiter", figure = "3")[[4]]
+```
+
+
+
+```{r frankenreiter_figure_3_version_5}
+sfi_plot(author = "frankenreiter", figure = "3")[[5]]
+```
+
+
+
+```{r frankenreiter_figure_3_version_6}
+sfi_plot(author = "frankenreiter", figure = "3")[[6]]
+```
+
+
+
+```{r frankenreiter_figure_3_version_7}
+sfi_plot(author = "frankenreiter", figure = "3")[[7]]
+```
+
+
+
+```{r frankenreiter_figure_3_version_8}
+sfi_plot(author = "frankenreiter", figure = "3")[[8]]
+```
+
+
+
+
+### Figure 4
+
+
+```{r frankenreiter_figure_4_version_1}
+sfi_plot(author = "frankenreiter", figure = "4")[[1]]
+```
+
+
+
+```{r frankenreiter_figure_4_version_2}
+sfi_plot(author = "frankenreiter", figure = "4")[[2]]
+```
+
+
+
+```{r frankenreiter_figure_4_version_3}
+sfi_plot(author = "frankenreiter", figure = "4")[[3]]
+```
+
+
+
+```{r frankenreiter_figure_4_version_4}
+sfi_plot(author = "frankenreiter", figure = "4")[[4]]
+```
+
+
+
+```{r frankenreiter_figure_4_version_5}
+sfi_plot(author = "frankenreiter", figure = "4")[[5]]
+```
+
+
+
+```{r frankenreiter_figure_4_version_6}
+sfi_plot(author = "frankenreiter", figure = "4")[[6]]
+```
+
+
+
+```{r frankenreiter_figure_4_version_7}
+sfi_plot(author = "frankenreiter", figure = "4")[[7]]
+```
+
+
+
+```{r frankenreiter_figure_4_version_8}
+sfi_plot(author = "frankenreiter", figure = "4")[[8]]
+```
+
+
+
+
+### Figure 5
+
+
+```{r frankenreiter_figure_5_version_1}
+sfi_plot(author = "frankenreiter", figure = "5")[[1]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_2}
+sfi_plot(author = "frankenreiter", figure = "5")[[2]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_3}
+sfi_plot(author = "frankenreiter", figure = "5")[[3]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_4}
+sfi_plot(author = "frankenreiter", figure = "5")[[4]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_5}
+sfi_plot(author = "frankenreiter", figure = "5")[[5]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_6}
+sfi_plot(author = "frankenreiter", figure = "5")[[6]]
+```
+
+
+
+
+### Figure 5
+
+
+```{r frankenreiter_figure_5_version_1}
+sfi_plot(author = "frankenreiter", figure = "5")[[1]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_2}
+sfi_plot(author = "frankenreiter", figure = "5")[[2]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_3}
+sfi_plot(author = "frankenreiter", figure = "5")[[3]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_4}
+sfi_plot(author = "frankenreiter", figure = "5")[[4]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_5}
+sfi_plot(author = "frankenreiter", figure = "5")[[5]]
+```
+
+
+
+```{r frankenreiter_figure_5_version_6}
+sfi_plot(author = "frankenreiter", figure = "5")[[6]]
+```
+
+
+\newpage
+
+\begin{center}
+\begin{Huge}
+Livemore
+\end{Huge}
+\end{center}
+
+## Livemore
+
+
+
+### Figure 1
+
+
+```{r livemore_figure_1_version_1}
+sfi_plot(author = "livemore", figure = "1")[[1]]
+```
+
+
+
+```{r livemore_figure_1_version_2}
+sfi_plot(author = "livemore", figure = "1")[[2]]
+```
+
+
+
+```{r livemore_figure_1_version_3}
+sfi_plot(author = "livemore", figure = "1")[[3]]
+```
+
+
+
+```{r livemore_figure_1_version_4}
+sfi_plot(author = "livemore", figure = "1")[[4]]
+```
+
+

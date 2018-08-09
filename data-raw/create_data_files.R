@@ -64,11 +64,16 @@ frankenreiter_6_1$year <- as.character(frankenreiter_6_1$year)
 names(frankenreiter_6_2)[names(frankenreiter_6_2) =='var2'] <- 'year'
 frankenreiter_6_2$year <- as.character(frankenreiter_6_2$year)
 
+frankenreiter_5 <- 
+  bind_rows(frankenreiter_5_1 %>% mutate(source = 1),
+            frankenreiter_5_2 %>% mutate(source = 2))
+
 # create list to store data
 frankenreiter <- list()
 frankenreiter$f2 <- frankenreiter_2
 frankenreiter$f3 <- frankenreiter_3
 frankenreiter$f4 <- frankenreiter_4
+frankenreiter$f5 <- frankenreiter_5
 frankenreiter$f5_1 <- frankenreiter_5_1
 frankenreiter$f5_2 <- frankenreiter_5_1
 frankenreiter$f6_1 <- frankenreiter_6_1
@@ -195,9 +200,9 @@ plots_dict <- bind_rows(plots_df) %>%
   arrange(author, figure)
 
 # Adjust for frankenreiter combination
-plots_dict$figure[plots_dict$figure == '5_2' & plots_dict$author == 'frankenreiter'] <- '5'
 plots_dict <- plots_dict %>%
-  filter(!(author == 'frankenreiter' & figure == '5_1'))
+  filter(!(author == 'frankenreiter' & figure == '5_1'),
+         !(author == 'frankenreiter' & figure == '5_2'))
 
 # Adjust for tables
 plots_dict$table <-
