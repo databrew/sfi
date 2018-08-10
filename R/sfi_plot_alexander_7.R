@@ -7,7 +7,7 @@
 #' @import dplyr
 #' @import waffle
 
-# sfi_plot_alexander_7 <- function(){
+sfi_plot_alexander_7 <- function(){
 #   
   # # Get data
   data <- all_data$alexander$f7
@@ -52,15 +52,12 @@
                alpha = 0.9,
                color ='grey') + 
     geom_text(aes(label = key), 
-              size = 3,
               color = '#535353')+
+    scale_size_area(name = '',
+                    max_size = 20)+ 
     labs(x = '',
          y = '',
          title = 'Version 3') + 
-    scale_size_continuous(name = '',
-                          breaks = c(0, 20, 40, 60, 80, 100),
-                          labels = c('0%','20%', '40%', '60%', '80%', '100%'),
-                          range = c(6,17)) +    
     theme(
       axis.text.x = element_blank(),
       axis.text.y = element_blank(),
@@ -74,21 +71,20 @@
            arrange(value), 
          aes(x = c(1, 2, 3, 4, 5),
              y = c(1, 2, 3, 4, 5))) +
-    xlim(c(0, 6)) + ylim(c(0,6)) +
+    xlim(c(0, 6)) + ylim(c(0,8)) +
     geom_point(aes(size = value), 
                alpha = 0.4,
                color ='black') + 
     geom_text(aes(label = paste0(key, ' ', '\n', value,'%')),
               alpha = 0.7,
               size = 3,
-              color = 'black')+
+              color = 'black',
+              vjust = -1)+
     labs(x = '',
          y = '',
          title = 'Version 4') + 
-    scale_size_continuous(name = '',
-                          breaks = c(0, 20, 40, 60, 80, 100),
-                          labels = c('0%','20%', '40%', '60%', '80%', '100%'),
-                          range = c(12,21)) +
+    scale_size_area(name = '',
+                    max_size = 15) +
     theme(legend.position = 'none',
           axis.text.x = element_blank(),
           axis.text.y = element_blank(),
@@ -105,7 +101,7 @@
            arrange(value), 
          aes(x = c(5, 3, 1, 4, 2),
              y = c(1, 1, 1, 4, 4))) +
-    xlim(c(0, 6)) + ylim(c(0, 6)) +
+    xlim(c(0, 6)) + ylim(c(0, 8)) +
     geom_point(aes(size = value), 
                alpha = 0.4,
                color ='black',
@@ -114,7 +110,7 @@
               alpha = 0.7,
               size = 3,
               color = 'black',
-              vjust = -4) +
+              vjust = -2) +
     geom_text(aes(label = paste0(value,'%')),
               alpha = 0.7,
               size = 3,
@@ -122,92 +118,18 @@
     labs(x = '',
          y = '',
          title = 'Version 5') + 
-    scale_size_continuous(name = '',
-                          breaks = c(0, 20, 40, 60, 80, 100),
-                          labels = c('0%','20%', '40%', '60%', '80%', '100%'),
-                          range = c(12,21)) +
+    scale_size_area(name = '',
+                    max_size = 30) +
     theme(legend.position = 'none',
           axis.text.x = element_blank(),
           axis.text.y = element_blank(),
           axis.ticks = element_blank()) + 
-    theme_sfi(gM = FALSE,lp = 'none',
-              gm = FALSE)
-  
-  
-
-  
-  g6 <- 
-  ggplot(data = data %>% 
-           arrange(value), 
-         aes(x = c(5, 3, 1, 4, 2),
-             y = c(1, 1, 1, 4, 4))) +
-    xlim(c(0, 6)) + ylim(c(0, 6)) +
-    geom_point(aes(size = value), 
-               alpha = 0.7,
-               color ='black',
-               stroke = 1,
-               shape = 15) + 
-    geom_text(aes(label = paste0(key)),
-              alpha = 0.7,
-              size = 3,
-              color = 'black',
-              vjust = -4) +
-    geom_text(aes(label = paste0(value,'%')),
-              alpha = 1,
-              size = 3,
-              color = 'white')+
-    labs(x = '',
-         y = '',
-         title = 'Version 6') + 
-    scale_size_continuous(name = '',
-                          breaks = c(0, 20, 40, 60, 80, 100),
-                          labels = c('0%','20%', '40%', '60%', '80%', '100%'),
-                          range = c(12,21)) +
-    theme(legend.position = 'none',
-          axis.text.x = element_blank(),
-          axis.text.y = element_blank(),
-          axis.ticks = element_blank()) + 
-    theme_sfi(gM = FALSE,lp = 'none',
-              gm = FALSE)
-  
-  
-  g7 <- 
-  ggplot(data = data %>% 
-           arrange(value), 
-         aes(x = c(5, 3, 1, 4, 2),
-             y = c(1, 1, 1, 4, 4))) +
-    xlim(c(0, 6)) + ylim(c(0, 6)) +
-    geom_point(aes(size = value), 
-               alpha = 0.8,
-               color ='black',
-               stroke = 4,
-               shape = 48) + 
-    geom_text(aes(label = paste0(key)),
-              alpha = 1,
-              size = 3,
-              color = 'black',
-              vjust = -4) +
-    geom_text(aes(label = paste0(value,'%')),
-              alpha = 1,
-              size = 3,
-              color = 'black')+
-    labs(x = '',
-         y = '',
-         title = 'Version 7') + 
-    scale_size_continuous(name = '',
-                          breaks = c(0, 20, 40, 60, 80, 100),
-                          labels = c('0%','20%', '40%', '60%', '80%', '100%'),,
-                          range = c(10,20)) +
-    theme(legend.position = 'none',
-          axis.text.x = element_blank(),
-          axis.text.y = element_blank(),
-          axis.ticks = element_blank()) + 
-    theme_sfi(gM = FALSE,lp = 'none',
+    theme_sfi(gM = FALSE, lp = 'none',
               gm = FALSE)
   
   
   # g13 THE REST ARE THE SIDE BAR CHARTS THAT THEY KINDA LIKED
-  g8 <- 
+  g6 <- 
   ggplot(data = data,
          aes(reorder(x = key, value),y = value)) +
     geom_bar(stat = 'identity',
@@ -217,7 +139,7 @@
     theme_sfi() +
     labs(x = 'Judges actions',
          y = 'Percent',
-         title = 'Version 8') +
+         title = 'Version 6') +
     geom_text(aes(label = paste0(round(value, digits = 1), '%')),
               nudge_y = 5,
               size = 4,
@@ -226,13 +148,14 @@
     ylim(0, 100)
   
 
-  
-  r
   # need to find plots that represent simple pie chart data
 
   # pie chart
 
   # side bar chart
 
-  # return(list(g1, g2, g3, g4, g5))
-# }
+  return(list(g1, g2, g3, g4, g5, g6))
+  
+}
+  
+  
