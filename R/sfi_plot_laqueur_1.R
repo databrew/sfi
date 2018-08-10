@@ -11,7 +11,7 @@
 sfi_plot_laqueur_1 <- function(){
   
   # get data 
-  data <- all_data$laquer$f1
+  data <- all_data$laqueur$f1
   
   # version 1 
   g1 <- ggplot(data, 
