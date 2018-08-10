@@ -11,7 +11,7 @@
 #' @import Hmisc
 
 
-sfi_plot_livemore_1 <- function(){
+sfi_plot_livermore_1 <- function(){
   
   # no scientific notation
   options(scipen = '999')
@@ -26,13 +26,14 @@ sfi_plot_livemore_1 <- function(){
     geom_point(size = 1, 
                alpha = 0.6) +
     geom_smooth(method = 'lm', 
-                se = FALSE,
+                se = TRUE,
                 size = 0.5,
                 color = 'black',
                 alpha = 0.6) +
     labs(x = '',
          y = 'Friendliness score',
-         title = 'Version 1') +
+         title = 'Version 1',
+         caption = '*The line fitted line was estimated with a linear regression (showing standard errors).') +
     scale_y_continuous(labels = percent, 
                        limits = c(-0.018, 0.004),
                        breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
@@ -51,14 +52,15 @@ sfi_plot_livemore_1 <- function(){
                    y = friendscr)) +
     geom_point(size = 1, 
                alpha = 0.6) +
-    geom_smooth(method = 'lm', 
-                se = FALSE,
+    geom_smooth(method = 'loess', 
+                se = TRUE,
                 size = 0.5,
                 color = 'black',
                 alpha = 0.6) +
     labs(x = '',
          y = 'Friendliness score',
-         title = 'Version 2') +
+         title = 'Version 2',
+         caption = '*The line was smoothed with a local regression.') +
     scale_y_continuous(labels = percent, 
                        limits = c(-0.018, 0.004),
                        breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
@@ -69,80 +71,70 @@ sfi_plot_livemore_1 <- function(){
                   friendscr, 
                   label=paste0('Justice ', Hmisc::capitalize(justice))), 
               vjust = 1.5, 
-              hjust = 1) + 
-    geom_point(data=subset(data, justice == 'alito'),
-               color = 'grey',
-               aes(median_year, 
-                   friendscr))
+              hjust = 1) 
   
-  
-  # version 3
+ 
+  # version 1 
   g3 <- ggplot(data, 
                aes(x = median_year, 
                    y = friendscr)) +
-    geom_point(size = 1, 
-               alpha = 0.6) +
-    geom_smooth(method = 'lm', 
-                se = FALSE,
-                size = 0.5,
-                color = 'black',
-                alpha = 0.6) +
-    labs(x = '',
-         y = 'Friendliness score',
-         title = 'Version 3') +
-    scale_y_continuous(labels = percent, 
-                       limits = c(-0.018, 0.004),
-                       breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
-                                -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
-    theme_sfi() +
-    geom_text(data=subset(data, justice == 'alito'),
-              aes(median_year, 
-                  friendscr, 
-                  label=paste0('Justice ', Hmisc::capitalize(justice))), 
-              vjust = 0.5, 
-              hjust = 1.1) + 
-    geom_point(data=subset(data, justice == 'alito'),
-               size = 1,
-               alpha = 0.8,
+    geom_point(size = 1.5, 
+               alpha = 0.6,
                color = 'black',
-               aes(median_year, 
-                   friendscr)) 
-  
-  
-  # version 4
-  g4 <- ggplot(data, 
-               aes(x = median_year, 
-                   y = friendscr)) +
-    geom_point(size = 1, 
-               alpha = 0.6) +
+               pch = 1) +
     geom_smooth(method = 'lm', 
                 se = TRUE,
                 size = 0.5,
                 color = 'black',
-                alpha = 0.4) +
+                alpha = 0.6,
+                linetype = 2) +
     labs(x = '',
          y = 'Friendliness score',
-         title = 'Version 4') +
+         title = 'Version 3',
+         caption = '*The line fitted line was estimated with a linear regression.') +
     scale_y_continuous(labels = percent, 
                        limits = c(-0.018, 0.004),
                        breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
                                 -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
     theme_sfi() +
     geom_text(data=subset(data, justice == 'alito'),
-              size = 3,
               aes(median_year, 
                   friendscr, 
                   label=paste0('Justice ', Hmisc::capitalize(justice))), 
-              vjust = 0.5, 
-              hjust = 1.1) + 
-    geom_point(data=subset(data, justice == 'alito'),
-               size = 1,
+              vjust = 1.5, 
+              hjust = 1) 
+  
+  
+  # version 2
+  g4 <- ggplot(data, 
+               aes(x = median_year, 
+                   y = friendscr)) +
+    geom_point(size = 2, 
                alpha = 0.8,
-               color = 'black',
-               aes(median_year, 
-                   friendscr)) 
+               color = 'black') +
+    geom_smooth(method = 'loess', 
+                se = TRUE,
+                size = 1,
+                color = 'darkgrey',
+                alpha = 0.2) +
+    labs(x = '',
+         y = 'Friendliness score',
+         title = 'Version 4',
+         caption = '*The line was smoothed with a local regression.') +
+    scale_y_continuous(labels = percent, 
+                       limits = c(-0.018, 0.004),
+                       breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
+                                -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
+    theme_sfi() +
+    geom_text(data=subset(data, justice == 'alito'),
+              aes(median_year, 
+                  friendscr, 
+                  label=paste0('Justice ', Hmisc::capitalize(justice))), 
+              vjust = 1.5, 
+              hjust = 1) 
   
   
+
   out <- list(g1, g2, g3, g4)
   
   return(out)
