@@ -46,7 +46,7 @@ sfi_plot_alexander_4 <- function(){
   colors_2 <- make_colors(length(values_2), bw = TRUE)
   
   # plot - Each plot has two version 1: the first for Claim type the second for national origin
-  #g1 <- 
+  g1 <-
     waffle(parts = values, 
                title = 'Version 1 (Claim type)',
                colors = colors, 
@@ -54,7 +54,7 @@ sfi_plot_alexander_4 <- function(){
                size  = 1,
                flip = FALSE)
   
-  #g2 <- 
+  g2 <-
     waffle(parts = values_2, 
                title = 'Version 1 (National origin)',
                colors = colors_2, 
@@ -63,7 +63,7 @@ sfi_plot_alexander_4 <- function(){
                flip = FALSE)
   
   # small size
-  #g3 <- 
+  g3 <-
     waffle(parts = values,
                title = 'Version 2 (Claim type)',
                colors = colors, 
@@ -72,7 +72,7 @@ sfi_plot_alexander_4 <- function(){
                flip = FALSE)
   
   # small size
-  #g4 <- 
+  g4 <-
     waffle(parts = values_2,
                title = 'Version 2 (National origin)',
                colors = colors_2, 
@@ -81,7 +81,7 @@ sfi_plot_alexander_4 <- function(){
                flip = FALSE)
   
   # no size
-  #g5 <- 
+  g5 <-
     waffle(parts = values,
                title = 'Version 3 (Claim type)',
                colors = colors, 
@@ -90,7 +90,7 @@ sfi_plot_alexander_4 <- function(){
                flip = FALSE)
   
   # no size
-  #g6 <- 
+  g6 <-
     waffle(parts = values_2,
                title = 'Version 3 (National origin)',
                colors = colors_2, 
@@ -101,7 +101,7 @@ sfi_plot_alexander_4 <- function(){
 
   
   # Floating bubbles diagnol for claim type
-  #g7 <- 
+  g7 <-
   ggplot(data = data %>% filter(group == 'Claim type') %>%
                  arrange(value), 
                aes(x = c(1, 2, 3, 4, 5, 6, 7),
@@ -123,31 +123,34 @@ sfi_plot_alexander_4 <- function(){
     theme(
       axis.text.x = element_blank(),
       axis.text.y = element_blank(),
-      axis.ticks = element_blank()) + 
+      axis.ticks = element_blank(),
+      panel.grid = element_blank()) + 
     theme_sfi()
   
   
   # Floating bubbles diagnol for national origin
-  #g8 <- 
-    ggplot(data = data %>% filter(group == 'National origin') %>%
-                 arrange(value), 
-               aes(x = c(1, 2, 3, 4, 5, 6),
-                   y = c(1, 2, 3, 4, 5, 6))) +
-    xlim(c(0, 8)) + ylim(c(0,8)) +
+  
+  gd <- data %>% filter(group == 'National origin') %>%
+    arrange(value) %>%
+    mutate(nudgey = seq(0.5, 2, length = 6)) %>%
+    mutate(x = seq(0, 6, length = 6),
+           y = c(1, 2, 3, 4, 5, 6))
+  g8 <-ggplot(data = gd, 
+               aes(x = x, y = y)) +
+    xlim(c(-1,7)) + ylim(c(0,8)) +
     geom_point(aes(size = value), 
                alpha = 0.4,
                color ='black') + 
-    geom_text(aes(label = paste0(key, ' ', '\n', value,'%')),
+    geom_text(aes(y = y + nudgey,
+                  label = paste0(key, ' ', '\n', value,'%')),
               alpha = 0.7,
               size = 3,
               color = 'black')+
     labs(x = '',
          y = '',
          title = 'Version 4 (National origin)') + 
-    scale_size_continuous(name = '',
-                          breaks = c(25, 50, 71),
-                          labels = c('25%', '50%', '75%'),
-                          range = c(12,21)) +
+    scale_size_area(name = '',
+                          max_size = 40) +
     theme(legend.position = 'none',
       axis.text.x = element_blank(),
       axis.text.y = element_blank(),
@@ -159,12 +162,14 @@ sfi_plot_alexander_4 <- function(){
 
     # FOR THE REST OF THEM IM NOT DOING TWO PLOTS FOR EACH ONE, JUST STARTED MESSING ARONUD 
     # WITH GRIDS AND BUBBLES AND DIFFERENT SHAPES
-        #g9 <- 
-    ggplot(data = data %>% 
-             filter(group == 'Claim type') %>%
-             arrange(value), 
-           aes(x = c(1, 4, 7, 1, 4, 7, 4),
-               y = c(1, 1, 1, 4, 4, 4, 7))) +
+    gd2 <- data %>% 
+      filter(group == 'Claim type') %>%
+      arrange(value) %>%
+      mutate(x = c(seq(1, 7, length = 4), 2, 6, 4),
+             y = c(1, 1, 1, 1, 4, 4, 6))
+        g9 <-
+    ggplot(data = gd2, 
+           aes(x = x, y = y)) +
       xlim(c(0, 8)) + ylim(c(0, 8)) +
       geom_point(aes(size = value), 
                  alpha = 0.4,
@@ -182,10 +187,8 @@ sfi_plot_alexander_4 <- function(){
       labs(x = '',
            y = '',
            title = 'Version 5 (Claim type)') + 
-      scale_size_continuous(name = '',
-                            breaks = c(10, 20, 30),
-                            labels = c('10%', '20%', '30%'),
-                            range = c(12,21)) +
+      scale_size_area(name = '',
+                            max_size = 50) +
       theme(legend.position = 'none',
         axis.text.x = element_blank(),
         axis.text.y = element_blank(),
@@ -195,11 +198,13 @@ sfi_plot_alexander_4 <- function(){
     
   
     # bubble grid for n
-    #g10 <- 
-    ggplot(data = data %>% filter(group == 'National origin') %>%
-             arrange(value), 
-           aes(x = c(1, 4, 7, 5.5, 2.5, 4),
-               y = c(2, 2, 2, 4, 4, 6))) +
+    gd3 <- data %>% filter(group == 'National origin') %>%
+      arrange(value) %>%
+      mutate(x = c(1, 4, 7, 5.5, 2.5, 4),
+             y = c(2, 2, 2, 4, 4, 6))
+    g10 <-
+    ggplot(data = gd3, 
+           aes(x = x, y = y)) +
       xlim(c(0, 8)) + ylim(c(0,8)) +
       geom_point(aes(size = value), 
                  alpha = 0.4,
@@ -213,7 +218,8 @@ sfi_plot_alexander_4 <- function(){
       labs(x = '',
            y = '',
            title = 'Version 5 (National origin)') +
-      scale_size_area(limits = c(0, 100)) +
+      scale_size_area(name = '',
+                      max_size = 50) +
       theme(legend.position = 'none',
             axis.text.x = element_blank(),
             axis.text.y = element_blank(),
@@ -222,11 +228,11 @@ sfi_plot_alexander_4 <- function(){
                 lp = 'none',
                 gm = FALSE)
     
-    #g11 <- 
+    g11 <-
     ggplot(data = data %>% 
              filter(group == 'Claim type') %>%
              arrange(value), 
-           aes(x = c(1, 4, 7, 1, 4, 7, 4),
+           aes(x = c(1, 4, 7, 2, 4, 6, 4),
                y = c(1, 1, 1, 4, 4, 4, 7))) +
       xlim(c(0, 8)) + ylim(c(0, 8)) +
       geom_point(aes(size = value), 
@@ -246,10 +252,8 @@ sfi_plot_alexander_4 <- function(){
       labs(x = '',
            y = '',
            title = 'Version 6 (Claim type)') + 
-      scale_size_continuous(name = '',
-                            breaks = c(10, 20, 30),
-                            labels = c('10%', '20%', '30%'),
-                            range = c(12,21)) +
+      scale_size_area(name = '',
+                      max_size = 35) +
       theme(legend.position = 'none',
             axis.text.x = element_blank(),
             axis.text.y = element_blank(),
@@ -258,7 +262,7 @@ sfi_plot_alexander_4 <- function(){
                 gm = FALSE)
   
     
-    #g12 <- 
+    g12 <-
     ggplot(data = data %>% 
              filter(group == 'Claim type') %>%
              arrange(value), 
@@ -269,7 +273,7 @@ sfi_plot_alexander_4 <- function(){
                  alpha = 0.4,
                  color ='black',
                  stroke = 4,
-                 shape = 48) + 
+                 shape = 16) + 
       geom_text(aes(label = paste0(key)),
                 alpha = 0.7,
                 size = 3,
@@ -282,10 +286,8 @@ sfi_plot_alexander_4 <- function(){
       labs(x = '',
            y = '',
            title = 'Version 7 (Claim type)') + 
-      scale_size_continuous(name = '',
-                            breaks = c(10, 20, 30),
-                            labels = c('10%', '20%', '30%'),
-                            range = c(10,20)) +
+      scale_size_area(name = '',
+                      max_size = 35) +
       theme(legend.position = 'none',
             axis.text.x = element_blank(),
             axis.text.y = element_blank(),
@@ -295,18 +297,17 @@ sfi_plot_alexander_4 <- function(){
     
     
   # g13 THE REST ARE THE SIDE BAR CHARTS THAT THEY KINDA LIKED
-    #g13 <- 
+    g13 <-
   ggplot(data = data %>% filter(group == 'Claim type'),
            aes(reorder(x = key, value),
                y = value)) +
     geom_bar(stat = 'identity',
-             alpha = 0.8,
-             color = 'darkgrey') +
+             alpha = 0.8) +
     coord_flip() +
     theme_sfi() +
     labs(x = 'Claim type',
          y = 'Percent',
-         title = 'Version 8 (Claim type') +
+         title = 'Version 8 (Claim type)') +
     geom_text(aes(label = paste0(round(value, digits = 1), '%')),
               nudge_y = 3,
               size = 4,
@@ -315,18 +316,17 @@ sfi_plot_alexander_4 <- function(){
     ylim(0, 55)
 
   #g14 with percentage labels
- #g14 <- 
+ g14 <-
    ggplot(data = data %>% filter(group == 'National origin'),
          aes(reorder(x = key, value),
              y = value)) +
     geom_bar(stat = 'identity',
-             alpha = 0.8,
-             color = 'darkgrey') +
+             alpha = 0.8) +
     coord_flip() +
     theme_sfi() +
     labs(x = 'Claim type',
          y = 'Percent',
-         title = 'Version 9 National origin') +
+         title = 'Version 9 (National origin)') +
     geom_text(aes(label = paste0(round(value, digits = 1), '%')),
               nudge_y = 5.5,
               size = 4,
@@ -335,7 +335,7 @@ sfi_plot_alexander_4 <- function(){
     ylim(0, 100)
 
   # with percentage labels without borders
-  #g15 <- 
+  g15 <-
     ggplot(data = data %>% filter(group == 'Claim type'),
            aes(reorder(x = key, value),
                y = value)) +
@@ -354,7 +354,7 @@ sfi_plot_alexander_4 <- function(){
     ylim(0, 55)
 
   #with percentage labels without borders
- #g16<- 
+ g16<-
    ggplot(data = data %>% filter(group == 'National origin'),
          aes(reorder(x = key, value),
              y = value)) +
@@ -372,8 +372,6 @@ sfi_plot_alexander_4 <- function(){
     theme(axis.text.x = element_text(hjust = 0.5)) +
     ylim(0, 100)
 
-
- 
-  
-  return(list(g1, g2, g3, g4, g5, g6, g7, g8, g9))
+  return(list(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10,
+              g11,g12,g13,g14,g15,g16))
 }

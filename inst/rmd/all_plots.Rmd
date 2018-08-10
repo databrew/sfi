@@ -62,7 +62,10 @@ make_plot_chunk <- function(author,
   for(i in 1:length(plot_list)){
     version <- i
     out[[i]] <- 
-      paste0('\n```{r ', 
+            paste0('\n\n(',
+             Hmisc::capitalize(author),
+             ' ',
+             figure, ')\n\n```{r, ', 
       tolower(author), '_figure_',
       figure, '_version_',
       version,
@@ -105,7 +108,7 @@ for(i in 1:nrow(plots_dict_plots)){
       collapse = NULL),
       ''),
       # Figure number
-      '\n\n### Figure ', gsub('_', '.', this_figure),
+      '\n\n### ', Hmisc::capitalize(this_author), ' Figure ', gsub('_', '.', this_figure),
       '\n\n')
       # Actual plots
     out <- make_plot_chunk(author = this_author,
@@ -146,7 +149,10 @@ make_plot_chunk <- function(author,
   for(i in 1:length(plot_list)){
     version <- i
     out[[i]] <- 
-      paste0('\n```{r, ', 
+      paste0('\n\n(',
+             Hmisc::capitalize(author),
+             ' ',
+             figure, ')\n\n```{r, ', 
       tolower(author), '_table_',
       figure, '_version_',
       version,
@@ -188,7 +194,7 @@ for(i in 1:nrow(plots_dict_tables)){
       collapse = NULL),
       ''),
       # Figure number
-      '\n\n### Table ', gsub('_', '.', this_figure),
+      '\n\n### ', Hmisc::capitalize(this_author), ' Table ', gsub('_', '.', this_figure),
       '\n\n')
       # Actual plots
       out <- make_plot_chunk(author = this_author,
