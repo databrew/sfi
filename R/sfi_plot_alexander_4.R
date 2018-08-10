@@ -129,13 +129,13 @@ sfi_plot_alexander_4 <- function(){
   
   
   # Floating bubbles diagnol for national origin
-  g8 <-
+  
   gd <- data %>% filter(group == 'National origin') %>%
     arrange(value) %>%
     mutate(nudgey = seq(0.5, 2, length = 6)) %>%
     mutate(x = seq(0, 6, length = 6),
            y = c(1, 2, 3, 4, 5, 6))
-    ggplot(data = gd, 
+  g8 <-ggplot(data = gd, 
                aes(x = x, y = y)) +
     xlim(c(-1,7)) + ylim(c(0,8)) +
     geom_point(aes(size = value), 
@@ -307,7 +307,7 @@ sfi_plot_alexander_4 <- function(){
     theme_sfi() +
     labs(x = 'Claim type',
          y = 'Percent',
-         title = 'Version 8 (Claim type') +
+         title = 'Version 8 (Claim type)') +
     geom_text(aes(label = paste0(round(value, digits = 1), '%')),
               nudge_y = 3,
               size = 4,
@@ -326,7 +326,7 @@ sfi_plot_alexander_4 <- function(){
     theme_sfi() +
     labs(x = 'Claim type',
          y = 'Percent',
-         title = 'Version 9 National origin') +
+         title = 'Version 9 (National origin)') +
     geom_text(aes(label = paste0(round(value, digits = 1), '%')),
               nudge_y = 5.5,
               size = 4,
