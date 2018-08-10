@@ -7,7 +7,7 @@
 #' @import dplyr
 #' @import waffle
 
-# sfi_plot_alexander_7 <- function(){
+sfi_plot_alexander_7 <- function(){
 #   
   # # Get data
   data <- all_data$alexander$f7
