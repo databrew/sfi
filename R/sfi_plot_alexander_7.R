@@ -10,7 +10,7 @@
 # sfi_plot_alexander_7 <- function(){
 #   
   # # Get data
-  data <- all_data$alexander$f7
+  data <- data$alexander$f7
   data$value <- data$value * 100
   
   # ---------------------------------------------
