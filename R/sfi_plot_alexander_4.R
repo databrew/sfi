@@ -8,7 +8,6 @@
 #' @import waffle 
 #' @import plotrix
 
-
 sfi_plot_alexander_4 <- function(){
   
   # Get data
@@ -372,6 +371,63 @@ sfi_plot_alexander_4 <- function(){
     theme(axis.text.x = element_text(hjust = 0.5)) +
     ylim(0, 100)
 
+ d17 <- data %>% filter(group == 'National origin')
+ g17 <- ggplot(data = d17,
+               aes(reorder(x = key, value),
+                   y = value)) +
+   geom_bar(stat = 'identity',
+            alpha = 0.8) +
+   geom_text(aes(label = paste0(gsub(' ', ' ', key), '\n', round(value, digits = 1), '%')),
+             size = 2) +
+   theme_sfi() +
+   coord_polar(theta = "y") +
+   ylim(0, 100) +
+   # ylim(0, 2 * max(d17$value)) +
+   # scale_fill_manual(name = '',
+   #                   values = make_colors(n = length(unique(d17$key)),
+   #                                        bw = TRUE,
+   #                                        categorical = FALSE)) +
+   theme(axis.text = element_blank(),
+         # axis.title = element_blank(),
+         axis.ticks = element_blank(),
+         legend.position = 'none') +
+   labs(x = '',
+        y = '',
+        title = 'Version 17')
+   
+ g18 <- ggplot(data = d17,
+               aes(reorder(x = key, value),
+                   y = value)) +
+   geom_bar(stat = 'identity',
+            alpha = 0.8) +
+   geom_bar(stat = 'identity',
+            alpha = 0.1,
+            aes(y = max(value))) +
+   geom_text(aes(label = paste0(gsub(' ', ' ', key)),
+                 y = 0),
+             size = 2,
+             angle = 45,
+             hjust = 1) +
+   theme_sfi() +
+   coord_polar(theta = "y", start = 4.72) +
+   # ylim(0, ) +
+   ylim(0, 2 * max(d17$value)) +
+   # scale_fill_manual(name = '',
+   #                   values = make_colors(n = length(unique(d17$key)),
+   #                                        bw = TRUE,
+   #                                        categorical = FALSE)) +
+   theme(axis.text = element_blank(),
+         # axis.title = element_blank(),
+         axis.ticks = element_blank(),
+         legend.position = 'none') +
+   labs(x = '',
+        y = '',
+        title = 'Version 18') +
+   geom_text(aes(y = max(value),
+                  label = paste0(round(value, digits = 1), '')),
+             angle = 0,
+             alpha = 0.6)
+ 
   return(list(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10,
-              g11,g12,g13,g14,g15,g16))
+              g11,g12,g13,g14,g15,g16, g17, g18))
 }
