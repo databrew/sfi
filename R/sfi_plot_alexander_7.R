@@ -156,6 +156,6 @@ sfi_plot_alexander_7 <- function(){
 
   return(list(g1, g2, g3, g4, g5, g6))
   
-# }
+}
   
   
