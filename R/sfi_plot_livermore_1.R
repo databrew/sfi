@@ -17,7 +17,7 @@ sfi_plot_livermore_1 <- function(){
   options(scipen = '999')
   
   # get data 
-  data <- all_data$livemore$f1
+  data <- all_data$livermore$f1
   
   # version 1 
   g1 <- ggplot(data, 
