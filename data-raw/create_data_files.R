@@ -47,22 +47,22 @@ frankenreiter_5_2 <- read_csv('Databrew Graphics/Frankenreiter/data/figure5_2.cs
 frankenreiter_6_1 <- read_csv('Databrew Graphics/Frankenreiter/data/figure6_1.csv')
 frankenreiter_6_2 <- read_csv('Databrew Graphics/Frankenreiter/data/figure6_2.csv')
 
+frankenreiter_6 <- 
+  bind_rows(frankenreiter_6_1 %>% mutate(key = '1973 enlargement'),
+            frankenreiter_6_2 %>% mutate(key = '1995 enlargement'))
 # make column names lowercases
 names(frankenreiter_2) <- tolower(names(frankenreiter_2))
 names(frankenreiter_3) <- tolower(names(frankenreiter_3))
 names(frankenreiter_4) <- tolower(names(frankenreiter_4))
 names(frankenreiter_5_1) <- tolower(names(frankenreiter_5_1))
 names(frankenreiter_5_2) <- tolower(names(frankenreiter_5_2))
-names(frankenreiter_6_1) <- tolower(names(frankenreiter_6_1))
-names(frankenreiter_6_2) <- tolower(names(frankenreiter_6_2))
+names(frankenreiter_6) <- tolower(names(frankenreiter_6))
 
 # convert year to character
 frankenreiter_5_1$year <- as.character(frankenreiter_5_1$year)
 frankenreiter_5_2$year <- as.character(frankenreiter_5_2$year)
-names(frankenreiter_6_1)[names(frankenreiter_6_1) == 'var2'] <- 'year'
-frankenreiter_6_1$year <- as.character(frankenreiter_6_1$year)
-names(frankenreiter_6_2)[names(frankenreiter_6_2) =='var2'] <- 'year'
-frankenreiter_6_2$year <- as.character(frankenreiter_6_2$year)
+names(frankenreiter_6)[names(frankenreiter_6) == 'var2'] <- 'year'
+frankenreiter_6$year <- as.character(frankenreiter_6$year)
 
 frankenreiter_5 <- 
   bind_rows(frankenreiter_5_1 %>% mutate(source = 1),
@@ -76,8 +76,7 @@ frankenreiter$f4 <- frankenreiter_4
 frankenreiter$f5 <- frankenreiter_5
 frankenreiter$f5_1 <- frankenreiter_5_1
 frankenreiter$f5_2 <- frankenreiter_5_1
-frankenreiter$f6_1 <- frankenreiter_6_1
-frankenreiter$f6_2 <- frankenreiter_6_2
+frankenreiter$f6 <- frankenreiter_6
 
 # save folder list 
 devtools::use_data(frankenreiter, overwrite = TRUE)
