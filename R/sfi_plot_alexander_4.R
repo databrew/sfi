@@ -39,14 +39,13 @@ sfi_plot_alexander_4 <- function(){
   values <- sort(values, decreasing = TRUE)
   colors <- make_colors(length(values), bw = TRUE)
   
-  
+  # do the same for the national origin filter
   values_2 <- data$value[data$group == 'National origin']
   names(values_2) <- paste0(data$key[data$group == 'National origin'], ' (',values_2,'%)')
   values_2 <- sort(values_2, decreasing = TRUE)
-  
   colors_2 <- make_colors(length(values_2), bw = TRUE)
   
-  # plot with 10 rows
+  # plot - Each plot has two version 1: the first for Claim type the second for national origin
   #g1 <- 
     waffle(parts = values, 
                title = 'Version 1 (Claim type)',
@@ -101,8 +100,7 @@ sfi_plot_alexander_4 <- function(){
   
 
   
-  # Floating bubbles
-  # diagnoal 
+  # Floating bubbles diagnol for claim type
   #g7 <- 
   ggplot(data = data %>% filter(group == 'Claim type') %>%
                  arrange(value), 
@@ -128,6 +126,8 @@ sfi_plot_alexander_4 <- function(){
       axis.ticks = element_blank()) + 
     theme_sfi()
   
+  
+  # Floating bubbles diagnol for national origin
   #g8 <- 
     ggplot(data = data %>% filter(group == 'National origin') %>%
                  arrange(value), 
@@ -156,8 +156,10 @@ sfi_plot_alexander_4 <- function(){
               lp = 'none',
               gm = FALSE)
   
-    # no grid
-    #g9 <- 
+
+    # FOR THE REST OF THEM IM NOT DOING TWO PLOTS FOR EACH ONE, JUST STARTED MESSING ARONUD 
+    # WITH GRIDS AND BUBBLES AND DIFFERENT SHAPES
+        #g9 <- 
     ggplot(data = data %>% 
              filter(group == 'Claim type') %>%
              arrange(value), 
@@ -192,6 +194,7 @@ sfi_plot_alexander_4 <- function(){
                 gm = FALSE)
     
   
+    # bubble grid for n
     #g10 <- 
     ggplot(data = data %>% filter(group == 'National origin') %>%
              arrange(value), 
@@ -291,7 +294,7 @@ sfi_plot_alexander_4 <- function(){
                 gm = FALSE)
     
     
-  # g13 with percentage labels
+  # g13 THE REST ARE THE SIDE BAR CHARTS THAT THEY KINDA LIKED
     #g13 <- 
   ggplot(data = data %>% filter(group == 'Claim type'),
            aes(reorder(x = key, value),
