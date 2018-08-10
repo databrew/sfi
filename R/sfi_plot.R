@@ -7,7 +7,7 @@
 #' @param figure Character. The figure number in the corresponding paper.
 #' @import ggplot2
 #' @import dplyr
-sfi_plot <- function(author = 'laquer', 
+sfi_plot <- function(author = 'laqueur', 
                      figure = '1'){
   
   dummy <- 
@@ -87,18 +87,18 @@ sfi_plot <- function(author = 'laquer',
     }
   }
   
-  # LAQUER
-  if(author == 'laquer'){
-    # LAQUER FIGURE 1
+  # LAQUEUR
+  if(author == 'laqueur'){
+    # LAQUEUR FIGURE 1
     if(figure == '1'){
       g <- sfi_plot_laqueur_1()
        
     } else if(figure == '2'){
-      # LAQUER FIGURE 2
+      # LAQUEUR FIGURE 2
       g <- sfi_plot_laqueur_2()
     }
   } 
-  # LIVMORE
+  # LIVERMORE
   if(author == 'livermore'){
     # LIVMORE Figure 1
     if(figure == '1'){

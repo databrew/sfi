@@ -62,7 +62,7 @@ make_plot_chunk <- function(author,
   for(i in 1:length(plot_list)){
     version <- i
     out[[i]] <- 
-            paste0('\\newpage\n\n(',
+            paste0('\n\n(',
              Hmisc::capitalize(author),
              ' ',
              figure, ')\n\n```{r, ', 
@@ -149,7 +149,7 @@ make_plot_chunk <- function(author,
   for(i in 1:length(plot_list)){
     version <- i
     out[[i]] <- 
-      paste0('\\newpage\n\n(',
+      paste0('\n\n(',
              Hmisc::capitalize(author),
              ' ',
              figure, ')\n\n```{r, ', 
