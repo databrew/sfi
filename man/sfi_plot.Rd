@@ -4,7 +4,7 @@
 \alias{sfi_plot}
 \title{SFI plot}
 \usage{
-sfi_plot(author = "laquer", figure = "1")
+sfi_plot(author = "laqueur", figure = "1")
 }
 \arguments{
 \item{author}{Character. The last name of the publishing author.}
