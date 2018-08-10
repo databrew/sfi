@@ -93,7 +93,7 @@ sfi_plot_laqueur_1 <- function(){
              color = 'black') +
     geom_text(aes(label = number_of_grants),
               size = 1.8, 
-              color = 'black'
+              color = 'black',
               nudge_y = 25) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
@@ -111,7 +111,7 @@ sfi_plot_laqueur_1 <- function(){
              color = 'black') +
     geom_text(aes(label = number_of_grants),
               size = 1.8, 
-              color = 'black'
+              color = 'black',
               nudge_y = 25) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',

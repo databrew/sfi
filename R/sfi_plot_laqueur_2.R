@@ -95,7 +95,7 @@ sfi_plot_laqueur_2 <- function(){
              color = 'black') +
     geom_text(aes(label = percent_of_conducted_hearings_resulting_in_a_grant),
               size = 1.8, 
-              color = 'black'
+              color = 'black',
               nudge_y = 25) +
     labs(x = 'Year',
          y = 'Rate of parole grant',
