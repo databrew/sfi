@@ -84,30 +84,30 @@ devtools::use_data(frankenreiter, overwrite = TRUE)
 
 # --------------------
 # Laqueur and Venancio
-laquer_venancio_1 <- read_csv('Databrew Graphics/Laqueur and Venancio/NumberGrants_1972-2015.csv')
-laquer_venancio_2 <- read_csv('Databrew Graphics/Laqueur and Venancio/PercentGrants_2007-14.csv')
+laqueur_venancio_1 <- read_csv('Databrew Graphics/Laqueur and Venancio/NumberGrants_1972-2015.csv')
+laqueur_venancio_2 <- read_csv('Databrew Graphics/Laqueur and Venancio/PercentGrants_2007-14.csv')
 
 # recode names
-names(laquer_venancio_1) <- c('year', 'number_of_grants')
-names(laquer_venancio_2) <- c('year', 'percent_of_conducted_hearings_resulting_in_a_grant')
+names(laqueur_venancio_1) <- c('year', 'number_of_grants')
+names(laqueur_venancio_2) <- c('year', 'percent_of_conducted_hearings_resulting_in_a_grant')
 
 # restructre variable types
-laquer_venancio_1$year <- as.numeric(as.character(laquer_venancio_1$year))
-laquer_venancio_1$number_of_grants <- as.numeric(laquer_venancio_1$number_of_grants)
+laqueur_venancio_1$year <- as.numeric(as.character(laqueur_venancio_1$year))
+laqueur_venancio_1$number_of_grants <- as.numeric(laqueur_venancio_1$number_of_grants)
 
-laquer_venancio_2$year <- as.numeric(as.character(laquer_venancio_2$year))
-laquer_venancio_2$percent_of_conducted_hearings_resulting_in_a_grant <- 
-  as.numeric(gsub('%', '', laquer_venancio_2$percent_of_conducted_hearings_resulting_in_a_grant, 
+laqueur_venancio_2$year <- as.numeric(as.character(laqueur_venancio_2$year))
+laqueur_venancio_2$percent_of_conducted_hearings_resulting_in_a_grant <- 
+  as.numeric(gsub('%', '', laqueur_venancio_2$percent_of_conducted_hearings_resulting_in_a_grant, 
                   fixed = TRUE))
 
 # create list and store and save
-laquer_venancio <- list()
-laquer_venancio$f1 <- laquer_venancio_1
-laquer_venancio$f2 <- laquer_venancio_2
+laqueur_venancio <- list()
+laqueur_venancio$f1 <- laqueur_venancio_1
+laqueur_venancio$f2 <- laqueur_venancio_2
 
 # save folder list 
-laquer <- laquer_venancio
-devtools::use_data(laquer, overwrite = TRUE)
+laqueur <- laqueur_venancio
+devtools::use_data(laqueur, overwrite = TRUE)
 
 # --------------------
 # Alexander et al
@@ -167,8 +167,8 @@ devtools::use_data(feldman, overwrite = TRUE)
 # store all author lists into one main list 
 all_data <- list()
 all_data$frankenreiter <- frankenreiter
-all_data$laquer <- laquer
-all_data$livemore <- livermore
+all_data$laqueur <- laqueur
+all_data$livermore <- livermore
 all_data$alexander <- alexander
 all_data$feldman <- feldman
 
