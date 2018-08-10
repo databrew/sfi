@@ -99,10 +99,10 @@ sfi_plot <- function(author = 'laquer',
     }
   } 
   # LIVMORE
-  if(author == 'livemore'){
+  if(author == 'livermore'){
     # LIVMORE Figure 1
     if(figure == '1'){
-      g <- sfi_plot_livemore_1()
+      g <- sfi_plot_livermore_1()
     } 
   } 
   return(g)
