@@ -41,13 +41,13 @@ sfi_plot_frankenreiter_2 <- function(){
   g1 <- ggplot(data = data,
          aes(x = docdate,
              y = value)) +
-    geom_point(size = 0.3,
+    geom_point(size = 0.1,
                alpha = 0.3,
                pch = 1) +
     geom_vline(xintercept = date_breaks,
                alpha = 0.3) +
     facet_wrap(~new_key, 
-               ncol = 1,
+               ncol = 2,
                scales = 'free_y') +
     scale_x_date(name = 'Date', 
                      breaks = date_breaks, 
@@ -73,14 +73,18 @@ sfi_plot_frankenreiter_2 <- function(){
     theme_sfi() +
     labs(x = 'Date',
          y = '',
-         title = 'Version 2') + 
+         title = 'Version 2',
+         caption = '*Lines smoothed using local regression') + 
     geom_line(stat="smooth",method = "auto",
               alpha = 0.8)
   
   x <- data %>%
     mutate(year = as.numeric(format(docdate, '%Y'))) %>%
+    mutate(val = value) %>%
     group_by(year, new_key) %>%
-    summarise(value = mean(value, na.rm = TRUE)) %>%
+    summarise(value = mean(value, na.rm = TRUE),
+              p25 = quantile(val, na.rm = TRUE, 0.25),
+              p75 = quantile(val, na.rm = TRUE, 0.75)) %>%
     ungroup %>%
     mutate(year = as.Date(paste0(year, '-01-01')))
   
@@ -99,7 +103,8 @@ sfi_plot_frankenreiter_2 <- function(){
     theme_sfi() +
     labs(x = 'Date',
          y = '',
-         title = 'Version 3')
+         title = 'Version 3',
+         caption = '*Showing average value per year')
   
   g4 <- ggplot(data = x,
                aes(x = year,
@@ -118,15 +123,16 @@ sfi_plot_frankenreiter_2 <- function(){
     theme_sfi() +
     labs(x = 'Date',
          y = '',
-         title = 'Version 4') +
+         title = 'Version 4',
+         caption = 'Showing average value per year') +
     geom_line(stat="smooth",method = "loess",
               alpha = 0.5)
   
   g5 <- ggplot(data = x,
                aes(x = year,
                    y = value)) +
-    geom_line(alpha = 0.6,
-              lty = 2) +
+    geom_line(alpha = 0.6) +
+    geom_point(alpha = 0.6) +
     # geom_point(alpha = 0.6,
     #            pch = 1) +
     geom_vline(xintercept = date_breaks,
@@ -140,9 +146,8 @@ sfi_plot_frankenreiter_2 <- function(){
     theme_sfi() +
     labs(x = 'Date',
          y = '',
-         title = 'Version 5') +
-    geom_line(stat="smooth",method = "loess",
-              alpha = 0.5)
+         title = 'Version 5',
+         caption = 'Showing average value per year') 
   
   g6 <- 
     ggplot(data = x,
@@ -178,7 +183,8 @@ sfi_plot_frankenreiter_2 <- function(){
     theme_sfi() +
     labs(x = 'Date',
          y = '',
-         title = 'Version 7') +
+         title = 'Version 7',
+         caption = 'Jagged line shows average value per year; smoothed line uses local regression (loess)') +
     geom_line(stat="smooth",method = "auto",
               alpha = 0.8)
   
@@ -198,30 +204,12 @@ sfi_plot_frankenreiter_2 <- function(){
     theme_sfi() +
     labs(x = 'Date',
          y = '',
-         title = 'Version 8') +
+         title = 'Version 8',
+         caption = 'Points show average value per year; smooth line is smoothed via local regression (loess)') +
     geom_line(stat="smooth",method = "auto",
               alpha = 0.8)
   
-  g9 <- 
-    ggplot(data = x,
-           aes(x = year,
-               y = value)) +
-    geom_bar(alpha = 0.5, stat = 'identity',
-             width = 100) +
-    # geom_vline(xintercept = date_breaks,
-    #            alpha = 0.3) +
-    facet_wrap(~new_key, 
-               ncol = 2,
-               scales = 'free_y') +
-    scale_x_date(name = 'Date', 
-                 breaks = date_breaks, 
-                 labels = date_labels) +
-    theme_sfi() +
-    labs(x = 'Date',
-         y = '',
-         title = 'Version 9') 
-  
-  g10 <-
+  g9 <-
     ggplot(data = x,
            aes(x = year,
                y = value)) +
@@ -238,9 +226,79 @@ sfi_plot_frankenreiter_2 <- function(){
     theme_sfi() +
     labs(x = 'Date',
          y = '',
-         title = 'Version 10') 
+         title = 'Version 9') 
   
+  g10 <- 
+    ggplot(data = x,
+           aes(x = year,
+               y = value)) +
+    geom_line() +
+    geom_point() +
+    geom_vline(xintercept = date_breaks,
+               alpha = 0.3) +
+    facet_wrap(~new_key, 
+               ncol = 2,
+               scales = 'free_y') +
+    scale_x_date(name = 'Date', 
+                 breaks = date_breaks, 
+                 labels = date_labels) +
+    theme_sfi() +
+    labs(x = 'Date',
+         y = '',
+         title = 'Version 10',
+         caption = 'Showing average value per year')
+  
+  g11 <- 
+    ggplot(data = x,
+           aes(x = year,
+               y = value)) +
+    geom_ribbon(aes(x = year,
+                    ymin = p25,
+                    ymax = p75),
+                alpha = 0.6) +
+    geom_line() +
+    geom_vline(xintercept = date_breaks,
+               alpha = 0.3) +
+    facet_wrap(~new_key, 
+               ncol = 2,
+               scales = 'free_y') +
+    scale_x_date(name = 'Date', 
+                 breaks = date_breaks, 
+                 labels = date_labels) +
+    theme_sfi() +
+    labs(x = 'Date',
+         y = '',
+         title = 'Version 11',
+         caption = 'Line shows average value per year; grey area shows interquartile range')
+  
+  g12 <- 
+    ggplot(data = x,
+           aes(x = year,
+               y = value)) +
+    geom_line(aes(x = year,
+                  y = p25),
+              lty = 2,
+              alpha = 0.7) +
+    
+    geom_line(aes(x = year,
+                  y = p75),
+              lty = 2,
+              alpha = 0.7) +
+    geom_line() +
+    geom_vline(xintercept = date_breaks,
+               alpha = 0.3) +
+    facet_wrap(~new_key, 
+               ncol = 2,
+               scales = 'free_y') +
+    scale_x_date(name = 'Date', 
+                 breaks = date_breaks, 
+                 labels = date_labels) +
+    theme_sfi() +
+    labs(x = 'Date',
+         y = '',
+         title = 'Version 12',
+         caption = 'Solid line shows average value per year; dotted line shows interquartile range')
   
 
-  return(list(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10))
+  return(list(g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12))
 }
