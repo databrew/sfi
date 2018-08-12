@@ -105,5 +105,23 @@ sfi_plot <- function(author = 'laqueur',
       g <- sfi_plot_livermore_1()
     } 
   } 
+  
+  # DUMAS
+  if(author == 'dumas'){
+    # DUMAS FIGURE 1
+    if(figure == '1'){
+      g <- sfi_plot_dumas_1()
+      
+    } else if(figure == '2'){
+      # DUMAS FIGURE 2
+      g <- sfi_plot_dumas_2()
+    } else if(figure =='3'){
+      # DUMAS FIGURE 3
+      g <- sfi_plot_dumas_3()
+    } else if(figure =='4'){
+      # DUMAS FIGURE 4
+      g <- sfi_plot_dumas_4()
+    }
+    
   return(g)
 }

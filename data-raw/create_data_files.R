@@ -9,7 +9,7 @@ library(tidyverse)
 # get list of folders
 # folder_names <- list.files('Databrew Graphics/')
 folder_names <- c('Alexander et al', 'Feldman', 'Laqueur and Venancio', 'Frankenreiter', 
-                  'Livermore, Ashley, Riddell, Carlson, Rockmore')
+                  'Livermore, Ashley, Riddell, Carlson, Rockmore', 'Dumas')
 
 # --------------------
 # 'Livermore, Ashley, Riddell, Carlson, Rockmore'
