@@ -111,7 +111,7 @@ sfi_plot <- function(author = 'laqueur',
     # DUMAS FIGURE 1
     if(figure == '1'){
       g <- sfi_plot_dumas_1()
-      
+
     } else if(figure == '2'){
       # DUMAS FIGURE 2
       g <- sfi_plot_dumas_2()

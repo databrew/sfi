@@ -2,6 +2,7 @@ library(devtools)
 library(readr)
 library(readxl)
 library(tidyverse)
+library(Hmisc)
 
 # initiate raw data package
 # devtools::use_data_raw()
@@ -10,6 +11,45 @@ library(tidyverse)
 # folder_names <- list.files('Databrew Graphics/')
 folder_names <- c('Alexander et al', 'Feldman', 'Laqueur and Venancio', 'Frankenreiter', 
                   'Livermore, Ashley, Riddell, Carlson, Rockmore', 'Dumas')
+
+
+# --------------------
+# Dumas 
+
+# figure 1
+dumas_1 <- read_csv('Databrew Graphics/Dumas/figure_one.csv')
+
+# make capital for first letter
+dumas_1$label <- Hmisc::capitalize(dumas_1$label)
+
+# save data
+devtools::use_data(dumas_1, overwrite = TRUE)
+
+# figure 2
+dumas_2 <- read_csv('Databrew Graphics/Dumas/figure_two.csv')
+
+# save data
+devtools::use_data(dumas_2, overwrite = TRUE)
+
+# figure 3
+dumas_3 <- read_csv('Databrew Graphics/Dumas/figure_three.csv')
+
+# save data
+devtools::use_data(dumas_3, overwrite = TRUE)
+
+# figure 4
+dumas_4 <- read_csv('Databrew Graphics/Dumas/figure_four.csv')
+
+# save data
+devtools::use_data(dumas_4, overwrite = TRUE)
+
+# create list to store data
+dumas <- list()
+dumas$f1 <- dumas_1
+dumas$f2 <- dumas_2
+dumas$f3 <- dumas_3
+dumas$f4 <- dumas_4
+
 
 # --------------------
 # 'Livermore, Ashley, Riddell, Carlson, Rockmore'
@@ -166,6 +206,7 @@ devtools::use_data(feldman, overwrite = TRUE)
 # -----------
 # store all author lists into one main list 
 all_data <- list()
+all_data$dumas <- dumas
 all_data$frankenreiter <- frankenreiter
 all_data$laqueur <- laqueur
 all_data$livermore <- livermore
