@@ -9,48 +9,93 @@
 
 
 sfi_plot_dumas_1 <- function() {
-
+  
   # Get data
   data <- all_data$dumas$f1
   
+  # --------------------------------------------------
+  # g1
+  # plot with 2 colors, 3 line types
+  
   # create a variable to represent the colors 
-  data$col <- ifelse(grepl('1', data$label), 'run_1',
-                     ifelse(grepl('2', data$label), 'run_2',
-                            'run_3'))
+  data$run <- ifelse(grepl('1', data$label), 'Run 1',
+                     ifelse(grepl('2', data$label), 'Run 2',
+                            'Run 3'))
   
-  data$line_type <- ifelse(grepl('Restrictive', data$label), 
-                           'line_1', 'line_2')
+  data$filter <- ifelse(grepl('Restrictive', data$label), 
+                        'Restrictive', 'Permissive')
   
-  # plot the true negative (x) against true positve (y)
-  ggplot(data, 
-         aes(`True negative rate`,
-             `True positive rate`, 
-             color = col,
-             linetype = line_type,
-             group = interaction(line_type, col))) +
-    geom_line(size = 1,
-              alpha = 0.6) +
-    scale_color_manual(name = '',
-                       values = make_colors(3, bw = TRUE))
+  #g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               col = filter,
+               linetype = run)) +
+    geom_line(size = 0.5, 
+              alpha = 0.7) +
+    scale_linetype_manual(name = 'Resampled iterations',
+                          values=c("solid", 
+                                   "dashed", 
+                                   "dotted")) +
+    scale_color_manual(name = 'Filter type',
+                       values = c('black', 'grey')) +
+    geom_abline(intercept = 1, 
+                slope = -1,
+                size = 1,
+                alpha = 0.2) +
     theme_sfi() 
   
-
-  # plot the true negative (x) against true positve (y)
-  ggplot(data, 
-         aes(`True negative rate`,
-             `True positive rate`, 
-             group = label,
-             col = label)) +
-    geom_line(size = 1,
-              alpha = 0.6) +
-    theme_sfi() +
-    scale_color_manual(name = '',
-                       values = make_colors(length_labels, bw = TRUE)) 
     
+    # --------------------------------------------------
+    # g2
+    # plot with 3 colors, 2 line types
+    #g2 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               col = run,
+               linetype = filter)) +
+      geom_line(size = 0.5, 
+                alpha = 0.7) +
+      scale_linetype_manual(name = 'Resampled iterations',
+                            values=c("solid", 
+                                     "dotted")) +
+      scale_color_manual(name = 'Filter type',
+                         values = c('black', 
+                                    '#464646', 
+                                    '#BEBEBE')) +
+      geom_abline(intercept = 1, 
+                  slope = -1,
+                  size = 1,
+                  alpha = 0.2) +
+      theme_sfi() 
+    
+    
+    # remove 45 degree line
+    #g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               col = filter,
+               linetype = run)) +
+      geom_line(size = 0.5, 
+                alpha = 0.7) +
+      scale_linetype_manual(name = 'Resampled iterations',
+                            values=c("solid", 
+                                     "dashed", 
+                                     "dotted")) +
+      scale_color_manual(name = 'Filter type',
+                         values = make_colors(3, 
+                                              bw=T)) +
+      theme_sfi() 
+    
+  
+  
+  # usge geom_point and geom_line
   
   # out <- list(g1, g2, g3, g4)
   return(out)
-
+  
 }
 
 
