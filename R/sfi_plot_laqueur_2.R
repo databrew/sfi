@@ -15,163 +15,212 @@ sfi_plot_laqueur_2 <- function(){
   data <- all_data$laqueur$f2
   
   # version 1 
-  g1 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_line(size = 1, 
-              alpha = 0.6,
-              linetype = 2) +
+  g1 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+    geom_point(size = 4, 
+               alpha = 0.8,
+               color = 'black',
+               stroke = 2,
+               pch = 21) +
+    geom_line(size = 1,
+              linetype = 'dashed',
+              color = '#4D4D4D') +
+    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, 
+                                 '%')),
+                  size = 4,
+              nudge_y = 2,
+              alpha = 0.9) +
+    theme(legend.position="none") +
+    scale_size_area(name = '',
+                    max_size = 5) +
     labs(x = 'Year',
-         y = 'Rate of parole grant',
+         y = 'Hearings resulting in grant',
          title = 'Version 1') +
-    theme_sfi()
+    theme_sfi(lp = 'none')
   
-  # version 2 
-  g2 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_point(size = 3, 
-               alpha = 0.6) +
-    labs(x = 'Year',
-         y = 'Rate of parole grant',
-         title = 'Version 2') +
-    theme_sfi()
+
   
-  # version 3 
-  g3 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_point(size = 3, 
-               alpha = 0.6) +
-    geom_line(size = 1, 
-              alpha = 0.6) +    
-    labs(x = 'Year',
-         y = 'Rate of parole grant',
-         title = 'Version 3') +
-    theme_sfi()
-  
-  # version 4
-  g4 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_smooth(method = 'lm',
-                size = 0.5, 
-                alpha = 0.6,
-                color = 'black',
-                linetype = 2) +    
-    geom_point(size = 3, 
-               alpha = 0.6) +
-    labs(x = 'Year',
-         y = 'Rate of parole grant',
-         title = 'Version 4',
-         caption = 'Fitted line estimated with a linear regression') +
-    theme_sfi()
-  
-  # version 4
-  g5 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+  # version 2
+  g2 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
     geom_smooth(method = 'loess',
-                size = 0.5, 
-                alpha = 0.6,
+                alpha = 0.7,
                 color = 'black',
-                linetype = 2) + 
-    geom_point(size = 3, 
-               alpha = 0.6) +
+                fill = 'black',
+                linetype = 0) + 
+    geom_point(aes(size = percent_of_conducted_hearings_resulting_in_a_grant), 
+               color = 'black',
+               fill = 'white',
+               alpha = 0.8,
+               pch = 21) +
+    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, 
+                                 '%'),
+                  size = percent_of_conducted_hearings_resulting_in_a_grant/8),
+              nudge_x = 0) +
+    scale_size_area(name = '',
+                    max_size = 30) +
+    ylim(c(0, 50)) +
+    theme(legend.position="none") +
     labs(x = 'Year',
-         y = 'Rate of parole grant',
-         title = 'Version 5',
-         caption = 'Fitted line smoothed with a local regression') +
+         y = 'Hearings resulting in grant',
+         title = 'Version 2',
+         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+                          'with bands representing standard errors')) +
+    theme_sfi(lp = 'none')
+
+  # version 3
+  g3 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+    geom_point(aes(size = percent_of_conducted_hearings_resulting_in_a_grant), 
+               color = 'grey',
+               fill = 'black',
+               stroke = 2,
+               alpha = 0.7,
+               pch = 21) +
+    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, 
+                                 '%'),
+              size = percent_of_conducted_hearings_resulting_in_a_grant/8),
+              color = 'white',
+              nudge_x = 0) +
+    scale_size_area(name = '',
+                    max_size = 30) +
+    xlim(c(2007, 2015)) + ylim(c(0, 50)) +
+    theme(legend.position="none") +
+    labs(x = 'Year',
+         y = 'Hearings resulting in grant',
+         title = 'Version 3',
+         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+                          'with bands representing standard errors')) +
+    theme_sfi(lp = 'none', )
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  # version 3
+  g3 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+    geom_smooth(method = 'loess',
+                alpha = 0.5,
+                color = 'black',
+                linetype = 0) + 
+    geom_point(size = 3, 
+               color = 'black',
+               fill = 'black',
+               alpha = 0.8,
+               pch = 21) +
+    labs(x = 'Year',
+         y = 'Hearings resulting in grant',
+         title = 'Version 3',
+         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+                          'with bands representing standard errors')) +
     theme_sfi()
+  
+  
+  # version 4
+  g4 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+    geom_smooth(method = 'loess',
+                alpha = 0.7,
+                color = 'black',
+                linetype = 0) + 
+    geom_point(size = 4, 
+               color = 'grey',
+               fill = 'black',
+               alpha = 0.8,
+               pch = 21) +
+    labs(x = 'Year',
+         y = 'Hearings resulting in grant',
+         title = 'Version 4',
+         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+                          'with bands representing standard errors')) +
+    theme_sfi()
+  
+  
+  
+  # version 5
+  g5 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+    geom_smooth(method = 'loess',
+                fill = 'black',
+                alpha = 0.6,
+                linetype = 0,
+                fullrange = TRUE) + 
+    geom_point(size = 3, 
+               color = 'black',
+               fill = '#B2B2B2',
+               alpha = 0.8,
+               pch = 21) +
+    labs(x = 'Year',
+         y = 'Hearings resulting in grant',
+         title = 'Version 5',
+         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+                          'with bands representing standard errors')) +
+    theme_sfi(bc = 'white')
   
   
   # version 6
-  g6 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_bar(stat = 'identity', 
-             alpha = 0.8,
-             fill = 'white',
-             color = 'black') +
-    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, ' %')),
-              size = 3, 
-              color = 'black',
-              nudge_y = 1) +
+  g6 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+    geom_smooth(method = 'loess',
+                alpha = 0.6,
+                fill = 'black',
+                linetype = 0) + 
+    geom_point(size = 3, 
+               colour = 'white',
+               alpha = 1,
+               pch = 1) +
     labs(x = 'Year',
-         y = 'Rate of parole grant',
-         title = 'Version 6') +
-    theme_sfi()
+         y = 'Hearings resulting in grant',
+         title = 'Version 6',
+         caption = 'Fitted line smoothed with a local regression') +
+    theme_sfi(bc = 'grey')
   
   
   # version 7
-  g7 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+  g7 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
     geom_bar(stat = 'identity', 
              alpha = 0.8,
-             fill = 'grey',
-             color = 'black') +
-    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, ' %')),
-              size = 3, 
-              alpha = 0.6,
-              nudge_y = 1) +
+             fill = 'black',
+             color = 'grey') +
+    geom_text(aes(label = percent_of_conducted_hearings_resulting_in_a_grant),
+              size = 1.8, 
+              color = 'black',
+              nudge_y = 25) +
     labs(x = 'Year',
-         y = 'Rate of parole grant',
+         y = 'Hearings resulting in grant',
          title = 'Version 7') +
     theme_sfi()
   
   
-  # version 8
-  g8 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_bar(stat = 'identity', alpha = 0.8) +
-    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, ' %')),
-              size = 3, 
-              alpha = 0.6,
-              nudge_y = 1) +
-    labs(x = 'Year',
-         y = 'Rate of parole grant',
-         title = 'Version 8') +
-    theme_sfi()
-  
-
-  # version 9
-  g9 <- ggplot(data, 
-               aes(x = year, 
-                   y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_bar(stat = 'identity', alpha = 0.6) +
-    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, ' %')),
-              size = 3, 
-              alpha = 0.6,
-              nudge_y = 1) +
-    geom_smooth(size = 0.5, color = 'black', se = F) +
-    labs(x = 'Year',
-         y = 'Rate of parole grant',
-         title = 'Version 9') +
-    theme_sfi()
-  
-  # version 10
-  g10 <- ggplot(data, 
-                aes(x = year, 
-                    y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_point(alpha = 0.1,
-               size = 1)+
-    geom_area(stat = 'identity', 
-              alpha = 0.9,
-              color = 'grey') +
-    labs(x = 'Year',
-         y = 'Rate of parole grant',
-         title = 'Version 10') +
-    theme_sfi()
-  
-  
-  
   out <- list(g1, g2, g3, 
               g4, g5, g6, 
-              g7, g8, g9,
-              g10)
-  
+              g7)
   
   return(out)
 }
+
