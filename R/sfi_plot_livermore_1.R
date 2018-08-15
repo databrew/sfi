@@ -23,17 +23,22 @@ sfi_plot_livermore_1 <- function(){
   g1 <- ggplot(data, 
                aes(x = median_year, 
                    y = friendscr)) +
-    geom_point(size = 1, 
-               alpha = 0.6) +
+    geom_point(size = 3.5, 
+               alpha = 0.5,
+               pch = 21,
+               stroke = 2,
+               fill = 'black', 
+               color = 'grey') +
     geom_smooth(method = 'lm', 
+                linetype = 0,
                 se = TRUE,
-                size = 0.5,
-                color = 'black',
-                alpha = 0.6) +
+                size = 0.7,
+                fill = 'black',
+                alpha = 0.5) +
     labs(x = '',
          y = 'Friendliness score',
          title = 'Version 1',
-         caption = '*The line fitted line was estimated with a linear regression (showing standard errors).') +
+         caption = 'Standard errors estimated with a linear regression') +
     scale_y_continuous(labels = percent, 
                        limits = c(-0.018, 0.004),
                        breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
@@ -46,21 +51,25 @@ sfi_plot_livermore_1 <- function(){
               vjust = 1.5, 
               hjust = 1) 
   
-  # version 2
+  # version 1 
   g2 <- ggplot(data, 
                aes(x = median_year, 
                    y = friendscr)) +
-    geom_point(size = 1, 
-               alpha = 0.6) +
+    geom_point(size = 1.5, 
+               alpha = 0.3,
+               pch = 19,
+               stroke = 2,
+               color = 'black') +
     geom_smooth(method = 'loess', 
+                linetype = 0,
                 se = TRUE,
-                size = 0.5,
-                color = 'black',
-                alpha = 0.6) +
+                fill = 'black',
+                alpha = 0.8) +
     labs(x = '',
          y = 'Friendliness score',
          title = 'Version 2',
-         caption = '*The line was smoothed with a local regression.') +
+         caption = paste0('Smoothed with a local regression', '\n', 
+         'with bands representing standard errors')) +
     scale_y_continuous(labels = percent, 
                        limits = c(-0.018, 0.004),
                        breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
@@ -73,25 +82,24 @@ sfi_plot_livermore_1 <- function(){
               vjust = 1.5, 
               hjust = 1) 
   
- 
-  # version 1 
+  
+  # version 3
   g3 <- ggplot(data, 
                aes(x = median_year, 
                    y = friendscr)) +
-    geom_point(size = 1.5, 
-               alpha = 0.6,
-               color = 'black',
-               pch = 1) +
+    geom_point(size = 3.5, 
+               alpha = 0.4,
+               pch = 16,
+               color = 'black') +
     geom_smooth(method = 'lm', 
+                linetype = 0,
                 se = TRUE,
-                size = 0.5,
-                color = 'black',
-                alpha = 0.6,
-                linetype = 2) +
+                fill = 'black',
+                alpha = 0.8) +
     labs(x = '',
          y = 'Friendliness score',
          title = 'Version 3',
-         caption = '*The line fitted line was estimated with a linear regression.') +
+         caption = 'Standard errors estimated with a linear regression') +
     scale_y_continuous(labels = percent, 
                        limits = c(-0.018, 0.004),
                        breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
@@ -105,22 +113,23 @@ sfi_plot_livermore_1 <- function(){
               hjust = 1) 
   
   
-  # version 2
+  # version 4
   g4 <- ggplot(data, 
                aes(x = median_year, 
                    y = friendscr)) +
-    geom_point(size = 2, 
-               alpha = 0.8,
+    geom_point(size = 3.5, 
+               alpha = 0.7,
+               pch = 16,
                color = 'black') +
-    geom_smooth(method = 'loess', 
+    geom_smooth(method = 'lm', 
+                linetype = 0,
                 se = TRUE,
-                size = 1,
-                color = 'darkgrey',
-                alpha = 0.2) +
+                fill = 'black',
+                alpha = 0.4) +
     labs(x = '',
          y = 'Friendliness score',
          title = 'Version 4',
-         caption = '*The line was smoothed with a local regression.') +
+         caption = 'Standard errors estimated with a linear regression') +
     scale_y_continuous(labels = percent, 
                        limits = c(-0.018, 0.004),
                        breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
@@ -131,8 +140,7 @@ sfi_plot_livermore_1 <- function(){
                   friendscr, 
                   label=paste0('Justice ', Hmisc::capitalize(justice))), 
               vjust = 1.5, 
-              hjust = 1) 
-  
+              hjust = 1)
   
 
   out <- list(g1, g2, g3, g4)
