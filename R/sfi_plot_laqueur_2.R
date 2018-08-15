@@ -185,13 +185,13 @@ sfi_plot_laqueur_2 <- function(){
            aes(x = year, 
                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
     geom_bar(stat = 'identity', 
-             alpha = 0.8,
-             fill = 'black',
-             color = 'grey') +
+             alpha = 0.6,
+             fill = 'black') +
     geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, '%')),
               size = 4, 
               color = 'black',
               nudge_y = 2) +
+    coord_flip() +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 7') +
