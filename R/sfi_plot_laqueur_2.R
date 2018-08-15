@@ -63,12 +63,12 @@ sfi_plot_laqueur_2 <- function(){
               nudge_x = 0) +
     scale_size_area(name = '',
                     max_size = 30) +
-    ylim(c(0, 50)) +
+    xlim(c(2007, 2015)) + ylim(c(0, 50)) +
     theme(legend.position="none") +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 2',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+         caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
     theme_sfi(lp = 'none')
 
@@ -95,41 +95,9 @@ sfi_plot_laqueur_2 <- function(){
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 3',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
-                          'with bands representing standard errors')) +
+         caption = paste0('Smoothed with a local regression', '\n', 
+                         'with bands representing standard errors')) +
     theme_sfi(lp = 'none', )
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  # version 3
-  g3 <- 
-    ggplot(data, 
-           aes(x = year, 
-               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_smooth(method = 'loess',
-                alpha = 0.5,
-                color = 'black',
-                linetype = 0) + 
-    geom_point(size = 3, 
-               color = 'black',
-               fill = 'black',
-               alpha = 0.8,
-               pch = 21) +
-    labs(x = 'Year',
-         y = 'Hearings resulting in grant',
-         title = 'Version 3',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
-                          'with bands representing standard errors')) +
-    theme_sfi()
   
   
   # version 4
@@ -138,21 +106,27 @@ sfi_plot_laqueur_2 <- function(){
            aes(x = year, 
                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
     geom_smooth(method = 'loess',
-                alpha = 0.7,
-                color = 'black',
+                alpha = 0.6,
+                fill = 'black',
                 linetype = 0) + 
-    geom_point(size = 4, 
-               color = 'grey',
-               fill = 'black',
-               alpha = 0.8,
+    geom_point(size = 17, 
+               color = 'black',
+               fill = 'white',
+               alpha = 0.6,
                pch = 21) +
+    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, 
+                                 '%')),
+                  size = 5,
+              color = 'black',
+              nudge_y = 0) +
+    theme(legend.position = 'none') +
+    xlim(c(2007, 2015)) + ylim(c(0, 50)) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 4',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+         caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
-    theme_sfi()
-  
+    theme_sfi(lp = 'none')
   
   
   # version 5
@@ -161,22 +135,28 @@ sfi_plot_laqueur_2 <- function(){
            aes(x = year, 
                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
     geom_smooth(method = 'loess',
-                fill = 'black',
                 alpha = 0.6,
-                linetype = 0,
-                fullrange = TRUE) + 
-    geom_point(size = 3, 
+                fill = 'grey',
+                linetype = 0) + 
+    geom_point(size = 25, 
                color = 'black',
-               fill = '#B2B2B2',
-               alpha = 0.8,
+               fill = 'black',
+               alpha = 0.6,
                pch = 21) +
+    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, 
+                                 '%')),
+              size = 5,
+              color = 'grey',
+              nudge_y = 0) +
+    theme(legend.position = 'none') +
+    xlim(c(2007, 2015)) + ylim(c(0, 50)) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 5',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+         caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
-    theme_sfi(bc = 'white')
-  
+    theme_sfi(lp = 'none')
+
   
   # version 6
   g6 <- 
@@ -184,19 +164,20 @@ sfi_plot_laqueur_2 <- function(){
            aes(x = year, 
                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
     geom_smooth(method = 'loess',
-                alpha = 0.6,
+                alpha = 0.7,
                 fill = 'black',
                 linetype = 0) + 
-    geom_point(size = 3, 
-               colour = 'white',
-               alpha = 1,
-               pch = 1) +
+    geom_point(size = 4, 
+               color = 'black',
+               fill = 'grey',
+               alpha = 0.8,
+               pch = 21) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 6',
-         caption = 'Fitted line smoothed with a local regression') +
-    theme_sfi(bc = 'grey')
-  
+         caption = paste0('Smoothed with a local regression', '\n', 
+                          'with bands representing standard errors')) +
+    theme_sfi()
   
   # version 7
   g7 <- 
@@ -207,15 +188,14 @@ sfi_plot_laqueur_2 <- function(){
              alpha = 0.8,
              fill = 'black',
              color = 'grey') +
-    geom_text(aes(label = percent_of_conducted_hearings_resulting_in_a_grant),
-              size = 1.8, 
+    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, '%')),
+              size = 4, 
               color = 'black',
-              nudge_y = 25) +
+              nudge_y = 2) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 7') +
     theme_sfi()
-  
   
   out <- list(g1, g2, g3, 
               g4, g5, g6, 
