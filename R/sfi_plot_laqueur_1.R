@@ -47,7 +47,7 @@ sfi_plot_laqueur_1 <- function(){
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 2',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+         caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
     theme_sfi()
   
@@ -68,7 +68,7 @@ sfi_plot_laqueur_1 <- function(){
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 3',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+         caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
     theme_sfi()
   
@@ -90,7 +90,7 @@ sfi_plot_laqueur_1 <- function(){
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 4',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+         caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
     theme_sfi()
   
@@ -114,7 +114,7 @@ sfi_plot_laqueur_1 <- function(){
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 5',
-         caption = paste0('Fitted line smoothed with a local regression', '\n', 
+         caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
     theme_sfi(bc = 'white')
   
@@ -126,18 +126,20 @@ sfi_plot_laqueur_1 <- function(){
                y = number_of_grants)) +
     geom_smooth(method = 'loess',
                 alpha = 0.6,
-                fill = 'black',
+                fill = 'grey',
                 linetype = 0) + 
     geom_point(size = 3, 
-               colour = 'white',
-               alpha = 1,
+               colour = 'black',
+               alpha = 0.8,
+               stroke = 1.5,
                pch = 1) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 6',
-         caption = 'Fitted line smoothed with a local regression') +
-    theme_sfi(bc = 'grey')
-  
+         caption = 'Smoothed with a local regression', '\n', 
+         'with bands representing standard errors') +
+    theme_sfi(bc = 'white')
+
   
   # version 7
   g7 <- 
