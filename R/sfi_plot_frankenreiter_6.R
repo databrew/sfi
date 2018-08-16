@@ -8,6 +8,8 @@
 #' @import tidyr
 #' @import ggridges
 #' @import ggrepel
+#' @import directlabels
+
 
 sfi_plot_frankenreiter_6 <- function(){
   
@@ -15,122 +17,127 @@ sfi_plot_frankenreiter_6 <- function(){
   data <- all_data$frankenreiter$f6 %>%
     mutate(year = as.numeric(year))
   
-  g1 <- ggplot(data = data,
-         aes(x = year,
-             y = kl.dist3,
-             group = judge,
-             lty = judge)) +
-    geom_line() +
-    facet_wrap(~key,
-               scales = 'free') +
+  # separate data into two datasets based on key
+  data_1 <- data[data$key == '1973 enlargement',]
+  data_2 <- data[data$key == '1995 enlargement',]
+  
+  # capitalize data_1 
+  data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
+  
+  
+  
+  # Version 1 with lines at end
+  g1 <- ggplot(data = data_1,
+               aes(x = year,
+                   y = kl.dist3,
+                   group = interaction(judgetrad,judge),
+                   color = judgetrad)) +
+    geom_line(size = 1) +
+    xlim(c(1973, 1990)) +
+    geom_dl(aes(label = judge), 
+            method = list(dl.combine("last.points"), hjust = -0.5, 
+                          cex = 0.6,
+                          dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
+    scale_color_manual(name = '',
+                       values = c('black', '#414141', '#979797', '#C6C6C6')) +
     labs(x = 'Year',
          y = '',
-         title = 'Version 1') +
-    theme_sfi() +
-    guides(lty = guide_legend(ncol = 2,
-                              title = ''))
+         title = 'Version 1 (1973 enlargement)') +
+    theme_sfi(lp = 'right') 
   
-  g2 <- ggplot(data = data,
+  
+  
+  g1
+  
+  # version 2 put legend in plot
+  g2 <- ggplot(data = data_1,
                aes(x = year,
                    y = kl.dist3,
                    group = judge,
-                   lty = judge)) +
-    geom_line() +
-    facet_wrap(~key,
-               scales = 'free',
-               ncol = 1) +
+                   linetype = judgetrad)) +
+    geom_line(size = 1, alpha = 0.8) +
+    geom_dl(aes(label = judge), 
+            method = list(dl.combine("last.points"), hjust = -0.5, 
+                          cex = 0.6,
+                          dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
+    xlim(c(1973, 1990)) +
+    scale_linetype_manual(name = '',
+                      values = c('solid', 'twodash', '1f', 'longdash'))+
     labs(x = 'Year',
          y = '',
-         title = 'Version 2') +
-    theme_sfi() +
-    guides(lty = guide_legend(ncol = 2,
-                              title = ''))
+         title = 'Version 2 (1973 enlargement') + 
+    theme_sfi(lp = c(0.8, 0.2), 
+              lj = c(0.8, 0.2), 
+              lkh = TRUE,
+              lkw = TRUE,
+              lba = TRUE,
+              legend_height =0.8,
+              legend_width = 1.5,
+              lkt = 'lines',
+              lfb = 'bold',
+              la = 0.01)
   
-  g3 <- ggplot(data = data,
+  g2
+  
+  
+  # Version 3 use points
+  g3 <- ggplot(data = data_1,
                aes(x = year,
                    y = kl.dist3,
                    group = judge,
-                   lty = judge)) +
-    geom_line() +
-    facet_wrap(~key,
-               scales = 'free',
-               ncol = 1) +
+                   shape = judgetrad)) +
+    geom_point(size = 3, alpha = 0.8) +
+    geom_line(alpha = 0.5) +
+    
+    geom_dl(aes(label = judge), 
+            method = list(dl.combine("last.points"), hjust = -0.5, 
+                          cex = 0.6,
+                          dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
+    xlim(c(1973, 1990)) +
+    scale_shape_manual(name = '',
+                          values = c(0, 1, 6, 15))+
     labs(x = 'Year',
          y = '',
-         title = 'Version 3') +
-    theme_sfi() +
-    guides(lty = guide_legend(ncol = 10,
-                              title = '')) +
-    theme(legend.position = 'bottom')
+         title = 'Version 3 (1973 enlargement') + 
+    theme_sfi(lp = c(0.8, 0.2), 
+              lj = c(0.8, 0.2), 
+              lkh = TRUE,
+              lkw = TRUE,
+              lba = TRUE,
+              legend_height =0.8,
+              legend_width = 1.5,
+              lkt = 'lines',
+              lfb = 'bold',
+              la = 0.01)
   
-  g4 <- ggplot(data = data %>%
-                 mutate(judgetrad = Hmisc::capitalize(judgetrad)) %>%
-                 distinct(judgetrad, year, key, .keep_all = T),
-               aes(x = year,
-                   y = kl.dist3)) +
-    geom_line() +
-    facet_grid(judgetrad~key,
-               scales = 'free') +
-    labs(x = 'Year',
-         y = '',
-         title = 'Version 4') +
-    theme_sfi() 
+  g3
   
-  g5 <- ggplot(data = data %>%
-                 mutate(judgetrad = Hmisc::capitalize(judgetrad)) %>%
-                 distinct(judgetrad, year, key, .keep_all = T),
+  # version 4 facet wrap with judgetrad
+  g4 <- ggplot(data = data_1,
                aes(x = year,
-                   y = kl.dist3)) +
-    geom_area(alpha = 0.5,
-              color = 'black') +
-    facet_grid(judgetrad~key,
-               scales = 'free') +
+                   y = kl.dist3,
+                   group = judge,
+                   color = judge)) +
+    geom_point(alpha = 0.4) +
+    geom_line(alpha = 0.9) +
+    xlim(c(1973, 1990)) +
+    geom_dl(aes(label = judge), 
+           method = list(dl.combine("last.points"), hjust = -0.5, 
+                         cex = 0.6,
+                         dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
+    scale_color_manual(name = '',
+                       values = c('#0D0D0D', '#0D0D0D', '#0D0D0D', '#0D0D0D', '#0D0D0D', '#0D0D0D')) +
+    facet_wrap(~judgetrad) +
     labs(x = 'Year',
          y = '',
-         title = 'Version 5') +
-    theme_sfi() 
+         title = 'Version 4 (1973 enlargement)') +
+    theme_sfi(lp = 'none') 
+  g4
   
-  g6 <- ggplot(data = data %>%
-                 mutate(judgetrad = Hmisc::capitalize(judgetrad)) %>%
-                 distinct(judgetrad, year, key, .keep_all = T),
-               aes(x = year,
-                   y = kl.dist3)) +
-    geom_point(alpha = 0.6) +
-    geom_line(alpha = 0.6) +
-    facet_grid(key ~ judgetrad,
-               scales = 'free') +
-    labs(x = 'Year',
-         y = '',
-         title = 'Version 6') +
-    theme_sfi() 
   
-  g7 <- ggplot(data = data %>%
-                 mutate(judgetrad = Hmisc::capitalize(judgetrad)) %>%
-                 distinct(judgetrad, year, key, .keep_all = T),
-               aes(x = year,
-                   y = kl.dist3)) +
-    geom_area(alpha = 0.5,
-              color = 'black') +
-    facet_grid(key~judgetrad,
-               scales = 'free') +
-    labs(x = 'Year',
-         y = '',
-         title = 'Version 7') +
-    theme_sfi()
+  # version 5 barplot
   
-  g8 <- ggplot(data = data %>%
-                 mutate(judgetrad = Hmisc::capitalize(judgetrad)) %>%
-                 distinct(judgetrad, year, .keep_all = T),
-               aes(x = year,
-                   y = kl.dist3)) +
-    geom_area(alpha = 0.5,
-              color = 'black') +
-    facet_wrap(~judgetrad,
-               scales = 'free') +
-    labs(x = 'Year',
-         y = '',
-         title = 'Version 8') +
-    theme_sfi()
     
   return(list(g1,g2,g3,g4,g5,g6,g7,g8))
 }
+
