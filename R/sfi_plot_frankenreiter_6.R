@@ -24,8 +24,6 @@ sfi_plot_frankenreiter_6 <- function(){
   # capitalize data_1 
   data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
   
-  
-  
   # Version 1 with lines at end
   g1 <- ggplot(data = data_1,
                aes(x = year,
