@@ -31,98 +31,170 @@ sfi_plot_frankenreiter_5 <- function(){
   data$size <- sample(1:5, nrow(data), replace = TRUE)
   data$panel_group <- ifelse(data$year <= 1969, '1950-1969', '1970-2014')
   
-  g1 <- ggplot(data = data,
+  panel_groups <- sort(unique(data$panel_group))
+  
+  g1 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
          aes(x = coord2,
              y = coord1)) +
     geom_point(alpha = 0.6) +
-    facet_wrap(~panel) +
     theme_sfi() +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = 'Version 1')
-  g2 <- ggplot(data = data,
+         title = paste0('Version 1, ', panel_groups[1]))
+  
+  g1b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
+               aes(x = coord2,
+                   y = coord1)) +
+    geom_point(alpha = 0.6) +
+    theme_sfi() +
+    labs(x = 'Coordinate 2',
+         y = 'Coordinate 1',
+         title = paste0('Version 1, ', panel_groups[2]))
+  
+  g2 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
                aes(x = coord2,
                    y = coord1,
                    size = size)) +
     geom_point(alpha = 0.4) +
-    facet_wrap(~panel) +
     theme_sfi() +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = 'Version 2') +
+         title = paste0('Version 2, ', panel_groups[1])) +
     scale_size_continuous(name = '',
                           range = c(1, 4)) +
     theme(legend.position = 'none')
   
-  
-  g3 <- ggplot(data = data,
+  g2b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
                aes(x = coord2,
                    y = coord1,
                    size = size)) +
-    geom_point(alpha = 0.7,
-               pch = 1) +
-    facet_wrap(~panel) +
+    geom_point(alpha = 0.4) +
     theme_sfi() +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = 'Version 3') +
+         title = paste0('Version 2, ', panel_groups[2])) +
     scale_size_continuous(name = '',
                           range = c(1, 4)) +
     theme(legend.position = 'none')
   
-  g4 <- ggplot(data = data %>%
-                 arrange(year) %>%
-                 filter(!duplicated(year)),
-               aes(x = coord2,
-                   y = coord1,
-                   size = size,
-                   pch = panel_group)) +
-    geom_point(alpha = 0.7) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = 'Version 4') +
-    scale_size_continuous(name = '',
-                          range = c(1, 4)) +
-    scale_shape_manual(name = 'Year',
-                       values = c(16, 17))
   
-  g5 <- ggplot(data = data,
+  g3 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
                aes(x = coord2,
                    y = coord1)) +
     geom_point(alpha = 0.7,
                aes(size = size)) +
-    facet_wrap(~panel) +
     theme_sfi() +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = 'Version 5') +
+         title = paste0('Version 3, ', panel_groups[1])) +
     scale_size_continuous(name = '',
                           range = c(1, 2)) +
     theme(legend.position = 'none') +
-    geom_text_repel(data = data %>% filter(label),
+    geom_text_repel(data = data %>% filter(label,
+                                           panel_group == panel_groups[1]),
                aes(label = year),
                alpha = 0.6,
                size = 2)
   
-  g6 <- ggplot(data = data,
+  g3b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
                aes(x = coord2,
                    y = coord1)) +
     geom_point(alpha = 0.7,
                aes(size = size)) +
-    facet_wrap(~panel) +
     theme_sfi() +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = 'Version 6') +
+         title = paste0('Version 3, ', panel_groups[2])) +
     scale_size_continuous(name = '',
                           range = c(1, 2)) +
     theme(legend.position = 'none') +
-    geom_label_repel(data = data %>% filter(label),
+    geom_text_repel(data = data %>% filter(label,
+                                           panel_group == panel_groups[2]),
                     aes(label = year),
-                    alpha = 0.8,
+                    alpha = 0.6,
                     size = 2)
   
-  l <- list(g1,g2, g3, g4, g5, g6)
+  g4 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
+               aes(x = coord2,
+                   y = coord1)) +
+    geom_point(alpha = 0.7,
+               aes(size = size),
+               pch = 1) +
+    theme_sfi() +
+    labs(x = 'Coordinate 2',
+         y = 'Coordinate 1',
+         title = paste0('Version 4, ', panel_groups[1])) +
+    scale_size_continuous(name = '',
+                          range = c(1, 2)) +
+    theme(legend.position = 'none') +
+    geom_text_repel(data = data %>% filter(label,
+                                           panel_group == panel_groups[1]),
+                    aes(label = year),
+                    alpha = 0.6,
+                    size = 2)
+  
+  g4b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
+               aes(x = coord2,
+                   y = coord1)) +
+    geom_point(alpha = 0.7,
+               aes(size = size),
+               pch = 1) +
+    theme_sfi() +
+    labs(x = 'Coordinate 2',
+         y = 'Coordinate 1',
+         title = paste0('Version 4, ', panel_groups[2])) +
+    scale_size_continuous(name = '',
+                          range = c(1, 2)) +
+    theme(legend.position = 'none') +
+    geom_text_repel(data = data %>% filter(label,
+                                           panel_group == panel_groups[2]),
+                    aes(label = year),
+                    alpha = 0.6,
+                    size = 2)
+  
+  
+  g5 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
+               aes(x = coord2,
+                   y = coord1)) +
+    geom_point(alpha = 0.7,
+               aes(size = size),
+               pch = 3) +
+    theme_sfi() +
+    labs(x = 'Coordinate 2',
+         y = 'Coordinate 1',
+         title = paste0('Version 4, ', panel_groups[1])) +
+    scale_size_continuous(name = '',
+                          range = c(1, 2)) +
+    theme(legend.position = 'none') +
+    geom_text_repel(data = data %>% filter(label,
+                                           panel_group == panel_groups[1]),
+                    aes(label = year),
+                    alpha = 0.6,
+                    size = 2)
+  
+  g5b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
+                aes(x = coord2,
+                    y = coord1)) +
+    geom_point(alpha = 0.7,
+               aes(size = size),
+               pch = 3) +
+    theme_sfi() +
+    labs(x = 'Coordinate 2',
+         y = 'Coordinate 1',
+         title = paste0('Version 4, ', panel_groups[2])) +
+    scale_size_continuous(name = '',
+                          range = c(1, 2)) +
+    theme(legend.position = 'none') +
+    geom_text_repel(data = data %>% filter(label,
+                                           panel_group == panel_groups[2]),
+                    aes(label = year),
+                    alpha = 0.6,
+                    size = 2)
+  
+  l <- list(g1, g1b,
+            g2, g2b,
+            g3, g3b,
+            g4, g4b,
+            g5, g5b)
   return(l)
 }
