@@ -94,9 +94,7 @@ theme_sfi <- function(base_size = 12, # size of font
                panel.border = element_rect(fill = NA, colour = gc),
                panel.background = element_rect(fill = pc, colour = gc),
                legend.position = lp,
-               legend.direction = ld,
-               legend.box = lb,
-               legend.box.just = lbj)
+               legend.direction = ld)
   
   # legend height condition
   if(lkh) {

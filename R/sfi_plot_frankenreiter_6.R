@@ -21,6 +21,9 @@ sfi_plot_frankenreiter_6 <- function(){
   data_1 <- data[data$key == '1973 enlargement',]
   data_2 <- data[data$key == '1995 enlargement',]
   
+  
+  # -----------------------
+  # 1973 enlargement
   # capitalize data_1 
   data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
   
@@ -42,10 +45,6 @@ sfi_plot_frankenreiter_6 <- function(){
          y = '',
          title = 'Version 1 (1973 enlargement)') +
     theme_sfi(lp = 'right') 
-  
-  
-  
-  g1
   
   # version 2 put legend in plot
   g2 <- ggplot(data = data_1,
@@ -74,9 +73,6 @@ sfi_plot_frankenreiter_6 <- function(){
               lkt = 'lines',
               lfb = 'bold',
               la = 0.01)
-  
-  g2
-  
   
   # Version 3 use points
   g3 <- ggplot(data = data_1,
@@ -108,8 +104,6 @@ sfi_plot_frankenreiter_6 <- function(){
               lfb = 'bold',
               la = 0.01)
   
-  g3
-  
   # version 4 facet wrap with judgetrad
   g4 <- ggplot(data = data_1,
                aes(x = year,
@@ -130,12 +124,71 @@ sfi_plot_frankenreiter_6 <- function(){
          y = '',
          title = 'Version 4 (1973 enlargement)') +
     theme_sfi(lp = 'none') 
-  g4
+  
   
   
   # version 5 barplot
-  
+  g5 <- ggplot(data = data_1,
+         aes(x = year,
+             y = kl.dist3,
+             fill = judgetrad)) +
+    geom_bar(stat = 'identity',
+             position = 'dodge',
+             color = 'grey',
+             alpha = 0.9) + 
+    labs(x = 'Year', 
+         y = 'kl.dist3',
+         title = 'Version 5 (1973 enlargement)') +
+    scale_fill_manual(name = '',
+                      values = c('black', "#595959", "#9C9C9C",'#D3D0D0' )) +
+    facet_wrap(~judge)
     
-  return(list(g1,g2,g3,g4,g5,g6,g7,g8))
+    
+    
+    # -----------------------
+    # 1973 enlargement
+    # capitalize data_1 
+    data_2$judgetrad <- Hmisc::capitalize(data_2$judgetrad)
+    
+    # Version 1 with lines at end
+    g6 <- ggplot(data = data_2,
+                 aes(x = year,
+                     y = kl.dist3,
+                     group = judgetrad,
+                     color = judgetrad)) +
+      geom_point(size = 0.5, 
+                 color = 'black',
+                 alpha = 0.4) +
+      geom_line(size = 1.5,
+                alpha = 0.8) +
+      xlim(c(1994, 2011)) +
+      labs(x = 'Year',
+           y = '',
+           title = 'Version 1 (1973 enlargement)') +
+      scale_color_manual(name = '',
+                        values = c('black', "#595959", "#9C9C9C",'#D3D0D0' )) +
+      facet_wrap(~judge, scales = 'free') +
+      theme_sfi(lp = 'right') 
+    
+    # facet wrap with bar plot
+    g7 <- ggplot(data = data_2,
+                 aes(x = year,
+                     y = kl.dist3,
+                     group = judgetrad,
+                     fill = judgetrad)) +
+      geom_bar(stat = 'identity',
+               color = 'grey',
+               alpha = 0.8) +
+      xlim(c(1994, 2011)) +
+      labs(x = 'Year',
+           y = '',
+           title = 'Version 1 (1973 enlargement)') +
+      scale_fill_manual(name = '',
+                         values = c('black', "#595959", "#9C9C9C",'#D3D0D0' )) +
+      facet_wrap(~judge, scales = 'free') +
+      theme_sfi(lp = 'right') 
+    
+    
+  return(list(g1,g2,g3,g4,g5,g6,g7))
 }
 
