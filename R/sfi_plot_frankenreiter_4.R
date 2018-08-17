@@ -36,15 +36,18 @@ sfi_plot_frankenreiter_4 <- function(){
               q25 = quantile(similarity, 0.25, na.rm = TRUE)) %>%
     ungroup
   
+  # Make plot
   g1 <- ggplot(data = data %>%
                  mutate(diff = round(diff, digits = -1)),
                aes(x = diff,
                    y = similarity)) +
-    geom_boxplot(aes(group = diff),
-                 alpha = 0.6,
-                 notch = TRUE,
-                 outlier.size = 0.5,
-                 outlier.shape = 3) +
+    geom_violin(aes(group = factor(diff)),
+                alpha = 0.9,
+                fill = 'black',
+                color = NA) +
+    geom_jitter(alpha = 0.3,
+                pch = 1,
+                size = 1) +
     theme_sfi() +
     labs(x = 'Difference in years',
          y = 'Similarity',
@@ -56,12 +59,13 @@ sfi_plot_frankenreiter_4 <- function(){
                  mutate(diff = round(diff, digits = -1)),
                aes(x = diff,
                    y = similarity)) +
-    geom_boxplot(aes(group = diff),
-                 alpha = 0.9,
-                 notch = TRUE,
-                 outlier.size = 0,
-                 outlier.color = NA) +
-    geom_jitter(alpha = 0.5, size = 0.2) +
+    geom_violin(aes(group = factor(diff)),
+                alpha = 0.9,
+                fill = 'black',
+                color = NA) +
+    geom_jitter(alpha = 0.3,
+                # pch = 1,
+                size = 1) +
     theme_sfi() +
     labs(x = 'Difference in years',
          y = 'Similarity',
@@ -69,94 +73,42 @@ sfi_plot_frankenreiter_4 <- function(){
          subtitle = '(Grouped every 10 years)') +
     ylim(0, 1)
   
-  data2 <- data %>%
-    mutate(diff = round(diff, digits = -1)) %>%
-    mutate(diff = factor(diff))
-  g3 <- ggplot(data = data2,
-                aes(x = similarity,
-                    group = diff,
-                    fill = diff)) +
-    geom_density(alpha = 0.95) +
-    scale_fill_manual(name = 'Difference\n in years',
-                      values = make_colors(n = length(unique(data2$diff)),
-                                           bw = TRUE)) +
-    theme_sfi() +
-    labs(x = 'Similarity',
-         y = 'Density',
-         title = 'Version 3',
-         subtitle = '(Grouped every 10 years)')
-  
-  g4 <- ggplot(data = data2,
-                aes(x = similarity,
-                    group = diff,
-                    fill = diff,
-                    y = diff)) +
-    geom_density_ridges(alpha = 0.95) +
-    scale_fill_manual(name = 'Difference\n in years',
-                      values = make_colors(n = length(unique(data2$diff)),
-                                           bw = TRUE)) +
-    theme_sfi() +
-    labs(x = 'Similarity',
-         y = 'Difference in years',
-         title = 'Version 4',
-         subtitle = '(Grouped every 10 years)') +
-    theme(legend.position = 'none') +
-    coord_flip()
-  
-  g5 <- ggplot(data = data %>%
+  g3 <- ggplot(data = data %>%
                  mutate(diff = round(diff, digits = -1)),
                aes(x = diff,
                    y = similarity)) +
     geom_violin(aes(group = factor(diff)),
-                alpha = 0.6) +
-    geom_jitter(alpha = 0.5, size = 0.2) +
+                alpha = 0.6,
+                fill = 'black',
+                color = 'black') +
+    geom_jitter(alpha = 0.3,
+                # pch = 1,
+                size = 1) +
     theme_sfi() +
     labs(x = 'Difference in years',
          y = 'Similarity',
-         title = 'Version 5',
+         title = 'Version 3',
          subtitle = '(Grouped every 10 years)') +
     ylim(0, 1)
   
-  g6 <- ggplot(data = data %>%
+  g4 <- ggplot(data = data %>%
                  mutate(diff = round(diff, digits = -1)),
                aes(x = diff,
                    y = similarity)) +
-    geom_jitter(alpha = 0.3, size = 0.3, width = 0.7) +
+    geom_violin(aes(group = factor(diff)),
+                alpha = 0.9,
+                fill = 'black',
+                color = NA) +
+    geom_jitter(alpha = 0.7,
+                # pch = 1,
+                size = 0.2) +
     theme_sfi() +
     labs(x = 'Difference in years',
          y = 'Similarity',
-         title = 'Version 6',
+         title = 'Version 4',
          subtitle = '(Grouped every 10 years)') +
     ylim(0, 1)
   
-  g7 <- ggplot(data = data %>%
-                 mutate(diff = round(diff, digits = -1)),
-               aes(x = diff,
-                   y = similarity)) +
-    geom_jitter(alpha = 0.9, size = 0.1, width = 2.5) +
-    theme_sfi() +
-    labs(x = 'Difference in years',
-         y = 'Similarity',
-         title = 'Version 7',
-         subtitle = '(Grouped every 10 years)') +
-    ylim(0, 1)
-  
-  g8 <- ggplot(data = data %>%
-                 mutate(diff = round(diff, digits = -1)),
-               aes(x = diff,
-                   y = similarity)) +
-    geom_jitter(alpha = 0.1, size = 0.2, width = 2) +
-    theme_sfi() +
-    labs(x = 'Difference in years',
-         y = 'Similarity',
-         title = 'Version 8',
-         subtitle = '(Grouped every 10 years)') +
-    ylim(0, 1) +
-    geom_line(data = spiney %>%
-                filter(diff %in% seq(0, 60, 20)),
-              aes(x = diff,
-                  y = similarity),
-              alpha = 0.7)
-  l <- list(g1,g2,g3,g4, g5, g6, g7, g8)
+  l <- list(g1,g2,g3,g4)
   return(l)
 }
