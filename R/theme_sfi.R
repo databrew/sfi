@@ -102,7 +102,7 @@ theme_sfi <- function(base_size = 12, # size of font
   }
 
   # legend width condition
-  if(lkh) {
+  if(lkw) {
     res <- res + theme(legend.key.width = unit(legend_width, lkt))
   }
   
