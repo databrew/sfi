@@ -14,6 +14,14 @@
 #' @param pc Panel background color
 #' @param lp Legend position
 #' @param axis Axis angle
+#' @param ld Legen direction
+#' @param lj legend justification
+#' @param lba legend background
+#' @param lfb legend font bold
+#' @param lkh legend height
+#' @param lkw legend width
+#' @param legend_height numeric height
+#' @param legend_width numeric width
 #' @return A ggplot2 theme
 #' @import ggthemes
 #' @import ggplot2
@@ -31,6 +39,17 @@ theme_sfi <- function(base_size = 12, # size of font
                       bc = "white", # background color
                       pc = "transparent", # panel background color
                       lp = "right", # legend position
+                      ld = NULL, # legend direction
+                      lt = 0.8, #  0.8 was the default - can be adjusted now
+                      lj = NULL, # legend.justification to accompany a legend position
+                      lba = FALSE, # use this in tandem with la (legend alpha) to make legend transparent when in plot
+                      la = NULL, # controls the transparency of the legend (useful for legends inside the plot)
+                      lfb = 'plain', # default plain, but can be used to make bold 
+                      lkh = FALSE, # legend key height - boolean to inidcate if user wants to edit legend height. ifso, use legend_height (numeric)
+                      lkw = FALSE, # # legend key width - boolean to inidcate if user wants to edit legend width. ifso, use legend_width (numeric)
+                      lkt = NULL, # type of geom for legend
+                      legend_height = NULL, # numeric input to control height of legend
+                      legend_width = NULL, # numeric input to control width of legen
                       axis = 1) # axis angle
   {
   ## DRY
@@ -49,8 +68,9 @@ theme_sfi <- function(base_size = 12, # size of font
                                          size = base_size * 1.2),
                axis.text = element_text(colour = fc,
                                         face = "plain", size = base_size * 0.8),
-               legend.text = element_text(colour = fc, face = "plain",
-                                          size = base_size * 0.8),
+               legend.text = element_text(colour = fc, 
+                                          face = lfb,
+                                          size = base_size * lt),
                legend.title = element_text(colour = fc,
                                            face = "plain",
                                            size = base_size),
@@ -73,10 +93,21 @@ theme_sfi <- function(base_size = 12, # size of font
                                                fill = "transparent"),
                panel.border = element_rect(fill = NA, colour = gc),
                panel.background = element_rect(fill = pc, colour = gc),
-               
-               legend.position = lp)
+               legend.position = lp,
+               legend.direction = ld)
+  
+  # legend height condition
+  if(lkh) {
+    res <- res + theme(legend.key.height = unit(legend_height, lkt))
+  }
+
+  # legend width condition
+  if(lkh) {
+    res <- res + theme(legend.key.width = unit(legend_width, lkt))
+  }
   
   ## disable box(es) around the plot
+  
   if (!isTRUE(boxes)) {
     res <- res + theme(legend.key = element_rect(colour = "transparent",
                                                  fill = "transparent"),
@@ -96,30 +127,35 @@ theme_sfi <- function(base_size = 12, # size of font
                        panel.grid.minor = element_blank())
   }
   ## disable minor grid
-  if (!isTRUE(gm))
+  if (!isTRUE(gm)){
     res <- res + theme(panel.grid.minor = element_blank())
-  
+  }
   ## margin
-  if (nomargin)
+  if (nomargin) {
     res <- res + theme(plot.margin = ggplot2::unit(c(0.1, 0.1, 0.1, 0), "lines"))
+  }
   
+  
+  if(lba){
+    res <- res + theme(legend.background = element_rect(fill = alpha('white', la)))
+  }
   ## axis angle (TODO: DRY with ifelse in the default color etc. section)
-  if (axis == 0)
+  if (axis == 0) {
     res <- res + theme(axis.text.y = element_text(colour = fc,
                                                   family = base_family,
                                                   face = "plain",
                                                   size = base_size *  0.8,
                                                   angle = 90))
-  
-  if (axis == 2)
+  }
+  if (axis == 2) {
     res <- res + theme(axis.text.x = element_text(colour = fc,
                                                   family = base_family,
                                                   face = "plain",
                                                   size = base_size *  0.8,
                                                   angle = 90,
                                                   hjust = 1))
-  
-  if (axis == 3)
+  }
+  if (axis == 3) {
     res <- res + theme(axis.text.y = element_text(colour = fc,
                                                   family = base_family,
                                                   face = "plain",
@@ -131,8 +167,12 @@ theme_sfi <- function(base_size = 12, # size of font
                                                   size = base_size * 0.8,
                                                   angle = 90,
                                                   hjust = 1))
+  }
+  
+
   res
 }
+
 
 ##########
 # Specs
