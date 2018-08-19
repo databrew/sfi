@@ -40,14 +40,12 @@ sfi_plot_laqueur_2 <- function(){
          title = 'Version 1') +
     theme_sfi(lp = 'none')
   
-
-  
   # version 2
   g2 <- 
     ggplot(data, 
            aes(x = year, 
                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_smooth(method = 'loess',
+    geom_smooth(method = 'lm',
                 alpha = 0.7,
                 color = 'black',
                 fill = 'black',
@@ -68,8 +66,7 @@ sfi_plot_laqueur_2 <- function(){
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 2',
-         caption = paste0('Smoothed with a local regression', '\n', 
-                          'with bands representing standard errors')) +
+         caption = 'Bands representing standard errors of linear regression') +
     theme_sfi(lp = 'none')
 
   # version 3
@@ -94,9 +91,7 @@ sfi_plot_laqueur_2 <- function(){
     theme(legend.position="none") +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
-         title = 'Version 3',
-         caption = paste0('Smoothed with a local regression', '\n', 
-                         'with bands representing standard errors')) +
+         title = 'Version 3') +
     theme_sfi(lp = 'none', )
   
   
@@ -105,11 +100,11 @@ sfi_plot_laqueur_2 <- function(){
     ggplot(data, 
            aes(x = year, 
                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_smooth(method = 'loess',
+    geom_smooth(method = 'lm',
                 alpha = 0.6,
                 fill = 'black',
                 linetype = 0) + 
-    geom_point(size = 17, 
+    geom_point(size = 22, 
                color = 'black',
                fill = 'white',
                alpha = 0.6,
@@ -124,8 +119,7 @@ sfi_plot_laqueur_2 <- function(){
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 4',
-         caption = paste0('Smoothed with a local regression', '\n', 
-                          'with bands representing standard errors')) +
+         caption = 'Bands representing standard errors of linear regression') +
     theme_sfi(lp = 'none')
   
   
@@ -134,7 +128,7 @@ sfi_plot_laqueur_2 <- function(){
     ggplot(data, 
            aes(x = year, 
                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_smooth(method = 'loess',
+    geom_smooth(method = 'lm',
                 alpha = 0.6,
                 fill = 'grey',
                 linetype = 0) + 
@@ -153,8 +147,7 @@ sfi_plot_laqueur_2 <- function(){
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 5',
-         caption = paste0('Smoothed with a local regression', '\n', 
-                          'with bands representing standard errors')) +
+         caption = 'Bands representing standard errors of linear regression') +
     theme_sfi(lp = 'none')
 
   
@@ -163,22 +156,27 @@ sfi_plot_laqueur_2 <- function(){
     ggplot(data, 
            aes(x = year, 
                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    geom_smooth(method = 'loess',
+    ylim(c(0, 50)) +
+    geom_smooth(method = 'lm',
                 alpha = 0.7,
                 fill = 'black',
                 linetype = 0) + 
-    geom_point(size = 4, 
+    geom_point(size = 5, 
                color = 'black',
                fill = 'grey',
                alpha = 0.8,
                pch = 21) +
+    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, 
+                                 '%')),
+              size = 5,
+              color = 'black',
+              nudge_y = 0,
+              vjust = -2) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 6',
-         caption = paste0('Smoothed with a local regression', '\n', 
-                          'with bands representing standard errors')) +
+         caption = 'Bands representing standard errors of linear regression') +
     theme_sfi()
-  
   # version 7
   g7 <- 
     ggplot(data, 

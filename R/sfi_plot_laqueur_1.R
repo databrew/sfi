@@ -18,6 +18,7 @@ sfi_plot_laqueur_1 <- function(){
     ggplot(data, 
            aes(x = year, 
                y = number_of_grants)) +
+    ylim(c(0, 800)) +
     geom_point(size = 2, 
                alpha = 0.9,
                color = 'black',
@@ -25,11 +26,15 @@ sfi_plot_laqueur_1 <- function(){
                pch = 1) +
     geom_line(size = 1,
               color = '#4D4D4D') +
+    geom_text(aes(label = number_of_grants), 
+              size = 3,
+              vjust= -2,
+              alpha = 0.9) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 1') +
     theme_sfi()
-  
+
   # version 2
   g2 <- 
     ggplot(data, 
@@ -39,9 +44,10 @@ sfi_plot_laqueur_1 <- function(){
                 alpha = 0.7,
                 color = 'black',
                 linetype = 0) + 
-    geom_point(size = 2, 
-               color = 'black',
+    geom_point(size = 3, 
+               color = 'white',
                fill = 'black',
+               stroke = 1,
                alpha = 0.8,
                pch = 21) +
     labs(x = 'Year',
@@ -57,13 +63,13 @@ sfi_plot_laqueur_1 <- function(){
            aes(x = year, 
                y = number_of_grants)) +
     geom_smooth(method = 'loess',
-                alpha = 0.5,
-                color = 'black',
+                alpha = 0.7,
+                fill = 'black',
                 linetype = 0) + 
-    geom_point(size = 3, 
-               color = 'black',
+    geom_point(size = 6, 
+               color = 'white',
                fill = 'black',
-               alpha = 0.8,
+               alpha = 0.6,
                pch = 21) +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
@@ -71,7 +77,6 @@ sfi_plot_laqueur_1 <- function(){
          caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
     theme_sfi()
-  
   
   # version 4
   g4 <- 
@@ -95,7 +100,6 @@ sfi_plot_laqueur_1 <- function(){
     theme_sfi()
   
   
-  
   # version 5
   g5 <- 
     ggplot(data, 
@@ -117,7 +121,6 @@ sfi_plot_laqueur_1 <- function(){
          caption = paste0('Smoothed with a local regression', '\n', 
                           'with bands representing standard errors')) +
     theme_sfi(bc = 'white')
-  
   
   # version 6
   g6 <- 
@@ -154,6 +157,7 @@ sfi_plot_laqueur_1 <- function(){
               size = 1.8, 
               color = 'black',
               nudge_y = 25) +
+    coord_flip() +
     labs(x = 'Year',
          y = 'Hearings resulting in grant',
          title = 'Version 7') +
