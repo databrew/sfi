@@ -156,7 +156,7 @@ sfi_plot_frankenreiter_6 <- function(){
     # capitalize data_1 
     data_2$judgetrad <- Hmisc::capitalize(data_2$judgetrad)
     
-    # Version 1 with lines at end
+    # Version 1 with lines at end - issue
     g6 <- ggplot(data = data_2,
                  aes(x = year,
                      y = kl.dist3,
@@ -168,7 +168,7 @@ sfi_plot_frankenreiter_6 <- function(){
                 alpha = 0.8) +
       geom_dl(aes(label = judgetrad), 
               method = list(dl.combine("last.points"), cex = 0.7,
-                            vjust = 3, alpha = 0.8, color = 'black',
+                            vjust = 1,alpha = 0.8, color = 'black',
                             dl.trans(x = x - 2.8))) +
       xlim(c(1994, 2012)) +
       labs(x = 'Year',
@@ -207,7 +207,7 @@ sfi_plot_frankenreiter_6 <- function(){
                 gm = FALSE) 
     
   
-    # version 3 barplot
+    # version 3 barplot - issue
     g8 <- ggplot(data = data_2,
                  aes(x = year,
                      y = kl.dist3,
@@ -218,8 +218,8 @@ sfi_plot_frankenreiter_6 <- function(){
                fill = 'black',
                alpha = 0.6) + 
       geom_dl(aes(label = judgetrad), 
-              method = list(dl.combine("last.points"), cex = 0.7,
-                            vjust = 2, alpha = 0.6, color = 'black',
+              method = list(dl.combine("last.points"), cex = 0.4,
+                            vjust = 0.9, hjust = -0.4, alpha = 0.6, color = 'black',
                             dl.trans(x = x - 2.9))) +
       xlim(c(1994, 2012)) +
       labs(x = 'Year',
@@ -230,8 +230,6 @@ sfi_plot_frankenreiter_6 <- function(){
                 base_size = 10,
                 gM = FALSE,
                 gm = FALSE) 
-    
-    
     
     # version 4 same y axis
     g9 <- ggplot(data = data_2,
@@ -246,8 +244,8 @@ sfi_plot_frankenreiter_6 <- function(){
       xlim(c(1994, 2012)) +
       coord_cartesian(ylim=c(0, .03)) +
       geom_dl(aes(label = judgetrad), 
-              method = list(dl.combine("last.points"), cex = 0.7,
-                            vjust = 0, alpha = 0.6, color = 'black',
+              method = list(dl.combine("last.points"), cex = 0.5,
+                            vjust = 0.6, alpha = 0.6, color = 'black',
                             dl.trans(x = x - 2.9))) +
       labs(x = 'Year',
            y = '',
