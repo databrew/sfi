@@ -87,15 +87,13 @@ sfi_plot_alexander_7 <- function(){
              y = 5) +
     annotate(geom = 'text',
              label = '7%',
-             angle = 90,
-             cex = 7,
+             cex = 6,
              color = 'white',
              x = 9,
              y = 7) +
     annotate(geom = 'text',
              label = '6%',
-             angle = 90,
-             cex = 7,
+             cex = 6,
              color = 'white',
              x = 10,
              y = 7) +
