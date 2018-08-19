@@ -40,11 +40,14 @@ sfi_plot_frankenreiter_2 <- function(){
   g1 <- ggplot(data = data,
                aes(x = docdate,
                    y = value)) +
-    geom_point(size = 0.3,
-               alpha = 0.3,
+    geom_point(size = 0.5,
+               alpha = 1,
+               color = '#979696',
                pch = '.') +
     geom_smooth(se = TRUE,
-                linetype =0) +
+                fill = 'black',
+                alpha = 1,
+                linetype = 0) +
     geom_vline(xintercept = date_breaks,
                alpha = 0.3) +
     facet_wrap(~new_key, 
@@ -59,20 +62,19 @@ sfi_plot_frankenreiter_2 <- function(){
          title = 'Version 1',
          caption = '*Lines smoothed using local regression') 
   
-  g1
   
   
   g2 <- ggplot(data = data,
                aes(x = docdate,
                    y = value)) +
-    geom_ribbon(data = x,
-                aes(x = year,
-                    ymin = p25,
-                    ymax = p75),
-                alpha = 0.6) +
-    geom_point(size = 0.1,
-               alpha = 0.3,
+    geom_point(size = 0.5,
+               alpha = 0.2,
+               color = 'black',
                pch = '.') +
+    geom_smooth(se = TRUE,
+                fill = 'black',
+                alpha = 0.7,
+                linetype = 0) +
     geom_vline(xintercept = date_breaks,
                alpha = 0.3) +
     facet_wrap(~new_key, 
@@ -85,12 +87,16 @@ sfi_plot_frankenreiter_2 <- function(){
     labs(x = 'Date',
          y = '',
          title = 'Version 2',
-         caption = '*Lines smoothed using local regression; grey area shows annual interquartile range') + 
-    geom_line(stat="smooth",method = "auto",
-              alpha = 0.8)
-  
-  g2
-  
+         caption = '*Lines smoothed using local regression') 
+  x <- data %>%
+    mutate(year = as.numeric(format(docdate, '%Y'))) %>%
+    mutate(val = value) %>%
+    group_by(year, new_key) %>%
+    summarise(value = mean(value, na.rm = TRUE),
+              p25 = quantile(val, na.rm = TRUE, 0.25),
+              p75 = quantile(val, na.rm = TRUE, 0.75)) %>%
+    ungroup %>%
+    mutate(year = as.Date(paste0(year, '-01-01')))
   
   g3 <- ggplot(data = data,
                aes(x = docdate,
@@ -115,11 +121,9 @@ sfi_plot_frankenreiter_2 <- function(){
     labs(x = 'Date',
          y = '',
          title = 'Version 3',
-         caption = '*Lines smoothed using local regression; grey area shows annual interquartile range') + 
-    geom_line(stat="smooth",method = "auto",
-              alpha = 0.8)
+         caption = '*Grey area shows annual interquartile range') 
   
-  g3
+  
   
   g4 <- ggplot(data = data,
                aes(x = docdate,
@@ -128,10 +132,11 @@ sfi_plot_frankenreiter_2 <- function(){
                 aes(x = year,
                     ymin = p25,
                     ymax = p75),
-                alpha = 0.9) +
-    geom_point(size = 0.1,
-               alpha = 0.7,
-               pch = '.') +
+                alpha = 1) +
+    geom_point(size = 1,
+               alpha = 0.1,
+               color = 'black',
+               pch = 16) +
     geom_vline(xintercept = date_breaks,
                alpha = 0.3) +
     facet_wrap(~new_key, 
@@ -144,18 +149,8 @@ sfi_plot_frankenreiter_2 <- function(){
     labs(x = 'Date',
          y = '',
          title = 'Version 4',
-         caption = '*Grey area shows annual interquartile range') 
-  g4
+         caption = '*Lines smoothed using local regression; grey area shows annual interquartile range')
   
-  x <- data %>%
-    mutate(year = as.numeric(format(docdate, '%Y'))) %>%
-    mutate(val = value) %>%
-    group_by(year, new_key) %>%
-    summarise(value = mean(value, na.rm = TRUE),
-              p25 = quantile(val, na.rm = TRUE, 0.25),
-              p75 = quantile(val, na.rm = TRUE, 0.75)) %>%
-    ungroup %>%
-    mutate(year = as.Date(paste0(year, '-01-01')))
   
   g5 <- 
     ggplot(data = x,
@@ -165,7 +160,8 @@ sfi_plot_frankenreiter_2 <- function(){
                     ymin = p25,
                     ymax = p75),
                 alpha = 0.6) +
-    geom_point(size = 0.6) +
+    geom_point(size = 2,
+               alpha = 0.5) +
     geom_vline(xintercept = date_breaks,
                alpha = 0.3) +
     facet_wrap(~new_key, 
@@ -179,7 +175,8 @@ sfi_plot_frankenreiter_2 <- function(){
          y = '',
          title = 'Version 5',
          caption = 'Line shows average value per year; grey area shows interquartile range')
-  g5
+
+ 
   
   g6 <- ggplot(data = data,
                aes(x = docdate,
@@ -188,10 +185,13 @@ sfi_plot_frankenreiter_2 <- function(){
                 aes(x = year,
                     ymin = p25,
                     ymax = p75),
-                alpha = 0.9) +
-    geom_point(size = 0.1,
-               alpha = 0.7,
-               pch = '.') +
+                alpha = 0.9,
+                color = 'black') +
+    geom_point(size = 1,
+               color = 'black',
+               alpha = 0.1,
+               pch = 1,
+               stroke = 1) +
     geom_vline(xintercept = date_breaks,
                alpha = 0.3) +
     facet_wrap(~new_key, 
@@ -204,45 +204,10 @@ sfi_plot_frankenreiter_2 <- function(){
     labs(x = 'Date',
          y = '',
          title = 'Version 6',
-         caption = '*Grey area shows annual interquartile range; solid line shows annual average') +
-    geom_line(data = x,
-              aes(x = year,
-                  y = value))
-  g6
+         caption = '*Grey area shows annual interquartile range; dashed line shows annual average')
+  
   
   g7 <- ggplot(data = data,
-               aes(x = docdate,
-                   y = value)) +
-    geom_ribbon(data = x,
-                aes(x = year,
-                    ymin = p25,
-                    ymax = p75),
-                alpha = 0.4,
-                color = 'black') +
-    geom_point(size = 0.1,
-               alpha = 0.7,
-               pch = '.') +
-    geom_vline(xintercept = date_breaks,
-               alpha = 0.3) +
-    facet_wrap(~new_key, 
-               ncol = 2,
-               scales = 'free_y') +
-    scale_x_date(name = 'Date', 
-                 breaks = date_breaks, 
-                 labels = date_labels) +
-    theme_sfi() +
-    labs(x = 'Date',
-         y = '',
-         title = 'Version 7',
-         caption = '*Grey area shows annual interquartile range; dashed line shows annual average') +
-    geom_line(data = x,
-              aes(x = year,
-                  y = value),
-              lty = 2)
-  
-  g7
-  
-  g8 <- ggplot(data = data,
                aes(x = docdate,
                    y = value)) +
     geom_ribbon(data = x,
@@ -264,14 +229,14 @@ sfi_plot_frankenreiter_2 <- function(){
     theme_sfi() +
     labs(x = 'Date',
          y = '',
-         title = 'Version 8',
+         title = 'Version 7',
          caption = '*Grey area shows annual interquartile range; solid grey line shows annual average') +
     geom_line(data = x,
               aes(x = year,
                   y = value),
               color = 'grey')
   
-  g8
+
   
-  return(list(g1,g2,g3,g4,g5,g6,g7,g8))
+  return(list(g1,g2,g3,g4,g5,g6,g7))
 }
