@@ -13,6 +13,7 @@
 #' @param bc Background color
 #' @param pc Panel background color
 #' @param lp Legend position
+#' @param lt = 0.8, lj = NULL, lba = FALSE, la = NULL, lfb = "plain", 
 #' @param axis Axis angle
 #' @return A ggplot2 theme
 #' @import ggthemes
