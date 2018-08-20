@@ -35,6 +35,8 @@ theme_sfi(base_size = 12, base_family = "CMU Bright",
 \item{lp}{Legend position}
 
 \item{axis}{Axis angle}
+
+\item{lt}{= 0.8, lj = NULL, lba = FALSE, la = NULL, lfb = "plain",}
 }
 \value{
 A ggplot2 theme

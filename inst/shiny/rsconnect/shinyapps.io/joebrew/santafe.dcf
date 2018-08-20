@@ -1,0 +1,13 @@
+name: santafe
+title: santafe
+username:
+account: joebrew
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 403343
+bundleId: 1544740
+url: https://joebrew.shinyapps.io/santafe/
+when: 1534782794.56416
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: delete.RData
