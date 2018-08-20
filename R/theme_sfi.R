@@ -18,6 +18,7 @@
 #' @return A ggplot2 theme
 #' @import ggthemes
 #' @import ggplot2
+#' @import Hmisc
 #' @export
 
 theme_sfi <- function(base_size = 12, # size of font
