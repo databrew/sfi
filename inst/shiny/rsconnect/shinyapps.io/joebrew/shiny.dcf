@@ -1,0 +1,13 @@
+name: shiny
+title: shiny
+username:
+account: joebrew
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 403346
+bundleId: 1544753
+url: https://joebrew.shinyapps.io/shiny/
+when: 1534783086.51075
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: delete.RData

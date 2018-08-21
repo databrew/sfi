@@ -39,6 +39,11 @@ theme_sfi(base_size = 12, base_family = "CMU Bright",
 
 \item{ld}{Legen direction}
 
+<<<<<<< HEAD
+=======
+\item{lt}{= 0.8, lj = NULL, lba = FALSE, la = NULL, lfb = "plain",}
+
+>>>>>>> 96dd5090ede48318efa8270e26cfe3cce7f7da6e
 \item{lj}{legend justification}
 
 \item{lba}{legend background}
