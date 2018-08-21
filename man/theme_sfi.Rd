@@ -7,7 +7,10 @@
 theme_sfi(base_size = 12, base_family = "CMU Bright",
   nomargin = FALSE, fc = "black", gM = TRUE, gm = FALSE,
   gc = "grey", gl = "dashed", boxes = FALSE, bc = "white",
-  pc = "transparent", lp = "right", axis = 1)
+  pc = "transparent", lp = "right", ld = NULL, lt = 0.8,
+  lj = NULL, lba = FALSE, la = NULL, lfb = "plain", lkh = FALSE,
+  lkw = FALSE, lkt = NULL, legend_height = NULL,
+  legend_width = NULL, axis = 1)
 }
 \arguments{
 \item{base_size}{The font size}
@@ -33,6 +36,22 @@ theme_sfi(base_size = 12, base_family = "CMU Bright",
 \item{pc}{Panel background color}
 
 \item{lp}{Legend position}
+
+\item{ld}{Legen direction}
+
+\item{lj}{legend justification}
+
+\item{lba}{legend background}
+
+\item{lfb}{legend font bold}
+
+\item{lkh}{legend height}
+
+\item{lkw}{legend width}
+
+\item{legend_height}{numeric height}
+
+\item{legend_width}{numeric width}
 
 \item{axis}{Axis angle}
 }
