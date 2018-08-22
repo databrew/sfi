@@ -171,52 +171,100 @@ sfi_plot_feldman_1 <- function() {
     stat_ydensity(geom="segment", 
                   adjust = 20,
                   scale = 'area',
-                  aes(xend=..x..+..scaled../3, 
+                  aes(xend=..x..+..scaled../3.5, 
                       yend=..y.., 
-                      alpha=..scaled../2), 
+                      alpha=(..scaled../3)^5), 
                   size=3, 
                   color = 'darkgrey',
-                  trim=FALSE) +
+                  trim=TRUE) +
     stat_ydensity(geom="segment", 
                   adjust = 20,
                   scale = 'area',
-                  aes(xend=..x..-..scaled../3, 
+                  aes(xend=..x..-..scaled../3.5, 
                       yend=..y.., 
-                      alpha=..scaled../2), 
+                      alpha=(..scaled../3)^5), 
                   size=3, 
                   linetype = 1,
                   color = 'darkgrey',
-                  trim=FALSE) +
-    scale_alpha_continuous(range= c(0.00, .999)) +
-    geom_jitter(size = 1,
+
+                  trim=TRUE) +
+    scale_alpha_continuous(range= c(-0, .5)) +
+    geom_jitter(size = 0.3,
                 color = 'black',
                 width = 0.3,
                 alpha = 0.5,
                 pch = 16) +
-    theme_sfi(lp = 'none')
+    theme_sfi(lp = 'none') +
+    labs(x = 'Level',
+         y = 'Clarity')
+  g6
+  
+  g7 <- ggplot(data, 
+               aes(x = federal, 
+                   y = clarity_score)) +
+    ylim(c(-3, 13)) +
+    stat_ydensity(geom="segment", 
+                  adjust = 20,
+                  scale = 'width',
+                  aes(xend=..x..+..scaled../2.3, 
+                      yend=..y.., 
+                      alpha=(..scaled../3)^3), 
+                  size=3, 
+                  color = 'darkgrey',
+                  trim=TRUE) +
+    stat_ydensity(geom="segment", 
+                  adjust = 20,
+                  scale = 'width',
+                  aes(xend=..x..-..scaled../2.3, 
+                      yend=..y.., 
+                      alpha=(..scaled../3)^3), 
+                  size=3, 
+                  linetype = 1,
+                  color = 'darkgrey',
+                  
+                  trim=TRUE) +
+
+    geom_violin(adjust = 20,
+                  scale = 'width',
+                  size= 1,
+                  linetype = 1,
+                  fill = NA,
+                  color = 'black',
+                 trim = TRUE,
+                alpha = 0.5) +
+    scale_alpha_continuous(range= c(-0, .5)) +
+    geom_jitter(size = 0.3,
+                color = 'black',
+                width = 0.3,
+                alpha = 0.5,
+                pch = 16) +
+    theme_sfi(lp = 'none') +
+    labs(x = 'Level',
+         y = 'Clarity')
+  g7
   
 
 
   
-  g7 <- ggplot(data %>% filter(clarity_score <= 6), 
-         aes(x = federal, 
-             y = clarity_score)) +
-    # geom_jitter(size = 1,
-    #             width = 0.3,
-    #             alpha = 0.5,
-    #             pch = 16) +
-    stat_ydensity(geom="violin", 
-                  fill = 'black',
-                  scale = 'area',
-                  aes(alpha= clarity_score), 
-                  size=0.001, 
-                  trim=FALSE) +
-    stat_ydensity(geom="violin", 
-                  fill = 'black',
-                  aes(alpha=clarity_score), 
-                  size=0.001, 
-                  trim=FALSE) +
-    scale_alpha_continuous(range= c(0, 1)) 
+  # g7 <- ggplot(data %>% filter(clarity_score <= 6), 
+  #        aes(x = federal, 
+  #            y = clarity_score)) +
+  #   # geom_jitter(size = 1,
+  #   #             width = 0.3,
+  #   #             alpha = 0.5,
+  #   #             pch = 16) +
+  #   stat_ydensity(geom="violin", 
+  #                 fill = 'black',
+  #                 scale = 'area',
+  #                 aes(alpha= clarity_score), 
+  #                 size=0.001, 
+  #                 trim=FALSE) +
+  #   stat_ydensity(geom="violin", 
+  #                 fill = 'black',
+  #                 aes(alpha=clarity_score), 
+  #                 size=0.001, 
+  #                 trim=FALSE) +
+  #   scale_alpha_continuous(range= c(0, 1)) 
   
 
   
@@ -253,7 +301,7 @@ sfi_plot_feldman_1 <- function() {
   #   theme_sfi(lp = 'none')
   
   
-  out <- list(g1, g2, g3, g4, g5)
+  out <- list(g6, g7)
   return(out)
   
 }
