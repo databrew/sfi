@@ -39,10 +39,9 @@ dat_claim <- data[data$group == 'Claim type',]
 # candle stick plots ---------------------------------------------------
 # version 1 one
 ggplot(dat_claim, 
-       aes(reorder(key, -value), 
-           value)) + 
+       aes(key, value)) + 
   ylim(c(0, 50)) +
-  geom_segment(aes(x=key, 
+  geom_segment(aes(x=reorder(key, -value), 
                    xend=key, 
                    y=0, 
                    yend=value),
@@ -67,7 +66,7 @@ ggplot(dat_claim,
        aes(x=key, 
            y=value)) + 
   ylim(c(0, 50)) +
-  geom_segment(aes(x=key, 
+  geom_segment(aes(x=reorder(key, -value), 
                    xend=key, 
                    y=0, 
                    yend=value),
@@ -94,7 +93,7 @@ ggplot(dat_claim,
        aes(x=key, 
            y=value)) + 
   ylim(c(-5, 50)) +
-  geom_segment(aes(x=key, 
+  geom_segment(aes(x=reorder(key, -value), 
                    xend=key, 
                    y=0, 
                    yend=value),
@@ -120,7 +119,7 @@ ggplot(dat_claim,
        aes(x=key, 
            y=value)) + 
   ylim(c(-5, 50)) +
-  geom_segment(aes(x=key, 
+  geom_segment(aes(x=reorder(key, -value), 
                    xend=key, 
                    y=0, 
                    yend=value),
@@ -133,7 +132,7 @@ ggplot(dat_claim,
              alpha = 1,
              color = '#505050') + 
   geom_text(aes(label = paste0(value, '%'),
-                color = key),
+                color = reorder(key, -value)),
             size = 4,
             alpha = 1) +
   scale_size_area(name = '', 
@@ -433,4 +432,105 @@ ggplot(dat_claim,
 #####################################################################################################
 # Create a line chart (points) using specified theme
 #####################################################################################################
+# no scientific notation
+options(scipen = '999')
+
+# get data 
+data <- all_data$livermore$f1
+
+# version 1 
+ggplot(data, 
+       aes(x = median_year, 
+           y = friendscr)) +
+  geom_smooth(method = 'lm', 
+              linetype = 0,
+              se = TRUE,
+              fill = '#373737',
+              alpha = 0.4) +
+  geom_point(size = 4, 
+             alpha = 0.8,
+             pch = 16,
+             color = 'black') +
+  labs(x = '',
+       y = 'Friendliness score',
+       title = 'Version 11',
+       caption = 'Standard errors estimated with a linear regression') +
+  scale_y_continuous(labels = percent, 
+                     limits = c(-0.018, 0.004),
+                     breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
+                              -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
+  theme_sfi() +
+  geom_text(data=subset(data, justice == 'alito'),
+            aes(median_year, 
+                friendscr, 
+                label=paste0('Justice ', Hmisc::capitalize(justice))), 
+            vjust = 1.5, 
+            hjust = 1) 
+
+# version 1 
+ggplot(data, 
+       aes(x = median_year, 
+           y = friendscr)) +
+  geom_smooth(method = 'lm', 
+              linetype = 1,
+              size = 5,
+              se = FALSE,
+              color = 'grey',
+              alpha = 0.4) +
+  geom_point(size = 4, 
+             alpha = 0.8,
+             pch = 16,
+             color = 'black') +
+  labs(x = '',
+       y = 'Friendliness score',
+       title = 'Version 12',
+       caption = 'Standard errors estimated with a linear regression') +
+  scale_y_continuous(labels = percent, 
+                     limits = c(-0.018, 0.004),
+                     breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
+                              -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
+  theme_sfi() +
+  geom_text(data=subset(data, justice == 'alito'),
+            aes(median_year, 
+                friendscr, 
+                label=paste0('Justice ', Hmisc::capitalize(justice))), 
+            vjust = 1.5, 
+            hjust = 1) 
+
+
+# version 3
+ggplot(data, 
+       aes(x = median_year, 
+           y = friendscr)) +
+  geom_smooth(method = 'lm', 
+              linetype = 0,
+              se = TRUE,
+              fill = '#373737',
+              alpha = 0.3) +
+  geom_point(size = 4, 
+             aes(alpha = -friendscr),
+             pch = 16,
+             color = 'black') +
+  scale_alpha(name = '', 
+              range = c(0.4, 1)) +
+  labs(x = '',
+       y = 'Friendliness score',
+       title = 'Version 13',
+       caption = 'Standard errors estimated with a linear regression') +
+  scale_y_continuous(labels = percent, 
+                     limits = c(-0.018, 0.004),
+                     breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
+                              -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
+  theme_sfi(lp = 'none') +
+  geom_text(data=subset(data, justice == 'alito'),
+            aes(median_year, 
+                friendscr, 
+                label=paste0('Justice ', Hmisc::capitalize(justice))), 
+            vjust = 1.5, 
+            hjust = 1) 
+
+#####################################################################################################
+# Create a line chart (points) using specified theme
+#####################################################################################################
+
 
