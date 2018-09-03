@@ -8,6 +8,11 @@ library(ggforce)
 library(tidyverse)
 library(scales)
 
+
+#####################################################################################################
+# 10 plots as alternatives to pie charts
+#####################################################################################################
+
 # Get data
 data <- all_data$alexander$f4
 
@@ -29,6 +34,171 @@ data$value <- data$value * 100
 
 # subset to claim type 
 dat_claim <- data[data$group == 'Claim type',]
+
+
+# candle stick plots ---------------------------------------------------
+# version 1 one
+ggplot(dat_claim, 
+       aes(reorder(key, -value), 
+           value)) + 
+  ylim(c(0, 50)) +
+  geom_segment(aes(x=key, 
+                   xend=key, 
+                   y=0, 
+                   yend=value),
+               linetype = 'dashed',
+               size = 0.5,
+               alpha = 0.5) + 
+  geom_point(size= 25, 
+             alpha = 1,
+             color = c('#000000', '#383838', '#565656', '#868686', 
+                       '#A2A2A2', '#BFBFBF', '#C2C2C2')) + 
+  geom_text(aes(label = paste0(value, '%')),
+            size = 6,
+            color = 'white',
+            alpha = 0.7) +
+  labs(x = '',
+       y = 'Percent',
+       title = 'Version 1') +
+  theme_sfi()
+
+# second one ------------------
+ggplot(dat_claim, 
+       aes(x=key, 
+           y=value)) + 
+  ylim(c(0, 50)) +
+  geom_segment(aes(x=key, 
+                   xend=key, 
+                   y=0, 
+                   yend=value),
+               linetype = 'dashed',
+               size = 0.7,
+               alpha = 0.5) + 
+  geom_point(size= 25,
+             pch = 21,
+             fill = '#383838',
+             stroke = 1,
+             alpha = 1,
+             color = 'black') + 
+  geom_text(aes(label = paste0(value, '%')),
+            size = 6,
+            color = 'white',
+            alpha = 1) +
+  labs(x = '',
+       y = 'Percent',
+       title = 'Version 2') +
+  theme_sfi()
+
+# third one ------------------
+ggplot(dat_claim, 
+       aes(x=key, 
+           y=value)) + 
+  ylim(c(-5, 50)) +
+  geom_segment(aes(x=key, 
+                   xend=key, 
+                   y=0, 
+                   yend=value),
+               linetype = 'dashed',
+               size = 0.7,
+               alpha = 0.5) + 
+  geom_point(size= 30,
+             pch = 19,
+             stroke = 1,
+             alpha = 1,
+             color = 'darkgrey') + 
+  geom_text(aes(label = paste0(value, '%')),
+            size = 6,
+            color = '#323232',
+            alpha = 1) +
+  labs(x = '',
+       y = 'Percent',
+       title = 'Version 3') +
+  theme_sfi()
+
+# fourth one ------------------ size of points based on value
+ggplot(dat_claim, 
+       aes(x=key, 
+           y=value)) + 
+  ylim(c(-5, 50)) +
+  geom_segment(aes(x=key, 
+                   xend=key, 
+                   y=0, 
+                   yend=value),
+               linetype = 'dashed',
+               size = 0.7,
+               alpha = 0.5) + 
+  geom_point(aes(size = value),
+             pch = 19,
+             stroke = 1,
+             alpha = 1,
+             color = '#505050') + 
+  geom_text(aes(label = paste0(value, '%'),
+                color = key),
+            size = 4,
+            alpha = 1) +
+  scale_size_area(name = '', 
+                  max_size = 30) + 
+  scale_color_manual(name = '', 
+                     values= c('white', 'white', 'white', 'white','white','white',' black')) +
+  labs(x = '',
+       y = 'Percent',
+       title = 'Version 4') +
+  theme_sfi(lp = 'none')
+
+
+# fifth one all on one line ------------------
+ggplot(dat_claim, 
+       aes(x=group, 
+           y=value)) + 
+  ylim(c(-5, 50)) +
+  geom_segment(aes(x=group, 
+                   xend=group, 
+                   y=0, 
+                   yend=value),
+               linetype = 1,
+               size = 0.3,
+               alpha = 1) + 
+  geom_point(aes(size = value),
+             pch = 21,
+             fill = 'darkgrey',
+             stroke = 1,
+             alpha = 1,
+             color = 'black') + 
+  annotate(geom = 'text', 
+           label = paste0('Color', '\n', '0%'),
+           x = 1.1, 
+           y = 0) +
+  annotate(geom = 'text', 
+           label = paste0('Religion', '\n', '2%'),
+           x = .88, 
+           y = 2) +
+  annotate(geom = 'text', 
+           label = paste0('National origin', '\n', '5%'),
+           x = 1.1, 
+           y = 7) +
+  annotate(geom = 'text', 
+           label = paste0('Exemption', '\n', '5%'),
+           x = .88, 
+           y = 7) +
+  annotate(geom = 'text', 
+           label = paste0('Race', '\n', '24%'),
+           x = 1.115, 
+           y = 24) +
+  annotate(geom = 'text', 
+           label = paste0('Sex', '\n', '26%'),
+           x = .88, 
+           y = 26) +
+  annotate(geom = 'text', 
+           label = paste0('Retaliation', '\n', '38%'),
+           x = 1, 
+           y = 46) +
+  scale_size_area(name = '', 
+                  max_size = 30) + 
+  labs(x = '',
+       y = 'Percent',
+       title = 'Version 5') +
+  theme_sfi(lp = 'none')
+
 
 
 ######--------------------------------------------------------
@@ -54,9 +224,10 @@ outside_f <- list(
 # text font 
 t <- list(
   family = "CMU Bright",
-  size = 30,
+  size = 25,
   color = '#353535'
 )
+
 
 
 # plot
@@ -83,12 +254,14 @@ plot_ly(dat_claim,
   
   config(displayModeBar = F) %>%
   
-  layout(title ='' ,
-         font = t,
+  layout(title = '' ,
+         font = list(
+           family = "CMU Bright",
+           color = '#353535'),
          showlegend = F,
          annotations = list(
            showarrow = FALSE,
-           text = 'Claim type',
+           text = paste0('Claim type', '\n', 'Version 6'),
            font = t), 
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
@@ -113,7 +286,7 @@ inside_f <- list(
 # text font 
 t <- list(
   family = "CMU Bright",
-  size = 30,
+  size = 25,
   color = '#353535'
 )
 
@@ -137,7 +310,7 @@ plot_ly(dat_claim,
          showlegend = F,
          annotations = list(
            showarrow = FALSE,
-           text = 'Claim type',
+           text = paste0('Claim type', '\n', 'Version 7'),
            font = t), 
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
@@ -182,7 +355,7 @@ plot_ly(dat_claim,
         textinfo = 'percent',
         outsidetextfont = outside_f,
         marker = list(colors = colors,
-                      line = list(color = '#FFFFFF', width = 2)))  %>%
+                      line = list(color = '#FFFFFF', width = 3)))  %>%
   add_trace(dat_claim,
             labels = ~key, 
             values = ~value,
@@ -192,7 +365,7 @@ plot_ly(dat_claim,
             textinfo = 'label',
             insidetextfont = inside_f,
             marker = list(colors = colors,
-                          line = list(color = '#FFFFFF', width = 1))) %>%
+                          line = list(color = '#FFFFFF', width = 3))) %>%
   
   config(displayModeBar = F) %>%
   
@@ -201,34 +374,10 @@ plot_ly(dat_claim,
          showlegend = F,
          annotations = list(
            showarrow = FALSE,
-           text = 'Claim type',
+           text = paste0('Claim type', '\n', 'Version 8'),
            font = t), 
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
-
-####### --------------------  make a nice barplot
-# relevel key
-dat_claim$key <- as.factor(dat_claim$key)
-dat_claim$key <- factor(dat_claim$key, levels = c('Retaliation', 'Sex', 'Race',
-                                                  'Exemption', 'National origin',
-                                                  'Religion', 'Color'))
-colors <- c('#000000', '#383838', '#565656', '#868686', 
-  '#A2A2A2', '#C2C2C2', '#EAE8E8')
-ggplot(dat_claim,
-       aes(key, value,
-           fill = key)) +
-  geom_bar(stat= 'identity',
-           color = 'grey',
-           alpha = 0.7) +
-  ylim(c(0, 40)) +
-  xlab('Claim type') +
-  ylab('Percent') +
-  geom_text(aes(label = paste0(value, ' %'), vjust = -0.6), alpha = 0.7) +
-  scale_fill_manual(name = '',
-                    values = c('#000000', '#383838', '#565656', '#868686', 
-                               '#A2A2A2', '#C2C2C2', '#EAE8E8')) +
-  theme_sfi(lp = 'none')
-  
 
 ####### --------------------  make a nice barplot
 # relevel key
@@ -247,6 +396,32 @@ ggplot(dat_claim,
   ylim(c(0, 40)) +
   xlab('Claim type') +
   ylab('Percent') +
+  ggtitle('Version 9') +
+  geom_text(aes(label = paste0(value, ' %'), vjust = -0.6), alpha = 0.7) +
+  scale_fill_manual(name = '',
+                    values = c('#000000', '#383838', '#565656', '#868686', 
+                               '#A2A2A2', '#C2C2C2', '#EAE8E8')) +
+  theme_sfi(lp = 'none')
+
+
+####### --------------------  make a nice barplot
+# relevel key
+dat_claim$key <- as.factor(dat_claim$key)
+dat_claim$key <- factor(dat_claim$key, levels = c('Retaliation', 'Sex', 'Race',
+                                                  'Exemption', 'National origin',
+                                                  'Religion', 'Color'))
+colors <- c('#000000', '#383838', '#565656', '#868686', 
+            '#A2A2A2', '#C2C2C2', '#EAE8E8')
+ggplot(dat_claim,
+       aes(key, value,
+           fill = key)) +
+  geom_bar(stat= 'identity',
+           color = 'grey',
+           alpha = 0.7) +
+  ylim(c(0, 40)) +
+  xlab('Claim type') +
+  ylab('Percent') +
+  ggtitle('Version 10') +
   coord_flip() +
   geom_text(aes(label = paste0(value, ' %'), hjust = -0.3), alpha = 0.7) +
   scale_fill_manual(name = '',
@@ -255,13 +430,7 @@ ggplot(dat_claim,
   theme_sfi(lp = 'none')
 
 
-# here you should do the line circle (mimic barplot), from youthrex
+#####################################################################################################
+# Create a line chart (points) using specified theme
+#####################################################################################################
 
-
-# attempt a gauge chart
-dat_claim %>%
-  mutate_at(vars(starts_with("v")), rescale, to=pi*c(-.5,.5), from=0:1) %>%
-  ggplot()
-  geom_arc_bar(aes(x0 = 0, y0 = 0, r0 = .5, r = 1, start = 0, end = 38, 
-                   fill=key)) + 
-  coord_fixed() 
