@@ -530,7 +530,123 @@ ggplot(data,
             hjust = 1) 
 
 #####################################################################################################
-# Create a line chart (points) using specified theme
+# Create distributions using specified theme
 #####################################################################################################
+# Version 14 - this is the original, that they liked, but with slightly larger points, as they suggested.
+ggplot(data, 
+       aes(x = federal, 
+           y = clarity_score)) +
+  ylim(c(-3, 11)) +
+  stat_ydensity(geom="segment", 
+                adjust = 20,
+                scale = 'area',
+                aes(xend=..x..+..scaled../3.5, 
+                    yend=..y.., 
+                    alpha=(..scaled../3)^5), 
+                size=3, 
+                color = 'darkgrey',
+                trim=TRUE) +
+  stat_ydensity(geom="segment", 
+                adjust = 20,
+                scale = 'area',
+                aes(xend=..x..-..scaled../3.5, 
+                    yend=..y.., 
+                    alpha=(..scaled../3)^5), 
+                size=3, 
+                linetype = 1,
+                color = 'darkgrey',
+                
+                trim=TRUE) +
+  labs(x = '',
+       y = 'Clarity Score',
+       title = 'Version 14, spherical cloud represents distrubition') +
+  scale_alpha_continuous(range= c(-0, .5)) +
+  geom_jitter(size = 1,
+              color = 'black',
+              width = 0.3,
+              alpha = 0.3,
+              pch = 16) +
+  theme_sfi(lp = 'none') 
+
+
+# Version 15
+ggplot(data, 
+       aes(x = federal, 
+           y = clarity_score)) +
+  ylim(c(-3, 11)) +
+  stat_ydensity(geom="segment", 
+                adjust = 20,
+                scale = 'area',
+                aes(xend=..x..+..scaled../5, 
+                    yend=..y.., 
+                    alpha=(..scaled../3)^1), 
+                size=3, 
+                color = 'darkgrey',
+                trim=TRUE) +
+  stat_ydensity(geom="segment", 
+                adjust = 20,
+                scale = 'area',
+                aes(xend=..x..-..scaled../5, 
+                    yend=..y.., 
+                    alpha=(..scaled../3)^1), 
+                size=3, 
+                linetype = 1,
+                color = 'darkgrey',
+                
+                trim=TRUE) +
+  labs(x = '',
+       y = 'Clarity Score',
+       title = 'Version 15, spherical cloud represents distrubition') +
+  scale_alpha_continuous(range= c(-0, .5)) +
+  geom_jitter(size = 1.5,
+              color = 'black',
+              width = 0.2,
+              alpha = 0.3,
+              pch = 16) +
+  theme_sfi(lp = 'none') 
+
+
+
+# Version 15
+ggplot(data, 
+       aes(x = federal, 
+           y = clarity_score)) +
+  ylim(c(-3, 11)) +
+  stat_ydensity(geom="segment", 
+                adjust = 20,
+                scale = 'area',
+                aes(xend=..x..+..scaled../4, 
+                    yend=..y.., 
+                    alpha=(..scaled../3)^2), 
+                size=3, 
+                color = '#838383',
+                trim=TRUE) +
+  stat_ydensity(geom="segment", 
+                adjust = 20,
+                scale = 'area',
+                aes(xend=..x..-..scaled../4, 
+                    yend=..y.., 
+                    alpha=(..scaled../3)^2), 
+                size=3, 
+                linetype = 1,
+                color = '#838383',
+                
+                trim=TRUE) +
+  labs(x = '',
+       y = 'Clarity Score',
+       title = 'Version 15, spherical cloud represents distrubition') +
+  scale_alpha_continuous(range= c(-0, .5)) +
+  geom_jitter(size = 2,
+              color = 'black',
+              width = 0.25,
+              alpha = 0.25,
+              pch = 16) +
+  theme_sfi(lp = 'none') 
+
+
+#####################################################################################################
+# make plot for frankenreiter 5 so that each point colored based on time, and each decade is labeled
+#####################################################################################################
+
 
 
