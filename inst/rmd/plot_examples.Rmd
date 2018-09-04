@@ -1,18 +1,59 @@
+---
+title: \vspace{2.5in}"LAW AS DATA"
+subtitle: "Visualizations"
+date: ''
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
 
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
 library(sfi)
+library(webshot)
 library(ggplot2)
 library(dplyr)
 library(plotly)
 library(ggiraph)
-library(ggforce)
-library(tidyverse)
 library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+            fig.width = 7.25,
+            fig.height = 4,
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
 
 
-#####################################################################################################
-# 10 plots as alternatives to pie charts
-#####################################################################################################
+## Candle stick plot
 
+```{r}
 # Get data
 data <- all_data$alexander$f4
 
@@ -35,12 +76,18 @@ data$value <- data$value * 100
 # subset to claim type 
 dat_claim <- data[data$group == 'Claim type',]
 
+dat_claim$key <- as.factor(dat_claim$key)
 
+colors <- make_colors(7, bw = TRUE)
+colors <- sort(colors, decreasing = T)
+
+# colors <- make_colors(7, bw = TRUE)
 # candle stick plots ---------------------------------------------------
 # version 1 one
 ggplot(dat_claim, 
-       aes(key, value)) + 
-  ylim(c(0, 50)) +
+       aes(reorder(key, -value),
+           value)) + 
+  ylim(c(-5, 50)) +
   geom_segment(aes(x=reorder(key, -value), 
                    xend=key, 
                    y=0, 
@@ -50,22 +97,40 @@ ggplot(dat_claim,
                alpha = 0.5) + 
   geom_point(size= 25, 
              alpha = 1,
-             color = c('#000000', '#383838', '#565656', '#868686', 
-                       '#A2A2A2', '#BFBFBF', '#C2C2C2')) + 
+             color = '#5D5D5D') + 
   geom_text(aes(label = paste0(value, '%')),
             size = 6,
             color = 'white',
             alpha = 0.7) +
+  geom_text(aes(label = key),
+            size = 3.5,
+            color = 'black',
+            alpha = 0.7,
+            vjust = -5) +
   labs(x = '',
        y = 'Percent',
        title = 'Version 1') +
-  theme_sfi()
+  theme_sfi(lp = 'none',
+            gM = FALSE) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
 
+```
+
+
+
+## Candle stick plot
+
+```{r}
 # second one ------------------
 ggplot(dat_claim, 
        aes(x=key, 
            y=value)) + 
-  ylim(c(0, 50)) +
+  ylim(c(-5, 50)) +
   geom_segment(aes(x=reorder(key, -value), 
                    xend=key, 
                    y=0, 
@@ -88,6 +153,12 @@ ggplot(dat_claim,
        title = 'Version 2') +
   theme_sfi()
 
+```
+
+
+## Candle stick plot
+
+```{r}
 # third one ------------------
 ggplot(dat_claim, 
        aes(x=key, 
@@ -114,6 +185,11 @@ ggplot(dat_claim,
        title = 'Version 3') +
   theme_sfi()
 
+```
+
+## Candle stick plot
+
+```{r}
 # fourth one ------------------ size of points based on value
 ggplot(dat_claim, 
        aes(x=key, 
@@ -145,11 +221,17 @@ ggplot(dat_claim,
   theme_sfi(lp = 'none')
 
 
+```
+
+## Candle stick plot
+
+```{r, fig.height= 6, fig.width = 7}
+
 # fifth one all on one line ------------------
 ggplot(dat_claim, 
        aes(x=group, 
            y=value)) + 
-  ylim(c(-5, 50)) +
+  ylim(c(-5, 55)) +
   geom_segment(aes(x=group, 
                    xend=group, 
                    y=0, 
@@ -166,31 +248,37 @@ ggplot(dat_claim,
   annotate(geom = 'text', 
            label = paste0('Color', '\n', '0%'),
            x = 1.1, 
-           y = 0) +
+           y = 1,
+           size = 3) +
   annotate(geom = 'text', 
            label = paste0('Religion', '\n', '2%'),
            x = .88, 
-           y = 2) +
+           y = 1.5,
+           size = 3) +
   annotate(geom = 'text', 
            label = paste0('National origin', '\n', '5%'),
            x = 1.1, 
-           y = 7) +
+           y = 7,
+           size = 3) +
   annotate(geom = 'text', 
            label = paste0('Exemption', '\n', '5%'),
            x = .88, 
-           y = 7) +
+           y = 7,
+           size = 3) +
   annotate(geom = 'text', 
            label = paste0('Race', '\n', '24%'),
            x = 1.115, 
-           y = 24) +
+           y = 24,
+           size = 3) +
   annotate(geom = 'text', 
            label = paste0('Sex', '\n', '26%'),
            x = .88, 
-           y = 26) +
+           y = 26,
+           size = 3) +
   annotate(geom = 'text', 
            label = paste0('Retaliation', '\n', '38%'),
            x = 1, 
-           y = 46) +
+           y = 48) +
   scale_size_area(name = '', 
                   max_size = 30) + 
   labs(x = '',
@@ -199,7 +287,11 @@ ggplot(dat_claim,
   theme_sfi(lp = 'none')
 
 
+```
 
+## Plotly doughnut chart
+
+```{r, fig.height = 3.25, fig.width= 7}
 ######--------------------------------------------------------
 # PLOT 1
 # get a color vector
@@ -210,20 +302,20 @@ colors <- c("#595959", "#595959", "#595959", "#595959", "#595959", "#595959", "#
 # get font object
 inside_f <- list(
   family = "CMU Bright",
-  size = 25,
+  size = 60,
   color = 'white'
 )
 
 outside_f <- list(
   family = "CMU Bright",
-  size = 20,
+  size = 30,
   color = colors 
 )
 
 # text font 
 t <- list(
   family = "CMU Bright",
-  size = 25,
+  size = 60,
   color = '#353535'
 )
 
@@ -234,7 +326,7 @@ plot_ly(dat_claim,
         labels = ~key, 
         values = ~value,
         type ='pie',
-        hole = 0.3,
+        hole = 0.5,
         textposition = 'outside',
         textinfo = 'percent',
         outsidetextfont = outside_f,
@@ -244,7 +336,7 @@ plot_ly(dat_claim,
             labels = ~key, 
             values = ~value,
             type ='pie',
-            hole = 0.3,
+            hole = 0.5,
             textposition = 'inside',
             textinfo = 'label',
             insidetextfont = inside_f,
@@ -266,6 +358,12 @@ plot_ly(dat_claim,
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
 
+```
+
+
+## Plotly doughnut chart
+
+```{r}
 
 ######--------------------------------------------------------
 # PLOT 2
@@ -276,7 +374,7 @@ colors <- c("#989898", "#989898", "#989898", "#989898", "#989898", "#989898", "#
 # get font object
 inside_f <- list(
   family = "CMU Bright",
-  size = 25,
+  size = 60,
   color = 'black'
 )
 
@@ -285,7 +383,7 @@ inside_f <- list(
 # text font 
 t <- list(
   family = "CMU Bright",
-  size = 25,
+  size = 60,
   color = '#353535'
 )
 
@@ -295,7 +393,7 @@ plot_ly(dat_claim,
         labels = ~key, 
         values = ~value,
         type ='pie',
-        hole = 0.3,
+        hole = 0.4,
         textposition = 'inside',
         textinfo = 'percent+label',
         outsidetextfont = outside_f,
@@ -314,6 +412,12 @@ plot_ly(dat_claim,
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
+```
+
+
+## Plotly doughnut chart
+
+```{r, fig.height = 3.25, fig.width= 7}
 ######--------------------------------------------------------
 # PLOT 3
 # get a color vector
@@ -326,20 +430,20 @@ dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
 # get font object
 inside_f <- list(
   family = "CMU Bright",
-  size = 25,
+  size = 60,
   color = 'white'
 )
 
 outside_f <- list(
   family = "CMU Bright",
-  size = 20,
+  size = 30,
   color = colors 
 )
 
 # text font 
 t <- list(
   family = "CMU Bright",
-  size = 30,
+  size = 60,
   color = '#353535'
 )
 
@@ -378,6 +482,13 @@ plot_ly(dat_claim,
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
+
+```
+
+
+## Basic barcharts (just in case you like them!)
+
+```{r}
 ####### --------------------  make a nice barplot
 # relevel key
 dat_claim$key <- as.factor(dat_claim$key)
@@ -403,6 +514,13 @@ ggplot(dat_claim,
   theme_sfi(lp = 'none')
 
 
+
+```
+
+
+## Basic barcharts (last one I promise!)
+
+```{r}
 ####### --------------------  make a nice barplot
 # relevel key
 dat_claim$key <- as.factor(dat_claim$key)
@@ -428,10 +546,12 @@ ggplot(dat_claim,
                                '#A2A2A2', '#C2C2C2', '#EAE8E8')) +
   theme_sfi(lp = 'none')
 
+```
 
-#####################################################################################################
-# Create a line chart (points) using specified theme
-#####################################################################################################
+
+## Line (point charts)
+
+```{r}
 # no scientific notation
 options(scipen = '999')
 
@@ -466,7 +586,10 @@ ggplot(data,
                 label=paste0('Justice ', Hmisc::capitalize(justice))), 
             vjust = 1.5, 
             hjust = 1) 
+```
 
+## Line (point charts)
+```{r}
 # version 1 
 ggplot(data, 
        aes(x = median_year, 
@@ -498,6 +621,11 @@ ggplot(data,
             hjust = 1) 
 
 
+```
+
+## Line (point charts)
+
+```{r}
 # version 3
 ggplot(data, 
        aes(x = median_year, 
@@ -528,11 +656,20 @@ ggplot(data,
                 label=paste0('Justice ', Hmisc::capitalize(justice))), 
             vjust = 1.5, 
             hjust = 1) 
+```
 
-#####################################################################################################
-# Create distributions using specified theme
-#####################################################################################################
+## Distribution charts
+
+```{r, fig.height= 6, fig.width=7.25}
 # Version 14 - this is the original, that they liked, but with slightly larger points, as they suggested.
+
+# Get data
+data <- all_data$feldman$f1 
+
+# recode federal
+data$federal <- ifelse(data$federal == '1', 'Federal', 'State')
+
+
 ggplot(data, 
        aes(x = federal, 
            y = clarity_score)) +
@@ -568,7 +705,12 @@ ggplot(data,
               pch = 16) +
   theme_sfi(lp = 'none') 
 
+```
 
+
+## Distribution charts
+
+```{r, fig.height= 6, fig.width=7.25}
 # Version 15
 ggplot(data, 
        aes(x = federal, 
@@ -605,9 +747,10 @@ ggplot(data,
               pch = 16) +
   theme_sfi(lp = 'none') 
 
+```
 
-
-# Version 15
+```{r, fig.height= 6, fig.width=7.25}
+# Version 16
 ggplot(data, 
        aes(x = federal, 
            y = clarity_score)) +
@@ -634,7 +777,7 @@ ggplot(data,
                 trim=TRUE) +
   labs(x = '',
        y = 'Clarity Score',
-       title = 'Version 15, spherical cloud represents distrubition') +
+       title = 'Version 16, spherical cloud represents distrubition') +
   scale_alpha_continuous(range= c(-0, .5)) +
   geom_jitter(size = 2,
               color = 'black',
@@ -643,10 +786,71 @@ ggplot(data,
               pch = 16) +
   theme_sfi(lp = 'none') 
 
+```
+
+
+## Frankenreiter 5 
+
+```{r, fig.height= 7, fig.width=7.25}
 
 #####################################################################################################
 # make plot for frankenreiter 5 so that each point colored based on time, and each decade is labeled
 #####################################################################################################
 
+# Get data
+data <- all_data$frankenreiter$f5_1
+
+cols <- make_colors(length(unique(data$year)), bw = TRUE)
+
+
+# plot the 1955 to 2014 data
+ggplot(data,
+       aes(x = coord2,
+           y = coord1,
+           fill = year)) +
+  geom_point(size = 4,
+             pch = 21,
+             alpha = 0.7)  +
+  ggrepel::geom_text_repel(data=subset(data, year ==  1960 | year == 1970 | year == 1980 | year == 1990 | year == 2000 | year==  2010),
+                           aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+  theme_sfi() +
+  labs(x = 'Coordinate 2',
+       y = 'Coordinate 1',
+       title = 'Version 17 (light to dark)') +
+  scale_fill_manual(name = '', 
+                    values = sort(cols, decreasing = TRUE)) +
+  theme(legend.position = 'none') 
+
+
+```
+
+
+
+## Frankenreiter 5 
+
+```{r, fig.height= 7, fig.width=7.25}
+# Get data
+data <- all_data$frankenreiter$f5_1
+
+cols <- make_colors(length(unique(data$year)), bw = TRUE)
+# plot the 1955 to 2014 data
+ggplot(data,
+       aes(x = coord2,
+           y = coord1,
+           fill = year)) +
+  geom_point(size = 4,
+             pch = 21,
+             alpha = 0.7)  +
+  ggrepel::geom_text_repel(data=subset(data, year ==  1960 | year == 1970 | year == 1980 | year == 1990 | year == 2000 | year==  2010),
+                           aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+  theme_sfi() +
+  labs(x = 'Coordinate 2',
+       y = 'Coordinate 1',
+       title = 'Version 18 (dark to light)') +
+  scale_fill_manual(name = '', 
+                    values = sort(cols)) +
+  theme(legend.position = 'none') 
+
+```
 
 

@@ -1,4 +1,4 @@
-
+library(ggrepel)
 library(sfi)
 library(ggplot2)
 library(dplyr)
@@ -378,6 +378,9 @@ plot_ly(dat_claim,
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
+
+
+
 ####### --------------------  make a nice barplot
 # relevel key
 dat_claim$key <- as.factor(dat_claim$key)
@@ -533,6 +536,14 @@ ggplot(data,
 # Create distributions using specified theme
 #####################################################################################################
 # Version 14 - this is the original, that they liked, but with slightly larger points, as they suggested.
+
+# Get data
+data <- all_data$feldman$f1 
+
+# recode federal
+data$federal <- ifelse(data$federal == '1', 'Federal', 'State')
+
+
 ggplot(data, 
        aes(x = federal, 
            y = clarity_score)) +
@@ -607,7 +618,7 @@ ggplot(data,
 
 
 
-# Version 15
+ # Version 16
 ggplot(data, 
        aes(x = federal, 
            y = clarity_score)) +
@@ -634,7 +645,7 @@ ggplot(data,
                 trim=TRUE) +
   labs(x = '',
        y = 'Clarity Score',
-       title = 'Version 15, spherical cloud represents distrubition') +
+       title = 'Version 16, spherical cloud represents distrubition') +
   scale_alpha_continuous(range= c(-0, .5)) +
   geom_jitter(size = 2,
               color = 'black',
@@ -647,6 +658,88 @@ ggplot(data,
 #####################################################################################################
 # make plot for frankenreiter 5 so that each point colored based on time, and each decade is labeled
 #####################################################################################################
+
+# Get data
+data <- all_data$frankenreiter$f5_1
+
+cols <- make_colors(length(unique(data$year)), bw = TRUE)
+
+# plot the 1955 to 2014 data
+ggplot(data,
+       aes(x = coord2,
+           y = coord1,
+           fill = year)) +
+  geom_point(size = 4,
+             pch = 21,
+             alpha = 0.7) +
+  theme_sfi() +
+  annotate(geom = 'text',
+           label = '1955',
+           x = -0.0755,
+           y = -0.026) +
+  annotate("text",  
+           x = -0.0755,
+           y = -0.023,
+           label = sprintf('\u2191')) +
+  annotate(geom = 'text',
+           label = '1960',
+           x = -0.043,
+           y = -0.007) +
+  annotate(geom = 'text',
+           label = '1960',
+           x = -0.043,
+           y = -0.007) + 
+  annotate(geom = 'text',
+           label = '1970',
+           x = -0.041,
+           y = 0.0084) + 
+  annotate(geom = 'text',
+           label = '1980',
+           x = 0.0129,
+           y = 0.0039) + 
+  labs(x = 'Coordinate 2',
+       y = 'Coordinate 1',
+       title = 'Version 17') +
+  scale_fill_manual(name = '', 
+                     values = sort(cols, decreasing = TRUE)) +
+  theme(legend.position = 'none') 
+ 
+
+# plot the 1955 to 2014 data
+ggplot(data,
+       aes(x = coord2,
+           y = coord1,
+           fill = year)) +
+  geom_point(size = 4,
+             pch = 21,
+             alpha = 0.7)  +
+  ggrepel::geom_text_repel(data=subset(data, year ==  1960 | year == 1970 | year == 1980 | year == 1990 | year == 2000 | year==  2010),
+                           aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+  theme_sfi() +
+  labs(x = 'Coordinate 2',
+       y = 'Coordinate 1',
+       title = 'Version 18') +
+  scale_fill_manual(name = '', 
+                    values = sort(cols)) +
+  theme(legend.position = 'none') 
+
+# plot the 1955 to 2014 data
+ggplot(data,
+       aes(x = coord2,
+           y = coord1,
+           fill = year)) +
+  geom_point(size = 4,
+             pch = 21,
+             alpha = 0.7)  +
+  ggrepel::geom_text_repel(data=subset(data, year ==  1960 | year == 1970 | year == 1980 | year == 1990 | year == 2000 | year==  2010),
+                           aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+  theme_sfi() +
+  labs(x = 'Coordinate 2',
+       y = 'Coordinate 1',
+       title = 'Version 17') +
+  scale_fill_manual(name = '', 
+                    values = sort(cols, decreasing = TRUE)) +
+  theme(legend.position = 'none') 
 
 
 
