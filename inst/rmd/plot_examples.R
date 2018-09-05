@@ -6,7 +6,116 @@ library(plotly)
 library(ggiraph)
 library(ggforce)
 library(tidyverse)
+library(googleVis)
 library(scales)
+
+
+#####################################################################################################
+
+# Get data
+data <- all_data$alexander$f4
+
+# Flag the groups
+data$group <-
+  ifelse(data$key %in% 
+           c('Exemption',
+             'Color',
+             'Race',
+             'National origin',
+             'Religion',
+             'Sex',
+             'Retaliation'), 
+         'Claim type',
+         'National origin')
+
+# Get percentage
+data$value <- data$value * 100
+
+# subset to claim type 
+dat_claim <- data[data$group == 'Claim type',]
+# get a color vector
+colors  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
+
+# sort data
+dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
+
+# # make the zero be 0.5
+dat_claim$value[dat_claim$key == 'Color'] <- 0.4
+
+
+##------- USING PLOTLY
+# remove dark color
+# get font object
+inside_f <- list(
+  family = "CMU Bright",
+  size = 25,
+  color = 'white'
+)
+
+outside_f <- list(
+  family = "CMU Bright",
+  size = 20,
+  color = colors 
+)
+
+# text font 
+t <- list(
+  family = "CMU Bright",
+  size = 25,
+  color = '#353535'
+)
+
+
+# plot
+plot_ly(dat_claim,
+        labels = ~key, 
+        values = ~round(value),
+        type ='pie',
+        hole = 0.4,
+        textposition = 'outside',
+        textinfo = 'percent+label',
+        rotation = 90,
+        outsidetextfont = outside_f,
+        marker = list(colors = colors))  %>%
+  config(displayModeBar = F) %>%
+  
+  layout(title ='' ,
+         font = t,
+         showlegend = F,
+         annotations = list(
+           showarrow = FALSE,
+           text = paste0('Claim type', '\n', 'Version 8'),
+           font = t), 
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+##------- USING ggvis
+
+# doughnut chart
+temp <- gvisPieChart(dat_claim, 
+             labelvar = 'key',
+             numvar = 'value',
+             options = list(title="",
+                            titleTextStyle="{color:'black', fontName:'Computer modern',fontSize:16}",
+                            pieHole = 0.5,
+                            colors = "['#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2']",
+                            legend="none",
+                            width=800,
+                            height=500))
+plot(temp)
+
+print(temp, file="temp.html")
+
+
+# gauge 
+
+
+##------- USING ggplot
+
+##------- USING base R
+
+
+
 
 
 #####################################################################################################

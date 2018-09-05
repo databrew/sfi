@@ -292,11 +292,14 @@ ggplot(dat_claim,
 ## Plotly doughnut chart
 
 ```{r, fig.height = 3.25, fig.width= 7}
-######--------------------------------------------------------
-# PLOT 1
 # get a color vector
 colors  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
-colors <- c("#595959", "#595959", "#595959", "#595959", "#595959", "#595959", "#595959")
+
+# sort data
+dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
+
+# make the zero be 0.5
+dat_claim$value[dat_claim$key == 'Color'] <- 0.4
 
 # remove dark color
 # get font object
@@ -320,42 +323,28 @@ t <- list(
 )
 
 
-
 # plot
 plot_ly(dat_claim,
         labels = ~key, 
-        values = ~value,
+        values = ~round(value),
         type ='pie',
-        hole = 0.5,
+        hole = 0.4,
         textposition = 'outside',
-        textinfo = 'percent',
+        textinfo = 'percent+label',
         outsidetextfont = outside_f,
-        marker = list(colors = colors,
-                      line = list(color = '#FFFFFF', width = 2)))  %>%
-  add_trace(dat_claim,
-            labels = ~key, 
-            values = ~value,
-            type ='pie',
-            hole = 0.5,
-            textposition = 'inside',
-            textinfo = 'label',
-            insidetextfont = inside_f,
-            marker = list(colors = colors,
-                          line = list(color = '#FFFFFF', width = 1))) %>%
-  
+        marker = list(colors = colors))  %>%
   config(displayModeBar = F) %>%
   
-  layout(title = '' ,
-         font = list(
-           family = "CMU Bright",
-           color = '#353535'),
+  layout(title ='' ,
+         font = t,
          showlegend = F,
          annotations = list(
            showarrow = FALSE,
-           text = paste0('Claim type', '\n', 'Version 6'),
+           text = paste0('Claim type', '\n', 'Version 8'),
            font = t), 
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
 
 
 ```
