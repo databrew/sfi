@@ -104,7 +104,7 @@ temp <- gvisPieChart(dat_claim,
                             height=500))
 plot(temp)
 
-print(temp, file="temp.html")
+ dprint(temp, file="temp.html")
 
 
 # gauge 
