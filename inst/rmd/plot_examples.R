@@ -39,10 +39,6 @@ colors  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
 # sort data
 dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
 
-# # make the zero be 0.5
-dat_claim$value[dat_claim$key == 'Color'] <- 0.4
-
-
 ##------- USING PLOTLY
 # remove dark color
 # get font object
@@ -92,27 +88,188 @@ plot_ly(dat_claim,
 ##------- USING ggvis
 
 # doughnut chart
-temp <- gvisPieChart(dat_claim, 
-             labelvar = 'key',
-             numvar = 'value',
-             options = list(title="",
-                            titleTextStyle="{color:'black', fontName:'Computer modern',fontSize:16}",
-                            pieHole = 0.5,
-                            colors = "['#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2']",
-                            legend="none",
-                            width=800,
-                            height=500))
-plot(temp)
+gvis_hole <- gvisPieChart(dat_claim, 
+                          labelvar = 'key',
+                          numvar = 'value',
+                          options = list(title="",
+                                         fontName ='Computer Modern',
+                                         slices = 1,
+                                         pieSliceText = 'none',
+                                         sliceVisibilityThreshold = 0,
+                                         pieHole = 0.5,
+                                         chartArea = "{left:200, top:100, width:\"100%\",height:\"80%\"}",
+                                         colors = "['#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2']",
+                                         pieSliceBorderColor = 'white',
+                                         legend = "{position: 'labeled'}",
+                                         width=700,
+                                         height=400))
+plot(gvis_hole)
 
- dprint(temp, file="temp.html")
+# make one that's 3d
+# doughnut chart
+gvis_3d <- gvisPieChart(dat_claim, 
+                        labelvar = 'key',
+                        numvar = 'value',
+                        options = list(title="",
+                                       fontName ='Computer Modern',
+                                       pieSliceText = 'none',
+                                       sliceVisibilityThreshold = 0,
+                                       pieHole = 0.5,
+                                       is3D = TRUE,
+                                       chartArea = "{left:200, top:100, width:\"100%\",height:\"80%\"}",
+                                       colors = "['#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2']",
+                                       legend = "{position: 'labeled'}",
+                                       width=700,
+                                       height=400))
+plot(gvis_3d)
 
 
 # gauge 
+gvis_g <- gvisGauge(dat_claim, 
+                    labelvar = "", 
+                    numvar = "", 
+                    options = list(title="",
+                                   fontName ='Computer Modern',
+                                   pieSliceText = 'none',
+                                   sliceVisibilityThreshold = 0,
+                                   chartArea = "{left:200, top:100, width:\"100%\",height:\"80%\"}",
+                                   colors = "['#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2']",
+                                   legend = "{position: 'labeled'}",
+                                   width=700,
+                                   height=400))
 
-
-##------- USING ggplot
+plot(gvis_g)
 
 ##------- USING base R
+dat_claim$ymax <- cumsum(dat_claim$value)
+dat_claim$ymin <- c(0, head(dat_claim$ymax, n = -1))
+
+
+################################################
+# basic ring plot
+# colors <- c('#A2A2A2', '#3E3E3E', '#606060','#050505','#858585', '#C0C0C0','#E0E0E0')
+# colors <- c('#C0C0C0','#A2A2A2','#E0E0E0','#858585', '#606060','#050505','#3E3E3E')
+
+
+colors <- c('#F2F2F2','#7F7F7F','#A5A5A5','#595959', '#CCCCCC','#0D0D0D', '#323232')
+
+
+p2 <-  ggplot(dat_claim, aes(fill=key, 
+                           ymax=ymax, 
+                           ymin=ymin, 
+                           xmax=3, 
+                           xmin=2)) +
+  geom_rect(colour= 'black', size = 0.01) +
+  scale_fill_manual(name = '',
+                    values = colors) +
+  coord_polar(theta="y") +
+  annotate(geom = 'text', 
+           x = 4, 
+           y = 25, 
+           label = paste0('38%', '\n', 'Retaliation')) +
+  annotate(geom = 'text', 
+           x = 3.8, 
+           y = 50, 
+           label = paste0('26%', '\n', 'Sex')) +
+  annotate(geom = 'text', 
+           x = 3.7, 
+           y = 75, 
+           label = paste0('24%', '\n', 'Race')) +
+  annotate(geom = 'text', 
+           x = 4, 
+           y = 89, 
+           label = paste0('5%', '\n', 'Exemption'),
+           size = 2.5) +
+  annotate(geom = 'text', 
+           x = 3.5, 
+           y = 94,
+           label = paste0('5%', '\n', 'National origin'),
+           size = 2.5) +
+  annotate(geom = 'text', 
+           x = 3.5, 
+           y = 99, 
+           label = paste0('2%', '\n', 'Religion'),
+           size = 2.5) +
+  xlim(c(0, 5)) +
+  theme_sfi(lp = 'none') +
+  theme(panel.grid=element_blank()) +
+  theme(axis.text=element_blank()) +
+  theme(axis.ticks=element_blank()) +
+  labs(title='') 
+
+
+p2
+
+
+# rose chart
+ggplot(data=dat_claim,aes(x=key,y=value, fill = key))+
+  geom_bar(stat="identity")+
+  coord_polar()+
+  scale_fill_brewer(palette='Greys') + 
+  xlab("") + 
+  ylab("") + 
+  theme_sfi(lp = 'none') +
+  theme(panel.grid=element_blank()) +
+  theme(axis.text=element_blank()) +
+  theme(axis.ticks=element_blank()) +
+  labs(title='') 
+
+
+##$##########################################
+
+colors <- c('#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2')
+# Start the plot
+p <- ggplot(dat_claim, aes(key , value, fill = key)) +       
+    geom_bar(stat="identity", 
+           color = 'grey') +
+  scale_fill_manual(name = '',
+                    values = colors) +
+  ylim(-100,120) +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1, 4), "cm")) +
+    coord_polar(start = 0) +
+  annotate(geom = 'text', 
+           x = 6, 
+           y = 60, 
+           label = paste0('38%', '\n', 'Retaliation'),
+           angle = 75) +
+  annotate(geom = 'text', 
+           x = 7, 
+           y = 50, 
+           label = paste0('26%', '\n', 'Sex'),
+           angle = 30) +
+  annotate(geom = 'text', 
+           x = 4, 
+           y = 45, 
+           label = paste0('24%', '\n', 'Race'),
+           angle = 180) +
+  annotate(geom = 'text', 
+           x = 3, 
+           y = 35, 
+           label = paste0('5%', '\n', 'Exemption'),
+           angle = 230) +
+  annotate(geom = 'text', 
+           x = 2, 
+           y = 30,
+           label = paste0('5%', '\n', 'National origin'),
+           angle = 277) +
+  annotate(geom = 'text', 
+           x = 5, 
+           y = 30, 
+           label = paste0('2%', '\n', 'Religion'),
+           angle = 130) +
+  annotate(geom = 'text', 
+           x = 1, 
+           y = 20, 
+           label = paste0('0%', '\n', 'Color'),
+           angle = 340) 
+
+p
+
+
 
 
 
@@ -550,7 +707,7 @@ options(scipen = '999')
 # get data 
 data <- all_data$livermore$f1
 
-# version 1 
+# version 11
 ggplot(data, 
        aes(x = median_year, 
            y = friendscr)) +
@@ -727,7 +884,7 @@ ggplot(data,
 
 
 
- # Version 16
+# Version 16
 ggplot(data, 
        aes(x = federal, 
            y = clarity_score)) +
@@ -810,11 +967,15 @@ ggplot(data,
        y = 'Coordinate 1',
        title = 'Version 17') +
   scale_fill_manual(name = '', 
-                     values = sort(cols, decreasing = TRUE)) +
+                    values = sort(cols, decreasing = TRUE)) +
   theme(legend.position = 'none') 
- 
+
 
 # plot the 1955 to 2014 data
+
+# Get data
+data <- all_data$frankenreiter$f5_1
+
 ggplot(data,
        aes(x = coord2,
            y = coord1,
@@ -833,6 +994,8 @@ ggplot(data,
   theme(legend.position = 'none') 
 
 # plot the 1955 to 2014 data
+cols <- make_colors(length(unique(data$year)), bw = TRUE)
+data$year <- as.numeric(data$year)
 ggplot(data,
        aes(x = coord2,
            y = coord1,
@@ -846,9 +1009,8 @@ ggplot(data,
   labs(x = 'Coordinate 2',
        y = 'Coordinate 1',
        title = 'Version 17') +
-  scale_fill_manual(name = '', 
-                    values = sort(cols, decreasing = TRUE)) +
-  theme(legend.position = 'none') 
+  scale_fill_gradient(name = '', low = "#0D0D0D", high = "#F2F2F2") +
+  theme_sfi(lp = 'bottom')
 
 
 

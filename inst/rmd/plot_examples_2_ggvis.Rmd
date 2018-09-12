@@ -1,0 +1,125 @@
+---
+title: \vspace{2.5in}"LAW AS DATA"
+subtitle: "Visualizations"
+output:
+  html_document:
+    self_contained: false
+---
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
+library(sfi)
+library(webshot)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+library(googleVis)
+
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+            fig.width = 7.25,
+            fig.height = 4,
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
+
+
+
+```{r}
+#------- USING ggvis
+
+# Get data
+data <- all_data$alexander$f4
+
+# Flag the groups
+data$group <-
+  ifelse(data$key %in% 
+           c('Exemption',
+             'Color',
+             'Race',
+             'National origin',
+             'Religion',
+             'Sex',
+             'Retaliation'), 
+         'Claim type',
+         'National origin')
+
+
+data$value <- data$value * 100
+
+# subset to claim type 
+dat_claim <- data[data$group == 'Claim type',]
+# get a color vector
+colors  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
+
+# sort data
+dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
+
+
+# doughnut chart
+gvis_hole <- gvisPieChart(dat_claim, 
+                          labelvar = 'key',
+                          numvar = 'value',
+                          options = list(title="",
+                                         fontName ='Computer Modern',
+                                         slices = 1,
+                                         pieSliceText = 'none',
+                                         sliceVisibilityThreshold = 0,
+                                         pieHole = 0.5,
+                                         chartArea = "{left:200, top:100, width:\"100%\",height:\"80%\"}",
+                                         colors = "['#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2']",
+                                         pieSliceBorderColor = 'white',
+                                         legend = "{position: 'labeled'}",
+                                         width=700,
+                                         height=400))
+plot(gvis_hole)
+
+
+```
+
+
+```{r}
+
+# make one that's 3d
+# doughnut chart
+gvis_3d <- gvisPieChart(dat_claim, 
+                        labelvar = 'key',
+                        numvar = 'value',
+                        options = list(title="",
+                                       fontName ='Computer Modern',
+                                       pieSliceText = 'none',
+                                       sliceVisibilityThreshold = 0,
+                                       pieHole = 0.5,
+                                       is3D = TRUE,
+                                       chartArea = "{left:200, top:100, width:\"100%\",height:\"80%\"}",
+                                       colors = "['#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2']",
+                                       legend = "{position: 'labeled'}",
+                                       width=700,
+                                       height=400))
+plot(gvis_3d)
+```
+

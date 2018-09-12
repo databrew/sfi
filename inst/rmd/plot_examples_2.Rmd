@@ -1,0 +1,319 @@
+---
+title: \vspace{2.5in}"LAW AS DATA"
+subtitle: "Visualizations"
+date: ''
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+      html_document: 
+        self_contained: no
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
+
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
+library(sfi)
+library(webshot)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+library(googleVis)
+
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+            fig.width = 7.25,
+            fig.height = 4,
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
+
+
+## Doughnut chart
+\newpage
+
+```{r}
+# Get data
+data <- all_data$alexander$f4
+
+# Flag the groups
+data$group <-
+  ifelse(data$key %in% 
+           c('Exemption',
+             'Color',
+             'Race',
+             'National origin',
+             'Religion',
+             'Sex',
+             'Retaliation'), 
+         'Claim type',
+         'National origin')
+
+
+data$value <- data$value * 100
+
+# subset to claim type 
+dat_claim <- data[data$group == 'Claim type',]
+# get a color vector
+colors  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
+
+# sort data
+dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
+
+##------- USING PLOTLY
+# remove dark color
+# get font object
+inside_f <- list(
+  family = "CMU Bright",
+  size = 45,
+  color = 'white'
+)
+
+outside_f <- list(
+  family = "CMU Bright",
+  size = 45,
+  color = colors 
+)
+
+# text font 
+t <- list(
+  family = "CMU Bright",
+  size = 45,
+  color = '#353535'
+)
+
+
+# plot
+plot_ly(dat_claim,
+        labels = ~key, 
+        values = ~round(value),
+        type ='pie',
+        hole = 0.4,
+        textposition = 'outside',
+        textinfo = 'percent+label',
+        rotation = 90,
+        outsidetextfont = outside_f,
+        marker = list(colors = colors))  %>%
+  config(displayModeBar = F) %>%
+  
+  layout(title ='' ,
+         font = t,
+         showlegend = F,
+         annotations = list(
+           showarrow = FALSE,
+           text = paste0('Claim type', '\n', 'Version 8'),
+           font = t), 
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+
+```
+
+
+\pagebreak
+
+```{r}
+
+colors <- c('#0D0D0D', '#323232','#595959', '#7F7F7F', '#A5A5A5', '#CCCCCC','#F2F2F2')
+# Start the plot
+p <- ggplot(dat_claim, aes(key , value, fill = key)) +       
+    geom_bar(stat="identity", 
+           color = 'grey') +
+  scale_fill_manual(name = '',
+                    values = colors) +
+  ylim(-100,120) +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1, 4), "cm")) +
+    coord_polar(start = 0) +
+  annotate(geom = 'text', 
+           x = 6, 
+           y = 60, 
+           label = paste0('38%', '\n', 'Retaliation'),
+           angle = 75) +
+  annotate(geom = 'text', 
+           x = 7, 
+           y = 50, 
+           label = paste0('26%', '\n', 'Sex'),
+           angle = 30) +
+  annotate(geom = 'text', 
+           x = 4, 
+           y = 45, 
+           label = paste0('24%', '\n', 'Race'),
+           angle = 180) +
+  annotate(geom = 'text', 
+           x = 3, 
+           y = 35, 
+           label = paste0('5%', '\n', 'Exemption'),
+           angle = 230) +
+  annotate(geom = 'text', 
+           x = 2, 
+           y = 30,
+           label = paste0('5%', '\n', 'National origin'),
+           angle = 277) +
+  annotate(geom = 'text', 
+           x = 5, 
+           y = 30, 
+           label = paste0('2%', '\n', 'Religion'),
+           angle = 130) +
+  annotate(geom = 'text', 
+           x = 1, 
+           y = 23, 
+           label = paste0('0%', '\n', 'Color'),
+           angle = 340) 
+
+p
+
+```
+
+\pagebreak
+
+```{r}
+# plot the 1955 to 2014 data
+
+# Get data
+data <- all_data$frankenreiter$f5_1
+
+cols <- make_colors(length(unique(data$year)), bw = TRUE)
+data$year <- as.numeric(data$year)
+
+ggplot(data,
+       aes(x = coord2,
+           y = coord1,
+           fill = year)) +
+  geom_point(size = 4,
+             pch = 21,
+             alpha = 0.7)  +
+  ggrepel::geom_text_repel(data=subset(data, year ==  1960 | year == 1970 | year == 1980 | year == 1990 | year == 2000 | year==  2010),
+                           aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+  theme_sfi() +
+  labs(x = 'Coordinate 2',
+       y = 'Coordinate 1',
+       title = 'Version 18') +
+  scale_fill_gradient(name = '', low = "#0D0D0D", high = "#F2F2F2") +
+  theme(legend.position = 'bottom',
+        legend.key.size = unit(0.5, 'inch')) 
+
+#
+```
+
+\pagebreak
+
+```{r}
+
+# no scientific notation
+options(scipen = '999')
+
+# get data 
+data <- all_data$livermore$f1
+
+# version 11
+ggplot(data, 
+       aes(x = median_year, 
+           y = friendscr)) +
+  geom_smooth(method = 'lm', 
+              linetype = 0,
+              se = TRUE,
+              fill = '#373737',
+              alpha = 0.4) +
+  geom_point(size = 4, 
+             alpha = 0.8,
+             pch = 16,
+             color = 'black') +
+  labs(x = '',
+       y = 'Friendliness score',
+       title = 'Version 11',
+       caption = 'Standard errors estimated with a linear regression') +
+  scale_y_continuous(labels = percent, 
+                     limits = c(-0.018, 0.004),
+                     breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
+                              -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
+  theme_sfi() +
+  geom_text(data=subset(data, justice == 'alito'),
+            aes(median_year, 
+                friendscr, 
+                label=paste0('Justice ', Hmisc::capitalize(justice))), 
+            vjust = 1.5, 
+            hjust = 1) 
+
+```
+
+\pagebreak
+
+
+```{r}
+# Get data
+data <- all_data$feldman$f1 
+
+# recode federal
+data$federal <- ifelse(data$federal == '1', 'Federal', 'State')
+
+# Version 16
+ggplot(data, 
+       aes(x = federal, 
+           y = clarity_score)) +
+  ylim(c(-3, 11)) +
+  stat_ydensity(geom="segment", 
+                adjust = 20,
+                scale = 'area',
+                aes(xend=..x..+..scaled../4, 
+                    yend=..y.., 
+                    alpha=(..scaled../3)^2), 
+                size=3, 
+                color = '#838383',
+                trim=TRUE) +
+  stat_ydensity(geom="segment", 
+                adjust = 20,
+                scale = 'area',
+                aes(xend=..x..-..scaled../4, 
+                    yend=..y.., 
+                    alpha=(..scaled../3)^2), 
+                size=3, 
+                linetype = 1,
+                color = '#838383',
+                
+                trim=TRUE) +
+  labs(x = '',
+       y = 'Clarity Score',
+       title = 'Version 16, spherical cloud represents distrubition') +
+  scale_alpha_continuous(range= c(-0, .5)) +
+  geom_jitter(size = 2,
+              color = 'black',
+              width = 0.25,
+              alpha = 0.25,
+              pch = 16) +
+  theme_sfi(lp = 'none') 
+
+
+
+```
