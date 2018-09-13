@@ -136,68 +136,68 @@ sfi_plot <- function(author = 'laqueur',
     }
   }
   
-  #CHEN
-  if(author == 'chen'){
-    # chen FIGURE 1
-    if(figure == '1'){
-      g <- sfi_plot_chen_1()
-      
-    } else if(figure == '2'){
-      # chen FIGURE 2
-      g <- sfi_plot_chen_2()
-    } else if(figure =='3'){
-      # chen FIGURE 3
-      g <- sfi_plot_chen_3()
-    } else if(figure =='4'){
-      # chen FIGURE 4
-      g <- sfi_plot_chen_4()
-    }
-  }
-  
-  #COPUS
-  if(author == 'copus'){
-    # copus FIGURE 1
-    if(figure == '1'){
-      g <- sfi_plot_copus_1()
-      
-    } else if(figure == '2'){
-      # COPUS FIGURE 2
-      g <- sfi_plot_copus_2()
-    }
-  }
-  
-  
-  # EIDELMAN
-  if(author == 'eidelman'){
-    # eidelman FIGURE 1
-    if(figure == '1'){
-      g <- sfi_plot_eidelman_1()
-      
-    } else if(figure == '2'){
-      # eidelman FIGURE 2
-      g <- sfi_plot_eidelman_2()
-    } else if(figure =='3'){
-      # eidelman FIGURE 3
-      g <- sfi_plot_eidelman_3()
-    } else if(figure =='4'){
-      # eidelman FIGURE 4
-      g <- sfi_plot_eidelman_4()
-    } else if(figure =='5'){
-      # eidelman FIGURE 4
-      g <- sfi_plot_eidelman_5()
-    }
-  }
-  
-  
-  # LIVERMORE AND GROM
-  if(author == 'livermore_grom'){
-    # LIVMORE_GROM Figure 1
-    if(figure == '1'){
-      g <- sfi_plot_livermore_1()
-      # LIVMORE Figure 2
-    }
-  }
-  
+  # #CHEN
+  # if(author == 'chen'){
+  #   # chen FIGURE 1
+  #   if(figure == '1'){
+  #     g <- sfi_plot_chen_1()
+  #     
+  #   } else if(figure == '2'){
+  #     # chen FIGURE 2
+  #     g <- sfi_plot_chen_2()
+  #   } else if(figure =='3'){
+  #     # chen FIGURE 3
+  #     g <- sfi_plot_chen_3()
+  #   } else if(figure =='4'){
+  #     # chen FIGURE 4
+  #     g <- sfi_plot_chen_4()
+  #   }
+  # }
+  # 
+  # #COPUS
+  # if(author == 'copus'){
+  #   # copus FIGURE 1
+  #   if(figure == '1'){
+  #     g <- sfi_plot_copus_1()
+  #     
+  #   } else if(figure == '2'){
+  #     # COPUS FIGURE 2
+  #     g <- sfi_plot_copus_2()
+  #   }
+  # }
+  # 
+  # 
+  # # EIDELMAN
+  # if(author == 'eidelman'){
+  #   # eidelman FIGURE 1
+  #   if(figure == '1'){
+  #     g <- sfi_plot_eidelman_1()
+  #     
+  #   } else if(figure == '2'){
+  #     # eidelman FIGURE 2
+  #     g <- sfi_plot_eidelman_2()
+  #   } else if(figure =='3'){
+  #     # eidelman FIGURE 3
+  #     g <- sfi_plot_eidelman_3()
+  #   } else if(figure =='4'){
+  #     # eidelman FIGURE 4
+  #     g <- sfi_plot_eidelman_4()
+  #   } else if(figure =='5'){
+  #     # eidelman FIGURE 4
+  #     g <- sfi_plot_eidelman_5()
+  #   }
+  # }
+  # 
+  # 
+  # # LIVERMORE AND GROM
+  # if(author == 'livermore_grom'){
+  #   # LIVMORE_GROM Figure 1
+  #   if(figure == '1'){
+  #     g <- sfi_plot_livermore_1()
+  #     # LIVMORE Figure 2
+  #   }
+  # }
+  # 
   
   
   return(g)

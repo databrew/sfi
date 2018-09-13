@@ -10,8 +10,109 @@ library(Hmisc)
 # get list of folders
 # folder_names <- list.files('Databrew Graphics/')
 folder_names <- c('Alexander et al', 'Feldman', 'Laqueur and Venancio', 'Frankenreiter', 
-                  'Livermore, Ashley, Riddell, Carlson, Rockmore', 'Dumas')
+                  'Copus et al', 'Livermore, Grom, Eidelman',
+                  'Livermore, Ashley, Riddell, Carlson, Rockmore', 'Dumas', 
+                  'Chen and Ash', 'Eidelman, Kornilova, Argyle')
 
+
+
+
+
+# --------------------
+# Livermore, Grom, Eidelman
+
+# read in first data set
+livermoregrom_1 <- read_csv('Databrew Graphics/Livermore, Grom, Eidelman/figure_data.csv')
+
+# create list to store data
+livermoregrom <- list()
+livermoregrom$f1 <- livermoregrom_1
+
+# save data
+devtools::use_data(livermoregrom, overwrite = TRUE)
+
+# --------------------
+# Eidelman, Kornilova, Argyle
+
+# read in first data set
+eidelman_1 <- read_csv('Databrew Graphics/Eidelman, Kornilova, Argyle/Figure1.csv')
+
+# read in second data set
+eidelman_2 <- read_csv('Databrew Graphics/Eidelman, Kornilova, Argyle/Figure2.csv')
+
+# read in third data set
+eidelman_3 <- read_csv('Databrew Graphics/Eidelman, Kornilova, Argyle/Figure3.csv')
+
+# read in fourth data set
+eidelman_4 <- read_csv('Databrew Graphics/Eidelman, Kornilova, Argyle/Figure4.csv')
+
+# read in fifth data set
+eidelman_5 <- read_csv('Databrew Graphics/Eidelman, Kornilova, Argyle/Figure5.csv')
+
+# create list to store data
+eidelman <- list()
+eidelman$f1 <- eidelman_1
+eidelman$f2 <- eidelman_2
+eidelman$f3 <- eidelman_3
+eidelman$f4 <- eidelman_4
+eidelman$f5 <- eidelman_5
+
+# save data list
+devtools::use_data(eidelman, overwrite = TRUE)
+
+# --------------------
+# Copus et al
+
+# unzip data 
+unzip('Databrew Graphics/Copus et al/CHL-figures(1).zip', 
+      exdir = 'Databrew Graphics/Copus et al')
+
+
+# read in first data set
+copus_1 <- read_csv('Databrew Graphics/Copus et al/Chapter.Figure1.csv')
+
+# read in second data set
+copus_2 <- read_csv('Databrew Graphics/Copus et al/Chapter.Figure2.csv')
+
+# create list to store data
+copus <- list()
+copus$f1 <- copus_1
+copus$f2 <- copus_2
+
+# save list
+devtools::use_data(copus, overwrite = TRUE)
+
+
+# --------------------
+# Chen and Ash 
+
+# unzip data 
+unzip('Databrew Graphics/Chen and Ash/for-SFI.zip', 
+      exdir = 'Databrew Graphics/Chen and Ash')
+
+
+# read in first data set
+chen_1 <- read_csv('Databrew Graphics/Chen and Ash/CB_demeaned_vectors_for_court_decade.csv')
+
+# read in second data set
+chen_2 <- read_csv('Databrew Graphics/Chen and Ash/CBY_demeaned_vectors_for_judges.csv')
+
+
+# read in 3rd data set
+chen_3 <- read_csv('Databrew Graphics/Chen and Ash/JY_demeaned_vectors_for_big_issue_year.csv')
+
+# read in 4th data set
+chen_4 <- read_csv('Databrew Graphics/Chen and Ash/YB_demeaned_vectors_for_judges.csv')
+
+# creaete list to store all data
+chen <- list()
+chen$f1 <- chen_1
+chen$f2 <- chen_2
+chen$f3 <- chen_3
+chen$f4 <- chen_4
+
+# save list
+devtools::use_data(chen, overwrite = TRUE)
 
 # --------------------
 # Dumas 
@@ -25,17 +126,11 @@ dumas_1$label <- Hmisc::capitalize(dumas_1$label)
 # recode sensitivity to true positive rate and specificty to true negative rate
 names(dumas_1) <- c('label', 'True positive rate', 'True negative rate')
 
-# save data
-devtools::use_data(dumas_1, overwrite = TRUE)
-
 # figure 2
 dumas_2 <- read_csv('Databrew Graphics/Dumas/figure_two.csv')
 
 # recode sensitivity to true positive rate and specificty to true negative rate
 names(dumas_2) <- c('label', 'True positive rate', 'True negative rate')
-
-# save data
-devtools::use_data(dumas_2, overwrite = TRUE)
 
 # figure 3
 dumas_3 <- read_csv('Databrew Graphics/Dumas/figure_three.csv')
@@ -43,17 +138,12 @@ dumas_3 <- read_csv('Databrew Graphics/Dumas/figure_three.csv')
 # recode sensitivity to true positive rate and specificty to true negative rate
 names(dumas_3) <- c('label', 'True positive rate', 'True negative rate')
 
-# save data
-devtools::use_data(dumas_3, overwrite = TRUE)
-
 # figure 4
 dumas_4 <- read_csv('Databrew Graphics/Dumas/figure_four.csv')
 
 # recode sensitivity to true positive rate and specificty to true negative rate
 names(dumas_4) <- c('label', 'True positive rate', 'True negative rate')
 
-# save data
-devtools::use_data(dumas_4, overwrite = TRUE)
 
 # create list to store data
 dumas <- list()
@@ -66,19 +156,40 @@ dumas$f4 <- dumas_4
 # --------------------
 # 'Livermore, Ashley, Riddell, Carlson, Rockmore'
 
-# read in data
-livermore_ashley_riddell_carlson_rockmore_1 <- 
-  read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/Friendliness.csv')
+# read in data, 5 datasets
+
+# figure 1 - friendliness
+livermore_1 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/Friendliness.csv')
+
+# figure 2 
+livermore_2 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/topic-15-topic-evolution.csv')
+
+# figure 3 
+livermore_3 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/supreme_court_vs_appellate_court_cert_granted_accuracy.csv')
+
+# figure 4 
+livermore_4 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/supreme_court_vs_appellate_accuracy.csv')
+
+# figure 5 - topic-150-evolution
+livermore_5 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/appellate_court_cert_granted_vs_appellate_court_accuracy.csv')
+
 
 # make data lower case
-names(livermore_ashley_riddell_carlson_rockmore_1) <- 
-  tolower(names(livermore_ashley_riddell_carlson_rockmore_1))
+names(livermore_1) <- tolower(names(livermore_1))
+names(livermore_2) <- tolower(names(livermore_2))
+names(livermore_3) <- tolower(names(livermore_3))
+names(livermore_4) <- tolower(names(livermore_4))
+names(livermore_5) <- tolower(names(livermore_5))
+
 
 # create list to store data
-livermore_ashley_riddell_carlson_rockmore <- list()
-livermore_ashley_riddell_carlson_rockmore$f1 <- 
-  livermore_ashley_riddell_carlson_rockmore_1
-livermore <- livermore_ashley_riddell_carlson_rockmore
+livermore <- list()
+livermore$f1 <- livermore_1
+livermore$f2 <- livermore_2
+livermore$f3 <- livermore_3
+livermore$f4 <- livermore_4
+livermore$f5 <- livermore_5
+
 # save data
 devtools::use_data(livermore, overwrite = TRUE)
 
@@ -224,6 +335,9 @@ all_data$laqueur <- laqueur
 all_data$livermore <- livermore
 all_data$alexander <- alexander
 all_data$feldman <- feldman
+all_data$chen < chen
+all_data$copus <- copus
+all_data$livermoregrom <- livermoregrom
 
 # save folder list 
 devtools::use_data(all_data, overwrite = TRUE)
