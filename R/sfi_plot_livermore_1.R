@@ -1,6 +1,6 @@
-#' Laqueur 2
+#' Livermore 1
 #' 
-#' Generate a plot for Laqueur Figure 2
+#' Generate a plot for Livermore Figure 1
 #' @export
 #' @return a list of plots
 #' @import ggplot2
@@ -10,12 +10,6 @@
 
 
 sfi_plot_livermore_1 <- function(){
-  
-  # no scientific notation
-  options(scipen = '999')
-  
-  # get data 
-  data <- all_data$livermore$f1
   
   # no scientific notation
   options(scipen = '999')
@@ -51,7 +45,6 @@ sfi_plot_livermore_1 <- function(){
                   label=paste0('Justice ', Hmisc::capitalize(justice))), 
               vjust = 1.5, 
               hjust = 1) 
-  g1
   
   return(g1)
 }

@@ -33,25 +33,25 @@ sfi_plot <- function(author = 'laqueur',
   }
   data <- data[[figure_name]]
   
-  # ALEXANDER
-  if(author == 'alexander'){
-    # ALEXANDER FIGURE 1 
-    if(figure == '1'){
-      g <- sfi_plot_alexander_1()
-      # ALEXANDER FIGURE 4
-    } else if(figure == '4'){
-      g <- sfi_plot_alexander_4()
-      
-      # ALEXANDER FIGURE 6
-    } else if(figure == '6'){
-      g <- sfi_plot_alexander_6()
-      
-      # ALEXANDER FIGURE 7
-    } else if(figure == '7'){
-      g <- sfi_plot_alexander_7()
-    } 
-  }
-  
+  # # ALEXANDER
+  # if(author == 'alexander'){
+  #   # ALEXANDER FIGURE 1 
+  #   if(figure == '1'){
+  #     g <- sfi_plot_alexander_1()
+  #     # ALEXANDER FIGURE 4
+  #   } else if(figure == '4'){
+  #     g <- sfi_plot_alexander_4()
+  #     
+  #     # ALEXANDER FIGURE 6
+  #   } else if(figure == '6'){
+  #     g <- sfi_plot_alexander_6()
+  #     
+  #     # ALEXANDER FIGURE 7
+  #   } else if(figure == '7'){
+  #     g <- sfi_plot_alexander_7()
+  #   } 
+  # }
+  # 
   # FRANKENREITER
   if(author == 'frankenreiter'){
     # FRANKENREITER FIGURE 2 
@@ -103,21 +103,22 @@ sfi_plot <- function(author = 'laqueur',
     # LIVMORE Figure 1
     if(figure == '1'){
       g <- sfi_plot_livermore_1()
+    }
       # LIVMORE Figure 2
-    } else if(figure == '2'){
-      g <- sfi_plot_livermore_2()
-      # LIVMORE Figure 3
-    } else if(figure == '3'){
-      g <- sfi_plot_livermore_3()
-      # LIVMORE Figure 4
-    } else if(figure == '4'){
-      g <- sfi_plot_livermore_4()
-      # LIVMORE Figure 5
-    } else if(figure == '5'){
-      g <- sfi_plot_livermore_5()
-    } 
-  } 
-  
+    # } else if(figure == '2'){
+    #   g <- sfi_plot_livermore_2()
+    #   # LIVMORE Figure 3
+    # } else if(figure == '3'){
+    #   g <- sfi_plot_livermore_3()
+    #   # LIVMORE Figure 4
+    # } else if(figure == '4'){
+    #   g <- sfi_plot_livermore_4()
+    #   # LIVMORE Figure 5
+    # } else if(figure == '5'){
+    #   g <- sfi_plot_livermore_5()
+    # }
+  }
+  # 
   # DUMAS
   if(author == 'dumas'){
     # DUMAS FIGURE 1
