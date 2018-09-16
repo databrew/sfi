@@ -103,20 +103,16 @@ sfi_plot <- function(author = 'laqueur',
     # LIVMORE Figure 1
     if(figure == '1'){
       g <- sfi_plot_livermore_1()
-    }
-      # LIVMORE Figure 2
-    # } else if(figure == '2'){
-    #   g <- sfi_plot_livermore_2()
-    #   # LIVMORE Figure 3
-    # } else if(figure == '3'){
-    #   g <- sfi_plot_livermore_3()
-    #   # LIVMORE Figure 4
-    # } else if(figure == '4'){
-    #   g <- sfi_plot_livermore_4()
-    #   # LIVMORE Figure 5
-    # } else if(figure == '5'){
-    #   g <- sfi_plot_livermore_5()
-    # }
+     #LIVMORE Figure 2
+    } else if(figure == '2'){
+      g <- sfi_plot_livermore_2()
+    # LIVMORE Figure 3
+    } else if(figure == '3'){
+      g <- sfi_plot_livermore_3()
+      # LIVMORE Figure 4
+    } else if(figure == '4'){
+      g <- sfi_plot_livermore_4()
+    } 
   }
   # 
   # DUMAS
@@ -137,23 +133,23 @@ sfi_plot <- function(author = 'laqueur',
     }
   }
   
-  # #CHEN
-  # if(author == 'chen'){
-  #   # chen FIGURE 1
-  #   if(figure == '1'){
-  #     g <- sfi_plot_chen_1()
-  #     
-  #   } else if(figure == '2'){
-  #     # chen FIGURE 2
-  #     g <- sfi_plot_chen_2()
-  #   } else if(figure =='3'){
-  #     # chen FIGURE 3
-  #     g <- sfi_plot_chen_3()
-  #   } else if(figure =='4'){
-  #     # chen FIGURE 4
-  #     g <- sfi_plot_chen_4()
-  #   }
-  # }
+  #CHEN
+  if(author == 'chen'){
+    # chen FIGURE 1
+    if(figure == '1'){
+      g <- sfi_plot_chen_1()
+
+    } else if(figure == '2'){
+      # chen FIGURE 2
+      g <- sfi_plot_chen_2()
+    } else if(figure =='3'){
+      # chen FIGURE 3
+      g <- sfi_plot_chen_3()
+    } else if(figure =='4'){
+      # chen FIGURE 4
+      g <- sfi_plot_chen_4()
+    }
+  }
   # 
   # #COPUS
   # if(author == 'copus'){

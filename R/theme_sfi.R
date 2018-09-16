@@ -23,6 +23,10 @@
 #' @param lkw legend width
 #' @param legend_height numeric height
 #' @param legend_width numeric width
+#' @param axis_style axis bold
+#' @param title_style title bold
+#' @param y_axis_title_style y axis bold
+#' @param x_axis_title_style x axis bold
 #' @return A ggplot2 theme
 #' @import ggthemes
 #' @import ggplot2
@@ -51,7 +55,11 @@ theme_sfi <- function(base_size = 12, # size of font
                       lkw = FALSE, # # legend key width - boolean to inidcate if user wants to edit legend width. ifso, use legend_width (numeric)
                       lkt = NULL, # type of geom for legend
                       legend_height = NULL, # numeric input to control height of legend
-                      legend_width = NULL, # numeric input to control width of legen
+                      legend_width = NULL, # numeric input to control width of legend
+                      axis_style = NULL, 
+                      title_style = NULL,
+                      y_axis_title_style = NULL, # y axis bold
+                      x_axis_title_style = NULL, # x axis bold
                       axis = 1) # axis angle
   {
   ## DRY
@@ -66,10 +74,11 @@ theme_sfi <- function(base_size = 12, # size of font
                axis.ticks = element_line(colour = gc,
                                          size = 0.2),
                plot.title = element_text(colour = fc,
-                                         face = "plain",
+                                         face = title_style,
                                          size = base_size * 1.2),
                axis.text = element_text(colour = fc,
-                                        face = "plain", size = base_size * 0.8),
+                                        face = axis_style, 
+                                        size = base_size * 0.8),
                legend.text = element_text(colour = fc, 
                                           face = lfb,
                                           size = base_size * lt),
@@ -77,13 +86,13 @@ theme_sfi <- function(base_size = 12, # size of font
                                            face = "plain",
                                            size = base_size),
                axis.title.x = element_text(colour = fc,
-                                           face = "plain",
+                                           face = x_axis_title_style,,
                                            size = base_size),
                strip.text.x = element_text(colour = fc,
                                            face = "plain",
                                            size = base_size),
                axis.title.y = element_text(colour = fc,
-                                           face = "plain",
+                                           face = y_axis_title_style,
                                            size = base_size,
                                            angle = 90),
                strip.text.y = element_text(colour = fc,

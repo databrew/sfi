@@ -4,39 +4,4 @@ output: pdf_document
 
 \newpage# Tables
 
-\newpage
-
-\begin{center}
-\begin{Huge}
-Alexander
-\end{Huge}
-\end{center}
-
-## Alexander
-
-
-
-### Alexander Table 1
-
-
-
-(Alexander 1)
-
-```{r, alexander_table_1_version_1, results = "asis"}
-sfi_plot(author = "alexander", figure = "1")[[1]]
-```
-
-
-
-
-### Alexander Table 6
-
-
-
-(Alexander 6)
-
-```{r, alexander_table_6_version_1, results = "asis"}
-sfi_plot(author = "alexander", figure = "6")[[1]]
-```
-
 

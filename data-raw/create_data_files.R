@@ -9,7 +9,7 @@ library(Hmisc)
 
 # get list of folders
 # folder_names <- list.files('Databrew Graphics/')
-folder_names <- c('Alexander et al', 'Feldman', 'Laqueur and Venancio', 'Frankenreiter', 
+folder_names <- c('Feldman', 'Laqueur and Venancio', 'Frankenreiter', 
                   'Copus et al', 'Livermore, Grom, Eidelman',
                   'Livermore, Ashley, Riddell, Carlson, Rockmore', 'Dumas', 
                   'Chen and Ash', 'Eidelman, Kornilova, Argyle')
@@ -92,17 +92,16 @@ unzip('Databrew Graphics/Chen and Ash/for-SFI.zip',
 
 
 # read in first data set
-chen_1 <- read_csv('Databrew Graphics/Chen and Ash/CB_demeaned_vectors_for_court_decade.csv')
+chen_2 <- read_csv('Databrew Graphics/Chen and Ash/CB_demeaned_vectors_for_court_decade.csv')
 
 # read in second data set
-chen_2 <- read_csv('Databrew Graphics/Chen and Ash/CBY_demeaned_vectors_for_judges.csv')
-
+chen_4 <- read_csv('Databrew Graphics/Chen and Ash/CBY_demeaned_vectors_for_judges.csv')
 
 # read in 3rd data set
 chen_3 <- read_csv('Databrew Graphics/Chen and Ash/JY_demeaned_vectors_for_big_issue_year.csv')
 
 # read in 4th data set
-chen_4 <- read_csv('Databrew Graphics/Chen and Ash/YB_demeaned_vectors_for_judges.csv')
+chen_1 <- read_csv('Databrew Graphics/Chen and Ash/YB_demeaned_vectors_for_judges.csv')
 
 # creaete list to store all data
 chen <- list()
@@ -126,32 +125,28 @@ dumas_1$label <- Hmisc::capitalize(dumas_1$label)
 # recode sensitivity to true positive rate and specificty to true negative rate
 names(dumas_1) <- c('label', 'True positive rate', 'True negative rate')
 
-# figure 2
-dumas_2 <- read_csv('Databrew Graphics/Dumas/figure_two.csv')
-
-# recode sensitivity to true positive rate and specificty to true negative rate
-names(dumas_2) <- c('label', 'True positive rate', 'True negative rate')
-
-# figure 3
-dumas_3 <- read_csv('Databrew Graphics/Dumas/figure_three.csv')
-
-# recode sensitivity to true positive rate and specificty to true negative rate
-names(dumas_3) <- c('label', 'True positive rate', 'True negative rate')
-
-# figure 4
-dumas_4 <- read_csv('Databrew Graphics/Dumas/figure_four.csv')
-
-# recode sensitivity to true positive rate and specificty to true negative rate
-names(dumas_4) <- c('label', 'True positive rate', 'True negative rate')
-
+# # figure 2
+# dumas_2 <- read_csv('Databrew Graphics/Dumas/figure_two.csv')
+# 
+# # recode sensitivity to true positive rate and specificty to true negative rate
+# names(dumas_2) <- c('label', 'True positive rate', 'True negative rate')
+# 
+# # figure 3
+# dumas_3 <- read_csv('Databrew Graphics/Dumas/figure_three.csv')
+# 
+# # recode sensitivity to true positive rate and specificty to true negative rate
+# names(dumas_3) <- c('label', 'True positive rate', 'True negative rate')
+# 
+# # figure 4
+# dumas_4 <- read_csv('Databrew Graphics/Dumas/figure_four.csv')
+# 
+# # recode sensitivity to true positive rate and specificty to true negative rate
+# names(dumas_4) <- c('label', 'True positive rate', 'True negative rate')
+# 
 
 # create list to store data
 dumas <- list()
 dumas$f1 <- dumas_1
-dumas$f2 <- dumas_2
-dumas$f3 <- dumas_3
-dumas$f4 <- dumas_4
-
 
 # --------------------
 # 'Livermore, Ashley, Riddell, Carlson, Rockmore'
@@ -161,17 +156,17 @@ dumas$f4 <- dumas_4
 # figure 1 - friendliness
 livermore_1 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/Friendliness.csv')
 
-# figure 2 
-livermore_2 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/topic-15-topic-evolution.csv')
+# # figure 2 
+# livermore_2 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/topic-15-topic-evolution.csv')
+
+# figure 4 
+livermore_2 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/supreme_court_vs_appellate_accuracy.csv')
 
 # figure 3 
 livermore_3 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/supreme_court_vs_appellate_court_cert_granted_accuracy.csv')
 
-# figure 4 
-livermore_4 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/supreme_court_vs_appellate_accuracy.csv')
-
 # figure 5 - topic-150-evolution
-livermore_5 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/appellate_court_cert_granted_vs_appellate_court_accuracy.csv')
+livermore_4 <- read_csv('Databrew Graphics/Livermore, Ashley, Riddell, Carlson, Rockmore/appellate_court_cert_granted_vs_appellate_court_accuracy.csv')
 
 
 # make data lower case
@@ -179,7 +174,6 @@ names(livermore_1) <- tolower(names(livermore_1))
 names(livermore_2) <- tolower(names(livermore_2))
 names(livermore_3) <- tolower(names(livermore_3))
 names(livermore_4) <- tolower(names(livermore_4))
-names(livermore_5) <- tolower(names(livermore_5))
 
 
 # create list to store data
@@ -188,7 +182,6 @@ livermore$f1 <- livermore_1
 livermore$f2 <- livermore_2
 livermore$f3 <- livermore_3
 livermore$f4 <- livermore_4
-livermore$f5 <- livermore_5
 
 # save data
 devtools::use_data(livermore, overwrite = TRUE)
@@ -272,34 +265,34 @@ laqueur_venancio$f2 <- laqueur_venancio_2
 laqueur <- laqueur_venancio
 devtools::use_data(laqueur, overwrite = TRUE)
 
-# --------------------
-# Alexander et al
-# read in alexander et al and save as list: 3 data sets
-alexander_et_al_1 <- read_csv('Databrew Graphics/Alexander et al/Figure 1.csv')
-alexander_et_al_1 <- alexander_et_al_1[!is.na(alexander_et_al_1$case_number),]
-
-# read in figure 6
-alexander_et_al_6 <- read_excel('Databrew Graphics/Alexander et al/Figure 6.xlsx', sheet = 1)
-
-# read in figures 4 and 7 and seperate, also rename columns and remove NA
-alexander_et_al_4_7 <- read_excel('Databrew Graphics/Alexander et al/Figures 4 _7.xlsx', sheet = 1)
-alexander_et_al_4 <- alexander_et_al_4_7[, 1:2]
-alexander_et_al_7 <- alexander_et_al_4_7[, 4:5]
-names(alexander_et_al_4) <- c('key', 'value')
-names(alexander_et_al_7) <- c('key', 'value')
-alexander_et_al_4 <- alexander_et_al_4[!is.na(alexander_et_al_4$key),]
-alexander_et_al_7 <- alexander_et_al_7[!is.na(alexander_et_al_7$key),]
-
-alexander_et_al <- list()
-alexander_et_al$f1 <- alexander_et_al_1
-alexander_et_al$f4 <- alexander_et_al_4
-alexander_et_al$f6 <- alexander_et_al_6
-alexander_et_al$f7 <- alexander_et_al_7
-
+# # --------------------
+# # Alexander et al
+# # read in alexander et al and save as list: 3 data sets
+# alexander_et_al_1 <- read_csv('Databrew Graphics/Alexander et al/Figure 1.csv')
+# alexander_et_al_1 <- alexander_et_al_1[!is.na(alexander_et_al_1$case_number),]
+# 
+# # read in figure 6
+# alexander_et_al_6 <- read_excel('Databrew Graphics/Alexander et al/Figure 6.xlsx', sheet = 1)
+# 
+# # read in figures 4 and 7 and seperate, also rename columns and remove NA
+# alexander_et_al_4_7 <- read_excel('Databrew Graphics/Alexander et al/Figures 4 _7.xlsx', sheet = 1)
+# alexander_et_al_4 <- alexander_et_al_4_7[, 1:2]
+# alexander_et_al_7 <- alexander_et_al_4_7[, 4:5]
+# names(alexander_et_al_4) <- c('key', 'value')
+# names(alexander_et_al_7) <- c('key', 'value')
+# alexander_et_al_4 <- alexander_et_al_4[!is.na(alexander_et_al_4$key),]
+# alexander_et_al_7 <- alexander_et_al_7[!is.na(alexander_et_al_7$key),]
+# 
+# alexander_et_al <- list()
+# alexander_et_al$f1 <- alexander_et_al_1
+# alexander_et_al$f4 <- alexander_et_al_4
+# alexander_et_al$f6 <- alexander_et_al_6
+# alexander_et_al$f7 <- alexander_et_al_7
+# 
 
 # save folder list 
-alexander <- alexander_et_al
-devtools::use_data(alexander, overwrite = TRUE)
+# alexander <- alexander_et_al
+# devtools::use_data(alexander, overwrite = TRUE)
 
 # --------------------
 # Feldman
@@ -329,15 +322,16 @@ devtools::use_data(feldman, overwrite = TRUE)
 # -----------
 # store all author lists into one main list 
 all_data <- list()
+all_data$eidelman <- eidelman
 all_data$dumas <- dumas
 all_data$frankenreiter <- frankenreiter
 all_data$laqueur <- laqueur
 all_data$livermore <- livermore
-all_data$alexander <- alexander
+# all_data$alexander <- alexander
 all_data$feldman <- feldman
-all_data$chen < chen
-all_data$copus <- copus
-all_data$livermoregrom <- livermoregrom
+all_data$chen <- chen
+# all_data$copus <- copus
+# all_data$livermoregrom <- livermoregrom
 
 # save folder list 
 devtools::use_data(all_data, overwrite = TRUE)
@@ -370,10 +364,10 @@ plots_dict <- plots_dict %>%
   filter(!(author == 'frankenreiter' & figure == '5_1'),
          !(author == 'frankenreiter' & figure == '5_2'))
 
-# Adjust for tables
+# # Adjust for tables
 plots_dict$table <-
   ifelse(plots_dict$author == 'alexander' &
-           plots_dict$figure %in% c('1', '6'), 
+           plots_dict$figure %in% c('1', '6'),
          TRUE,
          FALSE)
 devtools::use_data(plots_dict, overwrite = TRUE)

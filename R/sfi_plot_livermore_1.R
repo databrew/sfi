@@ -26,19 +26,21 @@ sfi_plot_livermore_1 <- function(){
                 se = TRUE,
                 fill = '#373737',
                 alpha = 0.4) +
-    geom_point(size = 2, 
+    geom_point(size = 1.5, 
                alpha = 0.8,
                pch = 16,
                color = 'black') +
     labs(x = '',
          y = 'Friendliness score',
-         title = 'Version 11',
-         caption = 'Standard errors estimated with a linear regression') +
+         title = '',
+         caption = 'Figure 1: Sentiment Score by Authoring Justice') +
     scale_y_continuous(labels = percent, 
                        limits = c(-0.018, 0.004),
                        breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
                                 -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
-    theme_sfi() +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
     geom_text(data=subset(data, justice == 'alito'),
               aes(median_year, 
                   friendscr, 
@@ -46,5 +48,5 @@ sfi_plot_livermore_1 <- function(){
               vjust = 1.5, 
               hjust = 1) 
   
-  return(g1)
+  return(list(g1))
 }
