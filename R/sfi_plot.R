@@ -165,25 +165,25 @@ sfi_plot <- function(author = 'laqueur',
   # 
   # 
   # # EIDELMAN
-  # if(author == 'eidelman'){
-  #   # eidelman FIGURE 1
-  #   if(figure == '1'){
-  #     g <- sfi_plot_eidelman_1()
-  #     
-  #   } else if(figure == '2'){
-  #     # eidelman FIGURE 2
-  #     g <- sfi_plot_eidelman_2()
-  #   } else if(figure =='3'){
-  #     # eidelman FIGURE 3
-  #     g <- sfi_plot_eidelman_3()
-  #   } else if(figure =='4'){
-  #     # eidelman FIGURE 4
-  #     g <- sfi_plot_eidelman_4()
-  #   } else if(figure =='5'){
-  #     # eidelman FIGURE 4
-  #     g <- sfi_plot_eidelman_5()
-  #   }
-  # }
+  if(author == 'eidelman'){
+    # eidelman FIGURE 1
+    if(figure == '1'){
+      g <- sfi_plot_eidelman_1()
+
+    } else if(figure == '2'){
+      # eidelman FIGURE 2
+      g <- sfi_plot_eidelman_2()
+    } else if(figure =='3'){
+      # eidelman FIGURE 3
+      g <- sfi_plot_eidelman_3()
+    } else if(figure =='4'){
+      # eidelman FIGURE 4
+      g <- sfi_plot_eidelman_4()
+    } else if(figure =='5'){
+      # eidelman FIGURE 5
+      g <- sfi_plot_eidelman_5()
+    }
+  }
   # 
   # 
   # # LIVERMORE AND GROM
