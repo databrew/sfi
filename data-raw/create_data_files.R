@@ -331,7 +331,7 @@ all_data$livermore <- livermore
 all_data$feldman <- feldman
 all_data$chen <- chen
 all_data$copus <- copus
-# all_data$livermoregrom <- livermoregrom
+all_data$livermoregrom <- livermoregrom
 
 # save folder list 
 devtools::use_data(all_data, overwrite = TRUE)

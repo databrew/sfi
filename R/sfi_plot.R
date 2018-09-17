@@ -186,14 +186,14 @@ sfi_plot <- function(author = 'laqueur',
   }
   # 
   # 
-  # # LIVERMORE AND GROM
-  # if(author == 'livermore_grom'){
-  #   # LIVMORE_GROM Figure 1
-  #   if(figure == '1'){
-  #     g <- sfi_plot_livermore_1()
-  #     # LIVMORE Figure 2
-  #   }
-  # }
+  # LIVERMORE AND GROM
+  if(author == 'livermoregrom'){
+    # LIVMORE_GROM Figure 1
+    if(figure == '1'){
+      g <- sfi_plot_livermoregrom_1()
+      # LIVMORE Figure 2
+    }
+  }
   # 
   
   
