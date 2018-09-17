@@ -151,17 +151,17 @@ sfi_plot <- function(author = 'laqueur',
     }
   }
   # 
-  # #COPUS
-  # if(author == 'copus'){
-  #   # copus FIGURE 1
-  #   if(figure == '1'){
-  #     g <- sfi_plot_copus_1()
-  #     
-  #   } else if(figure == '2'){
-  #     # COPUS FIGURE 2
-  #     g <- sfi_plot_copus_2()
-  #   }
-  # }
+  #COPUS
+  if(author == 'copus'){
+    # copus FIGURE 1
+    if(figure == '1'){
+      g <- sfi_plot_copus_1()
+
+    } else if(figure == '2'){
+      # COPUS FIGURE 2
+      g <- sfi_plot_copus_2()
+    }
+  }
   # 
   # 
   # # EIDELMAN
@@ -186,14 +186,14 @@ sfi_plot <- function(author = 'laqueur',
   }
   # 
   # 
-  # # LIVERMORE AND GROM
-  # if(author == 'livermore_grom'){
-  #   # LIVMORE_GROM Figure 1
-  #   if(figure == '1'){
-  #     g <- sfi_plot_livermore_1()
-  #     # LIVMORE Figure 2
-  #   }
-  # }
+  # LIVERMORE AND GROM
+  if(author == 'livermoregrom'){
+    # LIVMORE_GROM Figure 1
+    if(figure == '1'){
+      g <- sfi_plot_livermoregrom_1()
+      # LIVMORE Figure 2
+    }
+  }
   # 
   
   
