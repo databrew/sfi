@@ -125,28 +125,34 @@ dumas_1$label <- Hmisc::capitalize(dumas_1$label)
 # recode sensitivity to true positive rate and specificty to true negative rate
 names(dumas_1) <- c('label', 'True positive rate', 'True negative rate')
 
-# # figure 2
-# dumas_2 <- read_csv('Databrew Graphics/Dumas/figure_two.csv')
-# 
-# # recode sensitivity to true positive rate and specificty to true negative rate
-# names(dumas_2) <- c('label', 'True positive rate', 'True negative rate')
-# 
-# # figure 3
-# dumas_3 <- read_csv('Databrew Graphics/Dumas/figure_three.csv')
-# 
-# # recode sensitivity to true positive rate and specificty to true negative rate
-# names(dumas_3) <- c('label', 'True positive rate', 'True negative rate')
-# 
-# # figure 4
-# dumas_4 <- read_csv('Databrew Graphics/Dumas/figure_four.csv')
-# 
-# # recode sensitivity to true positive rate and specificty to true negative rate
-# names(dumas_4) <- c('label', 'True positive rate', 'True negative rate')
-# 
+# figure 2
+dumas_2 <- read_csv('Databrew Graphics/Dumas/figure_two.csv')
+
+# recode sensitivity to true positive rate and specificty to true negative rate
+names(dumas_2) <- c('label', 'True positive rate', 'True negative rate')
+
+# figure 3
+dumas_3 <- read_csv('Databrew Graphics/Dumas/figure_three.csv')
+
+# recode sensitivity to true positive rate and specificty to true negative rate
+names(dumas_3) <- c('label', 'True positive rate', 'True negative rate')
+
+# figure 4
+dumas_4 <- read_csv('Databrew Graphics/Dumas/figure_four.csv')
+
+# recode sensitivity to true positive rate and specificty to true negative rate
+names(dumas_4) <- c('label', 'True positive rate', 'True negative rate')
+
 
 # create list to store data
 dumas <- list()
 dumas$f1 <- dumas_1
+dumas$f2 <- dumas_2
+dumas$f3 <- dumas_3
+dumas$f4 <- dumas_4
+# save data
+devtools::use_data(dumas, overwrite = TRUE)
+
 
 # --------------------
 # 'Livermore, Ashley, Riddell, Carlson, Rockmore'
