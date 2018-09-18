@@ -141,12 +141,15 @@ between 1973 and 1975') +
       geom_line(size = 0.5,
                 alpha = 0.8) +
       geom_dl(aes(label = judge),
-              method = list(dl.combine("last.points"), cex = 0.5,alpha = 0.8, color = 'black',
+              method = list(dl.combine("last.points"), 
+                            cex = 0.5, 
+                            alpha = 0.8, 
+                            color = 'black',
                             dl.move('IE4', vjust = -1),
-                            dl.move('PT1', vjust = 2, hjust = 12),
-                            dl.move('BE4', vjust = 3, hjust = 12),
+                            dl.move('PT1', vjust = 2, hjust = 16),
+                            dl.move('BE4', vjust = 3, hjust = 15),
                             dl.move('GR2', vjust = 1))) +
-      xlim(c(1994, 2014)) +
+      xlim(c(1992, 2012)) +
       facet_wrap(~judgetrad, nrow = 3) +
       labs(x = 'Year',
            y = '',
