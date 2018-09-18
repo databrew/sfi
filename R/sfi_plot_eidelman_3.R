@@ -69,9 +69,6 @@ sfi_plot_eidelman_3 <- function(){
     theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 7))
   
   
-  
-  
-  
-  
-  return(list(g1, g2, g3))
+
+  return(list(g1, g2))
 }
