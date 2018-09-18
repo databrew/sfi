@@ -26,6 +26,7 @@ library(RColorBrewer)
 library(extrafont)
 library(kableExtra)
 library(grid)
+library(readxl)
 
 # webshot::install_phantomjs()
 
@@ -41,13 +42,39 @@ opts_chunk$set(echo=FALSE,
               warning=FALSE,
               dpi = 300,
               # dev = "cairo_pdf",
-            fig.width = 4,
-            fig.height = 3,
+            fig.width = 3,
+            fig.height = 2,
               dev = c("png", "cairo_pdf"),
               fig.pos="!h",
               fig.path = 'figures/')
 opts_knit$set(width=75)
 options(xtable.comment = FALSE)
+
+
+# ------------------------------------------------------------------------------
+# Read in Alexander et al 
+alexander_et_al_1 <- read_csv('~/Documents/sfi/data-raw/Databrew Graphics/Alexander et al/Figure 1.csv')
+alexander_et_al_1 <- alexander_et_al_1[!is.na(alexander_et_al_1$case_number),]
+
+# read in figure 6
+alexander_et_al_6 <- read_excel('~/Documents/sfi/data-raw/Databrew Graphics/Alexander et al/Figure 6.xlsx', sheet = 1)
+
+# read in figures 4 and 7 and seperate, also rename columns and remove NA
+alexander_et_al_4_7 <- read_excel('~/Documents/sfi/data-raw/Databrew Graphics/Alexander et al/Figures 4 _7.xlsx', sheet = 1)
+alexander_et_al_4 <- alexander_et_al_4_7[, 1:2]
+alexander_et_al_7 <- alexander_et_al_4_7[, 4:5]
+names(alexander_et_al_4) <- c('key', 'value')
+names(alexander_et_al_7) <- c('key', 'value')
+alexander_et_al_4 <- alexander_et_al_4[!is.na(alexander_et_al_4$key),]
+alexander_et_al_7 <- alexander_et_al_7[!is.na(alexander_et_al_7$key),]
+
+alexander_et_al <- list()
+alexander_et_al$f1 <- alexander_et_al_1
+alexander_et_al$f4 <- alexander_et_al_4
+alexander_et_al$f6 <- alexander_et_al_6
+alexander_et_al$f7 <- alexander_et_al_7
+# ----------------------------------------------------------------------------------
+  
 ```
 
 
@@ -55,123 +82,122 @@ options(xtable.comment = FALSE)
 
 # Alexander 4
 ```{r}
- # Get data
-  data <- all_data$alexander$f4
-  
-  # Flag the groups
-  data$group <-
-    ifelse(data$key %in% 
-             c('Exemption',
-               'Color',
-               'Race',
-               'National origin',
-               'Religion',
-               'Sex',
-               'Retaliation'), 
-           'Claim type',
-           'National origin')
-  
-  # Get percentage
-  data$value <- data$value * 100
-  
-  # subset to claim type 
-  dat_claim <- data[data$group == 'Claim type',]
-  
-  # subset to National origin
-  dat_origin <- data[data$group == 'National origin',]
-  
-  # get a color vector
-  colors_claim  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
-  colors_origin  <- make_colors(length(unique(dat_origin$key)), bw = TRUE)
-  
-  # sort data
-  dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
-  dat_origin <- dat_origin[order(dat_origin$value, decreasing = TRUE),]
-  
-  
-  ##------- USING PLOTLY
-  # remove dark color
-  # get font object
-  inside_f <- list(
-    family = "Computer modern",
-    size = 12,
-    color = 'white'
-  )
-  
-  outside_f_claim <- list(
-    family = "Computer modern",
-    size = 12,
-    color = colors_claim 
-  )
-  
-  outside_f_origin <- list(
-    family = "Computer modern",
-    size = 12,
-    color = colors_origin
-  )
-  
-  # text font 
-  t <- list(
-    family = "Computer modern",
-    size = 12,
-    color = 'black'
-  )
-  
-  
-  # plot
-  g1 <- plot_ly(dat_claim,
-          labels = ~key, 
-          values = ~round(value),
-          type ='pie',
-          hole = 0.5,
-          textposition = 'outside',
-          textinfo = 'percent+label',
-          rotation = 90,
-          outsidetextfont = outside_f_claim,
-          marker = list(colors = colors_claim),
-          width = 500, 
-          height = 350)  %>%
-    config(displayModeBar = F) %>%
-    
-    layout(title ='' ,
-           font = t,
-           showlegend = F,
-           annotations = list(
-             showarrow = FALSE,
-             text = paste0('Figure 4a', '\n', 'Title VII Claim types', '\n', 'from complaint text'),
-             font = t), 
-           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
-  
+data <- alexander$f4
+
+# Flag the groups
+data$group <-
+ifelse(data$key %in% 
+         c('Exemption',
+           'Color',
+           'Race',
+           'National origin',
+           'Religion',
+           'Sex',
+           'Retaliation'), 
+       'Claim type',
+       'National origin')
+
+# Get percentage
+data$value <- data$value * 100
+
+# subset to claim type 
+dat_claim <- data[data$group == 'Claim type',]
+
+# subset to National origin
+dat_origin <- data[data$group == 'National origin',]
+
+# get a color vector
+colors_claim  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
+colors_origin  <- make_colors(length(unique(dat_origin$key)), bw = TRUE)
+
+# sort data
+dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
+dat_origin <- dat_origin[order(dat_origin$value, decreasing = TRUE),]
+
+
+##------- USING PLOTLY
+# remove dark color
+# get font object
+inside_f <- list(
+family = "Computer modern",
+size = 12,
+color = 'white'
+)
+
+outside_f_claim <- list(
+family = "Computer modern",
+size = 12,
+color = colors_claim 
+)
+
+outside_f_origin <- list(
+family = "Computer modern",
+size = 13,
+color = colors_origin
+)
+
+# text font 
+t <- list(
+family = "Computer modern",
+size = 13,
+color = '#434343'
+)
+
+
+# plot
+g1 <- plot_ly(dat_claim,
+      labels = ~key, 
+      values = ~round(value),
+      type ='pie',
+      hole = 0.5,
+      textposition = 'outside',
+      textinfo = 'percent+label',
+      rotation = 90,
+      outsidetextfont = outside_f_claim,
+      marker = list(colors = colors_claim),
+      width = 500, 
+      height = 350)  %>%
+config(displayModeBar = F) %>%
+
+layout(title ='' ,
+       font = t,
+       showlegend = F,
+       annotations = list(
+         showarrow = FALSE,
+         text = paste0('Figure 4a', '\n', 'Title VII Claim types', '\n', 'from complaint text'),
+         font = t), 
+       xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+       yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
 tmpFile <- tempfile(fileext = ".png")
 
 export(g1, file = tmpFile)
-  
-  # plot
-  g2 <- plot_ly(dat_origin,
-                labels = ~key, 
-                values = ~round(value),
-                type ='pie',
-                hole = 0.5,
-                textposition = 'outside',
-                textinfo = 'percent+label',
-                rotation = 10,
-                outsidetextfont = outside_f_origin,
-                width = 500, 
-                height = 350,
-                marker = list(colors = colors_origin))  %>%
-    config(displayModeBar = F) %>%
-    
-    layout(title ='' ,
-           font = t,
-           showlegend = F,
-           annotations = list(
-             showarrow = FALSE,
-             text = paste0('Figure 4b', '\n', "Title VII Plaintiff's race", '\n', 'from complaint text'),
-             font = t), 
-           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
-  
+
+# plot
+g2 <- plot_ly(dat_origin,
+            labels = ~key, 
+            values = ~round(value),
+            type ='pie',
+            hole = 0.5,
+            textposition = 'outside',
+            textinfo = 'percent+label',
+            rotation = 10,
+            outsidetextfont = outside_f_origin,
+            width = 500, 
+            height = 350,
+            marker = list(colors = colors_origin))  %>%
+config(displayModeBar = F) %>%
+
+layout(title ='' ,
+       font = t,
+       showlegend = F,
+       annotations = list(
+         showarrow = FALSE,
+         text = paste0('Figure 4b', '\n', "Title VII Plaintiff's race", '\n', 'from complaint text'),
+         font = t), 
+       xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+       yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
 tmpFile <- tempfile(fileext = ".png")
 
 export(g2, file = tmpFile)
@@ -183,7 +209,7 @@ export(g2, file = tmpFile)
 ```{r results = 'asis'}
 
 # # Get data
-  data <- all_data$alexander$f7
+  data <- alexander$f7
   data$value <- data$value * 100
   
   # get colors
@@ -209,8 +235,8 @@ export(g2, file = tmpFile)
   # text font 
   t <- list(
     family = "Computer modern",
-    size = 12,
-    color = 'black'
+    size = 13,
+    color = '#434343'
   )
   
   
@@ -225,7 +251,7 @@ export(g2, file = tmpFile)
                 rotation = 120,
                 outsidetextfont = outside_f,
                 marker = list(colors = colors),
-                width = 500, 
+                width =500, 
                 height = 350)  %>%
     config(displayModeBar = F) %>%
     
