@@ -43,6 +43,7 @@ sfi_plot_eidelman_1 <- function(){
     theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 7))
   
   # barplot with coord flip
+  data$State <- tolower(data$State)
   g2 <- ggplot(data,
                aes(reorder(x = State, value),
                    y = value,

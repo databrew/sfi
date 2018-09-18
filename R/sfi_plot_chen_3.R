@@ -49,7 +49,6 @@ sfi_plot_chen_3 <- function(){
     geom_text(aes(label = `big.issue.n`),
                size = 2,
                color = 'black',
-               pch = 16,
                alpha = 0.4) +
     stat_ellipse(aes(x, y,color= `big.issue.n`),type = "norm", size = 0.3, linetype = 'dashed', alpha = 0.7) +
     scale_color_manual(name = 'Confidence elipse',
@@ -57,9 +56,11 @@ sfi_plot_chen_3 <- function(){
                                   '#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D')) +
     labs(x = 'X',
          y = 'Y',
-         title = 'Figure 3: Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
-         subtitle = 'Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year',
-         caption = 'Ellipses represent a confidence measurement for the clusters (Version 1)') +
+         title = 'Figure 3.',
+         subtitle = ': Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
+         caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year', 
+                          '\n',
+                          '*Ellipses represent a confidence measurement for the clusters (Version 1)')) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               title_style = 'bold') +
@@ -99,13 +100,14 @@ sfi_plot_chen_3 <- function(){
     geom_text(aes(label = `big.issue.n`),
               size = 2,
               color = 'black',
-              pch = 16,
               alpha = 0.4) +
     labs(x = 'X',
          y = 'Y',
-         title = 'Figure 3: Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
-         subtitle = 'Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year',
-         caption = 'Version 2') +
+         title = 'Figure 3.',
+         subtitle = ': Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
+         caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year', 
+                          '\n',
+                          '*Ellipses represent a confidence measurement for the clusters (Version 1)')) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               title_style = 'bold') +
@@ -155,10 +157,12 @@ sfi_plot_chen_3 <- function(){
            color = guide_legend(override.aes = list(text = 0))) +
     labs(x = 'X',
          y = 'Y',
-         title = 'Figure 3: Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
-         subtitle = 'Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year',
-         caption = 'Version 3') +
-    theme_sfi(lp = 'bottom',
+         title = 'Figure 3.',
+         subtitle = ': Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
+         caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year', 
+                          '\n',
+                          '*Ellipses represent a confidence measurement for the clusters (Version 1)')) +
+    theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               title_style = 'bold') 
   

@@ -19,10 +19,6 @@ sfi_plot_eidelman_3 <- function(){
   data <- all_data$eidelman$f3
   names(data) <- c('State', 'value')
   
- 
-  # make states upper case
-  data$State <- toupper(data$State)
-
   g1 <- ggplot(data,
                aes(reorder(x = State, value),
                    y = value)) +
@@ -37,36 +33,14 @@ sfi_plot_eidelman_3 <- function(){
               gM = FALSE,
               y_axis_title_style = 'bold',
               title_style = 'bold') +
-    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 7))
+    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 6))
   
   
-  
-  g2 <- ggplot(data,
-               aes(reorder(x = State, value),
-                   y = value)) +
-    geom_bar(stat = 'identity', width = 0.8) +
-    geom_text(aes(label = State), size = 2) +
-    scale_y_continuous(labels = percent) +
-    labs(x = '',
-         y = '',
-         title = 'Figure 3',
-         subtitle = 'Change from baseline with text only features',
-         caption = 'Version 2') +
-    coord_flip() +
-    theme_sfi(lp = 'bottom',
-              gM = FALSE,
-              y_axis_title_style = 'bold',
-              title_style = 'bold') +
-    theme(axis.title.y=element_blank(),
-          axis.ticks.length = unit(0, "lines"),
-          axis.ticks.y=element_blank(),
-          axis.text.y=element_blank())
   
 
- 
   
   # candlestick
-  g3 <- ggplot(data,
+  g2 <- ggplot(data,
                aes(reorder(x = State, 
                            value),
                    y = value)) +
@@ -84,7 +58,7 @@ sfi_plot_eidelman_3 <- function(){
          y = '',
          title = 'Figure 3',
          subtitle = 'Change from baseline with text only features',
-         caption = 'Version 3') +
+         caption = 'Version 2') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',

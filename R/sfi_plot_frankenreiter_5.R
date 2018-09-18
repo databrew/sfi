@@ -30,20 +30,21 @@ sfi_plot_frankenreiter_5 <- function(){
                pch = 16,
                alpha = 0.9)  +
     ggrepel::geom_text_repel(data=subset(data1, year ==  1960 | year==  2010),
-                             aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+                             aes(coord2, coord1, label=year), vjust = -2, hjust = 1.5) +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold') +
+              title_style = 'bold', 
+              lkw = TRUE, 
+              lkt = 'point', 
+              legend_width = 30) +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
          title = 'Figure 5.',
          subtitle = 'Multidimensional scaling of KL divergences between different years') +
-    scale_color_gradient(name = '', low = "#2C2C2C", high = "#ABABAB") 
+    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") 
   
 
-  
-  
 
   # plot the 1955 to 2014 data
   cols <- make_colors(length(unique(data2$year)), bw = TRUE)
@@ -56,18 +57,20 @@ sfi_plot_frankenreiter_5 <- function(){
                pch = 16,
                alpha = 0.9)  +
     ggrepel::geom_text_repel(data=subset(data2, year ==  1970 | year==  2010),
-                             aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+                             aes(coord2, coord1, label=year), vjust = 2, hjust = 2.5) +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold') +
+              title_style = 'bold', 
+              lkw = TRUE, 
+              lkt = 'point', 
+              legend_width = 30) +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
          title = 'Figure 5.',
          subtitle = 'Multidimensional scaling of KL divergences between different years') +
-    scale_color_gradient(name = '', low = "#2C2C2C", high = "#ABABAB") 
-  
-  
+    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") 
+
   
   l <- list(g1,g2)
   return(l)
