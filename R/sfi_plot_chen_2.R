@@ -22,15 +22,16 @@ sfi_plot_chen_2 <- function(){
   g1 <- ggplot(data,
                aes(x = x,
                    y = y)) +
+    ylim(c(-7, 18)) +
     geom_text(aes(label = `decade-s`),
               size = 2,
               alpha = 0.6,
-              pch = 12,
               color = 'black') +
     labs(x = 'X',
          y = 'Y',
-         title = 'Figure 2: Centered by Court Topic, Averaged by Court-Year, Labeled by Decade',
-         subtitle = 'Court Decade, SC & CC Court Decade Vector, Demeaned by Circuit and Big Topic') +
+         title = 'Figure 2.',
+         subtitle = 'Centered by Court Topic, Averaged by Court-Year, Labeled by Decade',
+         caption = 'Court Decade, SC & CC Court Decade Vector, Demeaned by Circuit and Big Topic') +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
@@ -45,7 +46,6 @@ sfi_plot_chen_2 <- function(){
     geom_text(aes(label = `decade-s`),
               size = 2,
               alpha = 0.6,
-              pch = 12,
               color = 'black') +
     stat_ellipse(aes(x, y,color= `decade-s`),type = "norm", size = 0.3, linetype = 'dashed', alpha = 0.7) +
     scale_color_manual(name = 'Confidence elipse',
@@ -53,13 +53,12 @@ sfi_plot_chen_2 <- function(){
                                   '#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D')) +
     labs(x = 'X',
          y = 'Y',
-         title = 'Figure 2: Centered by Court Topic, Averaged by Court-Year, Labeled by Decade',
-         subtitle = 'Court Decade, SC & CC Court Decade Vector, Demeaned by Circuit and Big Topic (version 2)',
-         caption = 'Ellipses represent a confidence measurement for the clusters') +
+         title = 'Figure 2.',
+         subtitle = 'Centered by Court Topic, Averaged by Court-Year, Labeled by Decade',
+         caption = 'Court Decade, SC & CC Court Decade Vector, Demeaned by Circuit and Big Topic') +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold')
-  
   return(list(g1, g2))
 }

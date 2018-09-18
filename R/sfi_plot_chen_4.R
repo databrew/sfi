@@ -41,9 +41,9 @@ sfi_plot_chen_4 <- function(){
              color = guide_legend(override.aes = list(text = 0))) +
     labs(x = 'X',
          y = 'Y',
-         title = 'Figure 4: Centered by Court-Topic-Year, Averaged by Judge, Labeled by Political Party',
-         subtitle = 'Party affiliation, SC & CC Judge Vector, Demeaned by Circuit, Big Topics, and year',
-         caption = 'Version 1') +
+         title = 'Figure 4.',
+         subtitle = 'Centered by Court-Topic-Year, Averaged by Judge, Labeled by Political Party',
+         caption = 'Party affiliation, SC & CC Judge Vector, Demeaned by Circuit, Big Topics, and year') +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               title_style = 'bold')
@@ -53,19 +53,19 @@ sfi_plot_chen_4 <- function(){
   g2 <- ggplot(data,
                aes(x = x,
                    y = y,
-                   shape = party)) +
+                   color = party)) +
     geom_point(size = 2, 
-               alpha = 0.7) +
-    scale_shape_manual(name = 'Party affiliation',
-                       values = c(0, 16),
+               alpha = 0.5) +
+    scale_color_manual(name = 'Party affiliation',
+                       values = c('black', 'darkgrey'),
                        labels = c('Democrat', 'Republican')) +
     guides(label = guide_legend(override.aes = list(text = 0)),
            color = guide_legend(override.aes = list(text = 0))) +
     labs(x = 'X',
          y = 'Y',
-         title = 'Figure 4: Centered by Court-Topic-Year, Averaged by Judge, Labeled by Political Party',
-         subtitle = 'Party affiliation, SC & CC Judge Vector, Demeaned by Circuit, Big Topics, and year',
-         caption = '') +
+         title = 'Figure 4.',
+         subtitle = 'Centered by Court-Topic-Year, Averaged by Judge, Labeled by Political Party',
+         caption = 'Party affiliation, SC & CC Judge Vector, Demeaned by Circuit, Big Topics, and year') +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               title_style = 'bold')

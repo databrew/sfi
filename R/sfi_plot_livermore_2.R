@@ -33,7 +33,11 @@ sfi_plot_livermore_2 <- function(){
          title = 'Supreme Court vs Appellate court',
          subtitle = 'Figure 2: Prediction of Supreme Court Opinions.',
          caption = 'Mirrored density plot') +
-    theme_sfi()
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
   
   
   g2 <- ggplot(data, 
@@ -73,7 +77,9 @@ sfi_plot_livermore_2 <- function(){
                 pch = 16) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
-              title_style = 'bold') 
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
   
   
   

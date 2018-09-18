@@ -35,7 +35,9 @@ sfi_plot_livermore_4 <- function(){
          caption = 'Mirrored density plot') +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
-              title_style = 'bold')
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
   
   
   g2 <- ggplot(data, 
@@ -74,7 +76,9 @@ sfi_plot_livermore_4 <- function(){
                 pch = 16) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
-              title_style = 'bold') 
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
   
   return(list(g1,g2))
 }

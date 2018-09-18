@@ -27,7 +27,7 @@ sfi_plot_copus_1 <- function(){
     geom_smooth(method = 'loess',
                 linetype =0,
                 fill = 'black',
-                alpha = 0.1) +
+                alpha = 0.4) +
     geom_smooth(method = 'lm',
                 color = 'black',
                 se = FALSE) +
