@@ -269,9 +269,9 @@ laqueur_venancio$f2 <- laqueur_venancio_2
 laqueur <- laqueur_venancio
 devtools::use_data(laqueur, overwrite = TRUE)
 
-# # --------------------
-# # Alexander et al
-# # read in alexander et al and save as list: 3 data sets
+# --------------------
+# Alexander et al
+# read in alexander et al and save as list: 3 data sets
 # alexander_et_al_1 <- read_csv('Databrew Graphics/Alexander et al/Figure 1.csv')
 # alexander_et_al_1 <- alexander_et_al_1[!is.na(alexander_et_al_1$case_number),]
 # 
@@ -292,7 +292,7 @@ devtools::use_data(laqueur, overwrite = TRUE)
 # alexander_et_al$f4 <- alexander_et_al_4
 # alexander_et_al$f6 <- alexander_et_al_6
 # alexander_et_al$f7 <- alexander_et_al_7
-# 
+
 
 # save folder list 
 # alexander <- alexander_et_al
