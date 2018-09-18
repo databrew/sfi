@@ -14,6 +14,23 @@ sfi_plot_frankenreiter_4 <- function(){
   data <- all_data$frankenreiter$f4 %>%
     filter(diff >= 0) # we are making this modification to match the vis from the paper
   
+  g1 <- ggplot(data, aes(diff, similarity)) +
+    geom_point(size = 1, 
+               alpha = 0.9,
+               color = 'black') +
+    geom_smooth(method = 'loess',
+                linetype = 0,
+                fill = 'black',
+                alpha = 0.3) +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') +
+    labs(x = 'Date',
+         y = '',
+         title = 'Figure 4 Similarity between different judges as a function of time',
+         caption = '*Std error from local regression.') 
+  
   # FILTERING OUT SOME DATA TO MATCH THEIRS
 
   liney <- data %>%
@@ -36,79 +53,31 @@ sfi_plot_frankenreiter_4 <- function(){
               q25 = quantile(similarity, 0.25, na.rm = TRUE)) %>%
     ungroup
   
-  # Make plot
-  g1 <- ggplot(data = data %>%
-                 mutate(diff = round(diff, digits = -1)),
-               aes(x = diff,
-                   y = similarity)) +
-    geom_violin(aes(group = factor(diff)),
-                alpha = 0.9,
-                fill = 'black',
-                color = NA) +
-    geom_jitter(alpha = 0.3,
-                pch = 1,
-                size = 1) +
-    theme_sfi() +
-    labs(x = 'Difference in years',
-         y = 'Similarity',
-         title = 'Version 1',
-         subtitle = '(Grouped every 10 years)') +
-    ylim(0, 1)
   
-  g2 <- ggplot(data = data %>%
-                 mutate(diff = round(diff, digits = -1)),
-               aes(x = diff,
-                   y = similarity)) +
+g2 <- ggplot(data = data %>%
+                mutate(diff = round(diff, digits = -1)),
+              aes(x = diff,
+                  y = similarity)) +
     geom_violin(aes(group = factor(diff)),
-                alpha = 0.9,
+                alpha = 0.4,
                 fill = 'black',
                 color = NA) +
     geom_jitter(alpha = 0.3,
                 # pch = 1,
                 size = 1) +
-    theme_sfi() +
-    labs(x = 'Difference in years',
-         y = 'Similarity',
-         title = 'Version 2',
-         subtitle = '(Grouped every 10 years)') +
-    ylim(0, 1)
+    ylim(0, 1) +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') +
+  labs(x = 'Date',
+       y = '',
+       title = 'Figure 4 Similarity between different judges as a function of time',
+       subtitle = '(Grouped every 10 years)',
+       caption = '*Std error from local regression.') 
+
+ 
   
-  g3 <- ggplot(data = data %>%
-                 mutate(diff = round(diff, digits = -1)),
-               aes(x = diff,
-                   y = similarity)) +
-    geom_violin(aes(group = factor(diff)),
-                alpha = 0.6,
-                fill = 'black',
-                color = 'black') +
-    geom_jitter(alpha = 0.3,
-                # pch = 1,
-                size = 1) +
-    theme_sfi() +
-    labs(x = 'Difference in years',
-         y = 'Similarity',
-         title = 'Version 3',
-         subtitle = '(Grouped every 10 years)') +
-    ylim(0, 1)
-  
-  g4 <- ggplot(data = data %>%
-                 mutate(diff = round(diff, digits = -1)),
-               aes(x = diff,
-                   y = similarity)) +
-    geom_violin(aes(group = factor(diff)),
-                alpha = 0.9,
-                fill = 'black',
-                color = NA) +
-    geom_jitter(alpha = 0.7,
-                # pch = 1,
-                size = 0.2) +
-    theme_sfi() +
-    labs(x = 'Difference in years',
-         y = 'Similarity',
-         title = 'Version 4',
-         subtitle = '(Grouped every 10 years)') +
-    ylim(0, 1)
-  
-  l <- list(g1,g2,g3,g4)
+  l <- list(g1,g2)
   return(l)
 }

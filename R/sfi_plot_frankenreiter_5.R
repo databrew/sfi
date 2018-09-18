@@ -10,191 +10,65 @@
 #' @import ggrepel
 
 sfi_plot_frankenreiter_5 <- function(){
+
   
   # Get data
-  data <- all_data$frankenreiter$f5_1
-  data2 <- all_data$frankenreiter$f5_2
-  data <- 
-    bind_rows(
-      data %>% mutate(panel = 1),
-      data2 %>% mutate(panel = 2)
-    ) %>%
-    dplyr::select(-x1)
+  data <- all_data$frankenreiter$f5
   
-  label_years <- c(1955, 1960, 1965, 1970, 1973, 1981, 1986,
-                   1990, 1995, 2000, 2004, 2007, 2010, 2014)
-  data$label <- data$year %in% label_years
-  data$panel <- ifelse(data$panel == 1,
-                       'Metrix MDS (1955-2014)',
-                       'Metrix MDS (1970-2014)')
+  data1 <- data[data$source == 1,]
+  data2 <- data[data$source == 2,]
   
-  data$size <- sample(1:5, nrow(data), replace = TRUE)
-  data$panel_group <- ifelse(data$year <= 1969, '1950-1969', '1970-2014')
   
-  panel_groups <- sort(unique(data$panel_group))
-  
-  g1 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
+  # plot the 1955 to 2014 data
+  cols <- make_colors(length(unique(data1$year)), bw = TRUE)
+  data1$year <- as.numeric(data1$year)
+  g1 <- ggplot(data1,
          aes(x = coord2,
-             y = coord1)) +
-    geom_point(alpha = 0.6) +
-    theme_sfi() +
+             y = coord1,
+             color = year)) +
+    geom_point(size = 4,
+               pch = 16,
+               alpha = 0.9)  +
+    ggrepel::geom_text_repel(data=subset(data1, year ==  1960 | year==  2010),
+                             aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+    theme_sfi(lp = 'bottom',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = paste0('Version 1, ', panel_groups[1]))
+         title = 'Figure 5.',
+         subtitle = 'Multidimensional scaling of KL divergences between different years') +
+    scale_color_gradient(name = '', low = "#2C2C2C", high = "#ABABAB") 
   
-  g1b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
-               aes(x = coord2,
-                   y = coord1)) +
-    geom_point(alpha = 0.6) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = paste0('Version 1, ', panel_groups[2]))
+
   
-  g2 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
-               aes(x = coord2,
-                   y = coord1,
-                   size = size)) +
-    geom_point(alpha = 0.4) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = paste0('Version 2, ', panel_groups[1])) +
-    scale_size_continuous(name = '',
-                          range = c(1, 4)) +
-    theme(legend.position = 'none')
   
-  g2b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
+
+  # plot the 1955 to 2014 data
+  cols <- make_colors(length(unique(data2$year)), bw = TRUE)
+  data2$year <- as.numeric(data2$year)
+  g2 <- ggplot(data2,
                aes(x = coord2,
                    y = coord1,
-                   size = size)) +
-    geom_point(alpha = 0.4) +
-    theme_sfi() +
+                   color = year)) +
+    geom_point(size = 4,
+               pch = 16,
+               alpha = 0.9)  +
+    ggrepel::geom_text_repel(data=subset(data2, year ==  1970 | year==  2010),
+                             aes(coord2, coord1, label=year), vjust = -1.5, hjust = 2.2) +
+    theme_sfi(lp = 'bottom',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = paste0('Version 2, ', panel_groups[2])) +
-    scale_size_continuous(name = '',
-                          range = c(1, 4)) +
-    theme(legend.position = 'none')
+         title = 'Figure 5.',
+         subtitle = 'Multidimensional scaling of KL divergences between different years') +
+    scale_color_gradient(name = '', low = "#2C2C2C", high = "#ABABAB") 
   
   
-  g3 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
-               aes(x = coord2,
-                   y = coord1)) +
-    geom_point(alpha = 0.7,
-               aes(size = size)) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = paste0('Version 3, ', panel_groups[1])) +
-    scale_size_continuous(name = '',
-                          range = c(1, 2)) +
-    theme(legend.position = 'none') +
-    geom_text_repel(data = data %>% filter(label,
-                                           panel_group == panel_groups[1]),
-               aes(label = year),
-               alpha = 0.6,
-               size = 2)
   
-  g3b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
-               aes(x = coord2,
-                   y = coord1)) +
-    geom_point(alpha = 0.7,
-               aes(size = size)) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = paste0('Version 3, ', panel_groups[2])) +
-    scale_size_continuous(name = '',
-                          range = c(1, 2)) +
-    theme(legend.position = 'none') +
-    geom_text_repel(data = data %>% filter(label,
-                                           panel_group == panel_groups[2]),
-                    aes(label = year),
-                    alpha = 0.6,
-                    size = 2)
-  
-  g4 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
-               aes(x = coord2,
-                   y = coord1)) +
-    geom_point(alpha = 0.7,
-               aes(size = size),
-               pch = 1) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = paste0('Version 4, ', panel_groups[1])) +
-    scale_size_continuous(name = '',
-                          range = c(1, 2)) +
-    theme(legend.position = 'none') +
-    geom_text_repel(data = data %>% filter(label,
-                                           panel_group == panel_groups[1]),
-                    aes(label = year),
-                    alpha = 0.6,
-                    size = 2)
-  
-  g4b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
-               aes(x = coord2,
-                   y = coord1)) +
-    geom_point(alpha = 0.7,
-               aes(size = size),
-               pch = 1) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = paste0('Version 4, ', panel_groups[2])) +
-    scale_size_continuous(name = '',
-                          range = c(1, 2)) +
-    theme(legend.position = 'none') +
-    geom_text_repel(data = data %>% filter(label,
-                                           panel_group == panel_groups[2]),
-                    aes(label = year),
-                    alpha = 0.6,
-                    size = 2)
-  
-  
-  g5 <- ggplot(data = data %>% filter(panel_group == panel_groups[1]),
-               aes(x = coord2,
-                   y = coord1)) +
-    geom_point(alpha = 0.7,
-               aes(size = size),
-               pch = 3) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = paste0('Version 4, ', panel_groups[1])) +
-    scale_size_continuous(name = '',
-                          range = c(1, 2)) +
-    theme(legend.position = 'none') +
-    geom_text_repel(data = data %>% filter(label,
-                                           panel_group == panel_groups[1]),
-                    aes(label = year),
-                    alpha = 0.6,
-                    size = 2)
-  
-  g5b <- ggplot(data = data %>% filter(panel_group == panel_groups[2]),
-                aes(x = coord2,
-                    y = coord1)) +
-    geom_point(alpha = 0.7,
-               aes(size = size),
-               pch = 3) +
-    theme_sfi() +
-    labs(x = 'Coordinate 2',
-         y = 'Coordinate 1',
-         title = paste0('Version 4, ', panel_groups[2])) +
-    scale_size_continuous(name = '',
-                          range = c(1, 2)) +
-    theme(legend.position = 'none') +
-    geom_text_repel(data = data %>% filter(label,
-                                           panel_group == panel_groups[2]),
-                    aes(label = year),
-                    alpha = 0.6,
-                    size = 2)
-  
-  l <- list(g1, g1b,
-            g2, g2b,
-            g3, g3b,
-            g4, g4b,
-            g5, g5b)
+  l <- list(g1,g2)
   return(l)
 }

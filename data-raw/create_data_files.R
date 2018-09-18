@@ -236,8 +236,6 @@ frankenreiter$f2 <- frankenreiter_2
 frankenreiter$f3 <- frankenreiter_3
 frankenreiter$f4 <- frankenreiter_4
 frankenreiter$f5 <- frankenreiter_5
-frankenreiter$f5_1 <- frankenreiter_5_1
-frankenreiter$f5_2 <- frankenreiter_5_1
 frankenreiter$f6 <- frankenreiter_6
 
 # save folder list 
