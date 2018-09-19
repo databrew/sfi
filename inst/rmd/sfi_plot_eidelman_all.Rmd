@@ -1,0 +1,492 @@
+---
+title: \vspace{2.5in}"LAW AS DATA"
+subtitle: "Frakenreiter Figures"
+date: ''
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
+library(sfi)
+library(webshot)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(directlabels)
+library(knitr)
+library(Hmisc)
+library(gridExtra)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(reshape2)
+library(grid)
+
+# webshot::install_phantomjs()
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+            
+            
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+
+
+```
+
+
+#### This markdown is for Copus figures.
+
+# Eidelman 1 (version 1)
+
+```{r,  fig.width = 7.25, fig.height = 4}
+# # get data 
+  # read in data
+  data <- all_data$eidelman$f1
+  
+  # make data long format
+  data <- melt(data, id.vars = 'State')
+   
+  # make states upper case
+  data$State <- toupper(data$State)
+
+  # barplot
+  g1 <- ggplot(data,
+               aes(reorder(x = State, value),
+                   y = value,
+                   fill = variable)) +
+    scale_fill_manual(name = '',
+                      values = c('black', 'darkgrey')) +
+    geom_bar(stat = 'identity') +
+    labs(x = '',
+         y = '',
+         title = 'Figure 1',
+         subtitle = 'Number of bills introduced and receiving floor action for each state',
+         caption = 'Version 1') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 7))
+
+  g1
+  
+  
+```
+
+# Eidelman 1 (version 2)
+
+```{r,  fig.width = 7.25, fig.height = 7}
+
+  # read in data
+  data <- all_data$eidelman$f1
+    
+  # make data long format
+  data <- melt(data, id.vars = 'State')
+     
+  # make states upper case
+  data$State <- toupper(data$State)
+  
+ g2 <- ggplot(data,
+               aes(reorder(x = State, value),
+                   y = value,
+                   fill = variable)) +
+    scale_fill_manual(name = '',
+                      values = c('black', 'darkgrey')) +
+    geom_bar(stat = 'identity') +
+    coord_flip() +
+    labs(x = '',
+         y = '',
+         title = 'Figure 1',
+         subtitle = 'Number of bills introduced and receiving floor action for each state',
+         caption = 'Version 2') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.text.y=element_text(size = 6, hjust = 1))
+  
+  g2
+  
+```
+
+# Eidelman 1 (version 3)
+
+```{r,  fig.width = 7.25, fig.height = 7}
+  # candlestick
+  # read in data
+  data <- all_data$eidelman$f1
+    
+  # make data long format
+  data <- melt(data, id.vars = 'State')
+     
+  # make states upper case
+  data$State <- toupper(data$State)
+  g3 <- ggplot(data, 
+         aes(State, 
+             value, 
+             color = variable)) + 
+    geom_segment(aes(x=reorder(State, -value), 
+                     xend=State, 
+                     y=0, 
+                     yend=value),
+                 size = 1,
+                 color = 'black',
+                 alpha = 0.5) + 
+    geom_point(size= 2, 
+               alpha = 1) + 
+    scale_color_manual(name = '', values = c('#000000', '#BFBFBF')) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 1',
+         subtitle = 'Number of bills introduced and receiving floor action for each state',
+         caption = 'Version 3') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 7))
+  
+  g3
+  
+```
+
+# Eidelman 1 (version 4)
+
+```{r,  fig.width = 7.25, fig.height = 7}
+
+  # read in data
+  data <- all_data$eidelman$f1
+    
+  # make data long format
+  data <- melt(data, id.vars = 'State')
+     
+  # make states upper case
+  data$State <- toupper(data$State)
+
+  # candlestick flipped
+  g4 <- ggplot(data, 
+         aes(State, 
+             value, 
+             color = variable)) + 
+    geom_segment(aes(x=reorder(State, -value), 
+                     xend=State, 
+                     y=0, 
+                     yend=value),
+                 size = 1,
+                 color = 'black',
+                 alpha = 0.5) + 
+    coord_flip() +
+    geom_point(size= 2, 
+               alpha = 1) + 
+    scale_color_manual(name = '', values = c('#000000', '#BFBFBF')) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 1',
+         subtitle = 'Number of bills introduced and receiving floor action for each state',
+         caption = 'Version 3') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.text.y=element_text(size = 6))
+  
+  g4
+  
+  
+```
+
+
+# Eidelman 2 (version 1)
+
+```{r,  fig.width = 7.25, fig.height = 4}
+# # no scientific notation
+  # options(scipen = '999')
+  # 
+  # # get data 
+  data <- all_data$eidelman$f2
+ 
+  # make states upper case
+  data$State <- toupper(data$State)
+  names(data) <- c('State','value')
+ 
+  # forloop that inserts a skipped line between states 
+  for(i in 1:nrow(data)) {
+    sub_state <- data$State[i]
+    paste(sub_state[1])
+    sub_state <- unlist(strsplit(sub_state, ''))
+    final_state <- paste0(sub_state[1], '\n', sub_state[2])
+    data$State[i] <- final_state
+  }
+  
+  # barplot
+  g1 <- ggplot(data,
+               aes(reorder(x = State, value),
+                   y = value)) +
+    geom_bar(stat = 'identity', width = 0.9) +
+    geom_text(aes(label = State), size = 2, vjust = 1.2, color = 'white') +
+    geom_text(aes(label = round((data$value*100))), size = 2, vjust = -1, color = 'black') +
+    scale_y_continuous(labels = percent) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 2',
+         subtitle = 'Percent of bills reaching floor per state',
+         caption = 'Version 1') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank())
+
+  
+ g1
+  
+```
+
+# Eidelman 2 (version 2)
+
+```{r,  fig.width = 7.25, fig.height = 4}
+ # # get data 
+  data <- all_data$eidelman$f2
+  
+  # make states upper case
+  data$State <- toupper(data$State)
+  names(data) <- c('State','value')
+  # candlestick
+  g2 <- ggplot(data,
+               aes(reorder(x = State, 
+                           value),
+                   y = value)) +
+    geom_segment(aes(x=reorder(State, -value), 
+                     xend=State, 
+                     y=0, 
+                     yend=value),
+                 size = 1,
+                 color = 'black',
+                 alpha = 0.5) + 
+    geom_point(size= 4, 
+               alpha = 1) + 
+    scale_y_continuous(labels = percent) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 2',
+         subtitle = 'Percent of bills reaching floor per state',
+         caption = 'Version 2') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_text(angle=90, hjust = 1, size = 7),
+          axis.ticks.length = unit(0, "lines"),
+          axis.ticks.x=element_blank()) 
+
+  g2
+  
+```
+
+# Eidelman 3 (version 1)
+
+```{r,  fig.width = 7.25, fig.height = 4}
+
+   # # no scientific notation
+  # options(scipen = '999')
+  # 
+  # # get data 
+  data <- all_data$eidelman$f3
+  names(data) <- c('State', 'value')
+  
+  g1 <- ggplot(data,
+               aes(reorder(x = State, value),
+                   y = value)) +
+    geom_bar(stat = 'identity', width = 0.8) +
+    scale_y_continuous(labels = percent) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 3',
+         subtitle = 'Change from baseline with text only features',
+         caption = 'Version 1') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 6))
+  
+  g1
+  
+
+     # # no scientific notation
+  # options(scipen = '999')
+  # 
+  # # get data 
+  data <- all_data$eidelman$f3
+  names(data) <- c('State', 'value')
+  # candlestick
+  g2 <- ggplot(data,
+               aes(reorder(x = State, 
+                           value),
+                   y = value)) +
+    geom_segment(aes(x=reorder(State, -value), 
+                     xend=State, 
+                     y=0, 
+                     yend=value),
+                 size = 1,
+                 color = 'black',
+                 alpha = 0.5) + 
+    geom_point(size= 4, 
+               alpha = 0.5) + 
+    scale_y_continuous(labels = percent) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 3',
+         subtitle = 'Change from baseline with text only features',
+         caption = 'Version 2') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.title.x=element_blank(),
+          axis.ticks.length = unit(0, "lines"),
+          axis.ticks.x=element_blank()) +
+    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 7))
+  
+  
+```
+
+# Eidelman 3 (version 2)
+
+```{r,  fig.width = 8, fig.height = 7}
+    # # no scientific notation
+  # options(scipen = '999')
+  # 
+  # # get data 
+  data <- all_data$eidelman$f3
+  names(data) <- c('State', 'value')
+  # candlestick
+  g2 <- ggplot(data,
+               aes(reorder(x = State, 
+                           value),
+                   y = value)) +
+    geom_segment(aes(x=reorder(State, -value), 
+                     xend=State, 
+                     y=0, 
+                     yend=value),
+                 size = 1,
+                 color = 'black',
+                 alpha = 0.5) + 
+    geom_point(size= 4, 
+               alpha = 0.5) + 
+    scale_y_continuous(labels = percent) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 3',
+         subtitle = 'Change from baseline with text only features',
+         caption = 'Version 2') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.title.x=element_blank(),
+          axis.ticks.length = unit(0, "lines"),
+          axis.ticks.x=element_blank()) +
+    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 7))
+  
+  g2
+```
+
+
+# Eidelman 4 (version 1)
+
+```{r,  fig.width = 7.25, fig.height = 4}
+# 
+  # # get data 
+  data <- all_data$eidelman$f4
+  names(data) <- c('State', 'value')
+  
+  g1 <- ggplot(data,
+               aes(reorder(x = State, value),
+                   y = value)) +
+    geom_bar(stat = 'identity', width = 0.8) +
+    scale_y_continuous(labels = percent) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 4',
+         subtitle = paste0('Change from baseline with sponsor only features', '\n', 'Just sponsor improvement per state/chamber'),
+         caption = 'Version 1') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 6))
+  g1
+  
+
+ 
+  
+```
+
+# Eidelman 4 (version 2)
+
+```{r,  fig.width = 7.25, fig.height = 4}
+ # # get data 
+  data <- all_data$eidelman$f4
+  names(data) <- c('State', 'value')
+  # candlestick
+  g2 <- ggplot(data,
+               aes(reorder(x = State, 
+                           value),
+                   y = value)) +
+    geom_segment(aes(x=reorder(State, -value), 
+                     xend=State, 
+                     y=0, 
+                     yend=value),
+                 size = 1,
+                 color = 'black',
+                 alpha = 0.5) + 
+    geom_point(size= 2, 
+               alpha = 1) + 
+    scale_y_continuous(labels = percent) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 4',
+         subtitle = paste0('Change from baseline with sponsor only features', '\n', 'Just sponsor improvement per state/chamber'),
+         caption = 'Version 2') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    theme(axis.title.x=element_blank(),
+          axis.ticks.length = unit(0, "lines"),
+          axis.ticks.x=element_blank()) +
+    theme(axis.text.x=element_text(angle=90, vjust = 0.1, size = 6))
+  
+  g2
+  
+```
+
+

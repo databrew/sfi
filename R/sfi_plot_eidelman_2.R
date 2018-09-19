@@ -89,8 +89,6 @@ sfi_plot_eidelman_2 <- function(){
           axis.ticks.x=element_blank()) 
 
   
-  
-  
   return(list(g1, g2))
 }
 
