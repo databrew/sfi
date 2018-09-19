@@ -142,7 +142,7 @@ options(xtable.comment = FALSE)
               size = 2,
               alpha = 0.6,
               color = 'black') +
-    stat_ellipse(aes(x, y,color= `decade-s`),type = "norm", size = 0.5, alpha = 1) +
+    stat_ellipse(aes(x, y,color= `decade-s`),type = "norm", size = 0.3, alpha = 1) +
     scale_color_manual(name = 'Confidence elipse',
                        values = c('darkgrey','darkgrey', 'darkgrey','darkgrey','darkgrey','darkgrey',
                                   'darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey')) +
@@ -291,7 +291,7 @@ options(xtable.comment = FALSE)
     annotate(geom = 'text',
              x = 0,
              y = -50,
-             label = 'Regulation') + annotate("text", x = 0, y = -45, label = sprintf('\u2191')) +
+             label = 'Regulation') +
     annotate(geom = 'text',
              x = 0,
              y = 50,
@@ -299,7 +299,7 @@ options(xtable.comment = FALSE)
     annotate(geom = 'text',
              x = -12,
              y = -27,
-             label = '1st Amendment') + annotate("text", x = -12, y = -24, label = sprintf('\u2191')) +
+             label = '1st Amendment') +
     annotate(geom = 'text',
              x = -40,
              y = 28,
@@ -307,11 +307,11 @@ options(xtable.comment = FALSE)
     annotate(geom = 'text',
              x = 17,
              y = 31,
-             label = 'Privacy') + annotate("text", x = -12, y = -24, label = sprintf('\u2191')) +
+             label = 'Privacy') + 
     annotate(geom = 'text',
              x = 38,
              y = 13,
-             label = 'Labor') + annotate("text", x = 38, y = 17, label = sprintf('\u2191')) +
+             label = 'Labor') + 
     annotate(geom = 'text',
              x = 34,
              y = 0,
@@ -319,54 +319,6 @@ options(xtable.comment = FALSE)
   
   
 g2
-
-```
-
-# Chen 3 (version 3)
-
-```{r}
-
-# # get data 
-  data <- all_data$chen$f3
-  names(data) <- gsub('-', '.', names(data), fixed = TRUE)
-  
-  data <- data[data$big.issue != 'Others',]
-  data <- data[data$big.issue != '9',]
-  data$big.issue <- as.factor(data$big.issue)
-  JY_levels <- levels(data$big.issue)
-  JY_labels <- c('1 - Criminal Appeal', '2 - Civil Rights', '3 - First Amendment','4 - Due Process',
-                 '5 - Privacy', '6 - Labor','7 - Regulation')
-  JY_labels_n <- c('1', '2', '3','4','5', '6','7')
-  data$big.issue.n <- data$big.issue
-  data$big.issue  <- factor(data$big.issue, levels=JY_levels, labels=JY_labels)
- 
-  data$big.issue.n  <- factor(data$big.issue.n, levels=JY_levels, labels=JY_labels_n)
-  g3 <- ggplot(data,
-               aes(x = x,
-                   y = y,
-                   color = big.issue,
-                   label = big.issue.n)) +
-    geom_text(size = 3,
-              alpha = 0.5) +
-    geom_point(size = 0,
-              pch = 16,
-              alpha = 0) +
-    scale_color_manual(name = '',
-                       values = c('black', 'black', 'black', 'black', 'black', 'black', 'black')) +
-    guides(label = guide_legend(override.aes = list(text = 0)),
-           color = guide_legend(override.aes = list(text = 0))) +
-    labs(x = 'X',
-         y = 'Y',
-         title = 'Figure 3.',
-         subtitle = ': Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
-         caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year', 
-                          '\n',
-                          '*Ellipses represent a confidence measurement for the clusters (Version 1)')) +
-    theme_sfi(lp = 'none',
-              y_axis_title_style = 'bold',
-              title_style = 'bold') 
-  g3
-
 
 ```
 
