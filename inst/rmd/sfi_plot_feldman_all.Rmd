@@ -1,14 +1,17 @@
 ---
 title: \vspace{2.5in}"LAW AS DATA"
-always_allow_html: yes
-subtitle: "Feldman"
+subtitle: "Feldman Figures"
 date: ''
 output: 
-  html_document:
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
 fig_width: 4
-fig_height: 3
+fig_height: 2.6
 bibliography: bibliography.bib
 ---
+
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
 # Packages
@@ -41,8 +44,8 @@ opts_chunk$set(echo=FALSE,
               warning=FALSE,
               dpi = 300,
               # dev = "cairo_pdf",
-            fig.width = 4,
-            fig.height = 3,
+            fig.width = 7.25,
+            fig.height = 4,
               dev = c("png", "cairo_pdf"),
               fig.pos="!h",
               fig.path = 'figures/')
@@ -51,7 +54,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-#### This markdown if for Feldman figures.
+#### This markdown is for Feldman figures.
 
 # Feldman 4 (version 1)
 ```{r}
