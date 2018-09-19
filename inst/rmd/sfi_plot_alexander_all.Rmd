@@ -51,7 +51,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-#### This markdown if for alexander plots only. Because they are written with the package plotly, including them with the other plots causes a sizing issue. 
+#### This markdown is for alexander plots only. Because they are written with the package plotly, including them with the other plots causes a sizing issue. 
 
 # Alexander 4
 ```{r}
