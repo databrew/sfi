@@ -56,7 +56,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-#### This markdown is for Copus figures.
+#### This markdown is for Dumas figures.
 
 # Dumas 1 (Restrictive vs Permissive Filter)
 

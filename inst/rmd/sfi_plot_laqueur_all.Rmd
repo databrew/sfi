@@ -1,0 +1,138 @@
+---
+title: \vspace{2.5in}"LAW AS DATA"
+subtitle: "Laqueur Figures"
+date: ''
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
+library(sfi)
+library(webshot)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+
+# webshot::install_phantomjs()
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+            
+            
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+            fig.width = 7.25,
+            fig.height = 4,
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
+
+
+#### This markdown is for Laqueur figures.
+
+# Laqueur 1 
+
+```{r, fig.width = 7.25, fig.height = 4}
+ # get data 
+  data <- all_data$laqueur$f1
+  
+  # version 1
+  g1 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = number_of_grants)) +
+    geom_smooth(method = 'loess',
+                alpha = 0.7,
+                color = 'black',
+                linetype = 0) + 
+    geom_point(size = 3, 
+               color = 'black',
+               alpha = 0.8,
+               pch = 16) +
+    geom_text(aes(label = number_of_grants),
+              size = 2,
+              color = 'black',
+              nudge_y = 0,
+              vjust = -2) +
+    labs(x = '',
+         y = 'Number of grants',
+         title = 'Figure 1',
+         subtitle = 'Number of Hearings Resulting in a Grant: 1978-2015',
+         caption = paste0('Smoothed with a local regression', '\n', 
+                          'with bands representing standard errors')) +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold')
+  
+g1
+```
+
+# Laqueur 2
+
+```{r, fig.width = 7.25, fig.height = 4}
+# get data 
+  data <- all_data$laqueur$f2
+  
+  # version 6
+  g1 <- 
+    ggplot(data, 
+           aes(x = year, 
+               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+    ylim(c(0, 50)) +
+    geom_smooth(method = 'lm',
+                alpha = 0.4,
+                fill = 'black',
+                linetype = 0) + 
+    geom_point(size = 4, 
+               color = 'black',
+               alpha = 0.8,
+               pch = 16) +
+    geom_text(aes(label = paste0(percent_of_conducted_hearings_resulting_in_a_grant, 
+                                 '%')),
+              size = 5,
+              color = 'black',
+              nudge_y = 0,
+              vjust = -2) +
+    labs(x = '',
+         y = '% of hearings resulting in a grant',
+         title = 'Figure 2',
+         subtitle = 'Rate of Parole Grant: 2007-2014',
+         caption = paste0('Smoothed with a local regression', '\n', 
+                          'with bands representing standard errors')) +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold')
+ 
+  g1
+```
+

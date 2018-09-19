@@ -58,7 +58,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-#### This markdown is for Copus figures.
+#### This markdown is for Eidelman figures.
 
 # Eidelman 1 (version 1)
 
