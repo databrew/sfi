@@ -38,8 +38,6 @@ options(max.print="75")
 opts_chunk$set(echo=FALSE,
             cache=FALSE,
               prompt=FALSE,
-            
-            
               tidy=TRUE,
               comment=NA,
               message=FALSE,
@@ -82,7 +80,6 @@ options(xtable.comment = FALSE)
     geom_text(aes(label = text_label),
               size = 2,
               alpha = 0.6,
-              pch = 12,
               color = 'black') +
     labs(x = 'X',
          y = 'Y',
@@ -145,10 +142,10 @@ options(xtable.comment = FALSE)
               size = 2,
               alpha = 0.6,
               color = 'black') +
-    stat_ellipse(aes(x, y,color= `decade-s`),type = "norm", size = 0.3, linetype = 'dashed', alpha = 0.7) +
+    stat_ellipse(aes(x, y,color= `decade-s`),type = "norm", size = 0.5, alpha = 1) +
     scale_color_manual(name = 'Confidence elipse',
-                       values = c('#0D0D0D','#0D0D0D', '#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D',
-                                  '#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D')) +
+                       values = c('darkgrey','darkgrey', 'darkgrey','darkgrey','darkgrey','darkgrey',
+                                  'darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey')) +
     labs(x = 'X',
          y = 'Y',
          title = 'Figure 2.',
@@ -204,10 +201,10 @@ options(xtable.comment = FALSE)
                size = 2,
                color = 'black',
                alpha = 0.4) +
-    stat_ellipse(aes(x, y,color= `big.issue.n`),type = "norm", size = 0.3, linetype = 'dashed', alpha = 0.7) +
+    stat_ellipse(aes(x, y,color= `big.issue.n`),type = "norm", size = 0.5,alpha = 1) +
     scale_color_manual(name = 'Confidence elipse',
-                       values = c('#0D0D0D','#0D0D0D', '#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D',
-                                  '#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D','#0D0D0D')) +
+                       values = c('darkgrey','darkgrey', 'darkgrey','darkgrey','darkgrey','darkgrey',
+                                  'darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey')) +
     labs(x = 'X',
          y = 'Y',
          title = 'Figure 3.',
@@ -221,7 +218,7 @@ options(xtable.comment = FALSE)
   annotate(geom = 'text',
            x = 0,
            y = -50,
-           label = 'Regulation') + annotate("text", x = 0, y = -45, label = sprintf('\u2191')) +
+           label = 'Regulation') +
     annotate(geom = 'text',
              x = 0,
              y = 50,
@@ -229,7 +226,7 @@ options(xtable.comment = FALSE)
     annotate(geom = 'text',
              x = -12,
              y = -27,
-             label = '1st Amendment') + annotate("text", x = -12, y = -24, label = sprintf('\u2191')) +
+             label = '1st Amendment') +
     annotate(geom = 'text',
              x = -40,
              y = 28,
@@ -237,11 +234,11 @@ options(xtable.comment = FALSE)
     annotate(geom = 'text',
              x = 17,
              y = 31,
-             label = 'Privacy') + annotate("text", x = -12, y = -24, label = sprintf('\u2191')) +
+             label = 'Privacy') +
     annotate(geom = 'text',
              x = 38,
              y = 13,
-             label = 'Labor') + annotate("text", x = 38, y = 17, label = sprintf('\u2191')) +
+             label = 'Labor') +
     annotate(geom = 'text',
              x = 34,
              y = 0,
