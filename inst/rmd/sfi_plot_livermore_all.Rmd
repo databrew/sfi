@@ -1,0 +1,378 @@
+---
+title: \vspace{2.5in}"LAW AS DATA"
+subtitle: "Livermore Figures"
+date: ''
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
+library(sfi)
+library(webshot)
+library(reshape2)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+
+# webshot::install_phantomjs()
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+            
+            
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+            fig.width = 7.25,
+            fig.height = 4,
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
+
+
+#### This markdown is for Livermore figures.
+
+# Livermore 1 (version 1)
+
+```{r}
+
+# no scientific notation
+  options(scipen = '999')
+  
+  # get data 
+  data <- all_data$livermore$f1
+  
+  # version 11
+  g1 <- ggplot(data, 
+               aes(x = median_year, 
+                   y = friendscr)) +
+    geom_smooth(method = 'lm', 
+                linetype = 0,
+                se = TRUE,
+                fill = '#373737',
+                alpha = 0.4) +
+    geom_point(size = 1.5, 
+               alpha = 0.8,
+               pch = 16,
+               color = 'black') +
+    labs(x = '',
+         y = 'Friendliness score',
+         title = '',
+         caption = 'Figure 1: Sentiment Score by Authoring Justice') +
+    scale_y_continuous(labels = percent, 
+                       limits = c(-0.018, 0.004),
+                       breaks=c(-0.018,-0.016,-0.014,-0.012,-0.01, -0.008, 
+                                -0.006, -0.004, -0.002, 0, 0.002, 0.004)) +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              title_style = 'bold') +
+    geom_text(data=subset(data, justice == 'alito'),
+              aes(median_year, 
+                  friendscr, 
+                  label=paste0('Justice ', Hmisc::capitalize(justice))), 
+              vjust = 1.5, 
+              hjust = 1) 
+  
+  g1
+```
+
+
+# Livermore 2 (version 1)
+
+```{r}
+ # no scientific notation
+  options(scipen = '999')
+  
+  # get data
+  data <- all_data$livermore$f2
+  
+  # melt data by x1
+  data <- melt(data, id.vars = 'x1')
+  
+  # livermore 3 
+  g1 <- ggplot(data,
+               aes(variable, value)) +
+    geom_jitter(width = 0.3,
+                alpha = 0.1,
+                size = 1) +
+    geom_violin(fill = 'grey') +
+    labs(x = '',
+         y = 'Accuracy',
+         title = 'Supreme Court vs Appellate court',
+         subtitle = 'Figure 2: Prediction of Supreme Court Opinions.',
+         caption = 'Mirrored density plot') +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
+  g1
+  
+  
+ 
+
+```
+
+# Livermore 2 (version 2)
+```{r}
+ 
+  g2 <- ggplot(data, 
+               aes(x = variable, 
+                   y = value)) +
+    ylim(c(.2, 1)) +
+    stat_ydensity(geom="segment", 
+                  adjust = 20,
+                  scale = 'area',
+                  aes(xend=..x..+..scaled../4, 
+                      yend=..y.., 
+                      alpha=(..scaled../3)^2), 
+                  size=3, 
+                  color = 'darkgrey',
+                  trim=TRUE) +
+    stat_ydensity(geom="segment", 
+                  adjust = 20,
+                  scale = 'area',
+                  aes(xend=..x..-..scaled../4, 
+                      yend=..y.., 
+                      alpha=(..scaled../3)^2), 
+                  size=3, 
+                  linetype = 1,
+                  color = 'darkgrey',
+                  
+                  trim=TRUE) +
+    labs(x = '',
+         y = 'Accuracy',
+         title = 'Supreme Court vs Appellate court',
+         subtitle = 'Figure 2: Prediction of Supreme Court Opinions.',
+         caption = 'Mirrored density plot') +
+    scale_alpha_continuous(range= c(-0, .5)) +
+    geom_jitter(size = 1,
+                color = 'black',
+                width = 0.3,
+                alpha = 0.1,
+                pch = 16) +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
+  
+ g2
+```
+
+
+# Livermore 3 (version 1)
+
+```{r}
+   # no scientific notation
+  options(scipen = '999')
+  
+  # get data
+  data <- all_data$livermore$f3
+  
+  # melt data by x1
+  data <- melt(data, id.vars = 'x1')
+  
+  # livermore 3
+  g1 <- ggplot(data,
+               aes(variable, value)) +
+    geom_jitter(width = 0.3,
+                alpha = 0.2,
+                size = 1) +
+    geom_violin(fill = 'grey') +
+    labs(x = '',
+         y = 'Accuracy',
+         title = 'Supreme Court vs Appellate court (cert. granted)',
+         subtitle = 'Figure 3a. Prediction of Supreme Court and Appellate Court Opinions.',
+         caption = 'Mirrored density plot') +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
+  
+  g1
+  
+  
+
+
+```
+
+
+# Livermore 3 (version 2)
+
+```{r}
+
+ # no scientific notation
+  options(scipen = '999')
+  
+  # get data
+  data <- all_data$livermore$f3
+  
+  # melt data by x1
+  data <- melt(data, id.vars = 'x1')
+ 
+g2 <- ggplot(data, 
+               aes(x = variable, 
+                   y = value)) +
+    stat_ydensity(geom="segment", 
+                  adjust = 20,
+                  scale = 'area',
+                  aes(xend=..x..+..scaled../4, 
+                      yend=..y.., 
+                      alpha=(..scaled../3)^2), 
+                  size=3, 
+                  color = 'darkgrey',
+                  trim=TRUE) +
+    stat_ydensity(geom="segment", 
+                  adjust = 20,
+                  scale = 'area',
+                  aes(xend=..x..-..scaled../4, 
+                      yend=..y.., 
+                      alpha=(..scaled../3)^2), 
+                  size=3, 
+                  linetype = 1,
+                  color = 'darkgrey',
+                  
+                  trim=TRUE) +
+    labs(x = '',
+         y = 'Accuracy',
+         title = 'Supreme Court vs Appellate court',
+         subtitle = 'Figure 3a. Prediction of Supreme Court and Appellate Court Opinions.',
+         caption = 'Mirrored density plot') +
+    scale_alpha_continuous(range= c(-0, .5)) +
+    geom_jitter(size = 1,
+                color = 'black',
+                width = 0.3,
+                alpha = 0.2,
+                pch = 16) +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
+  
+  g2
+```
+
+# Livermore 4 (version 1)
+
+```{r}
+   
+  # no scientific notation
+  options(scipen = '999')
+  
+  # get data
+  data <- all_data$livermore$f4
+  
+  # melt data by x1
+  data <- melt(data, id.vars = 'x1')
+
+  
+  # livermore 4
+  g1 <- ggplot(data,
+               aes(variable, value)) +
+    geom_jitter(width = 0.3,
+                alpha = 0.2,
+                size = 1) +
+    geom_violin(fill = 'grey') +
+    labs(x = '',
+         y = 'Accuracy',
+         title = 'Appellate court (cert. grant) vs Appellate court',
+         subtitle = 'Figure 3b. Prediction of Supreme Court and Appellate Court Opinions.',
+         caption = 'Mirrored density plot') +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
+  
+  g1
+  
+```
+
+
+# Livermore 4 (version 2)
+
+```{r}
+ 
+ # no scientific notation
+  options(scipen = '999')
+  
+  # get data
+  data <- all_data$livermore$f4
+  
+  # melt data by x1
+  data <- melt(data, id.vars = 'x1')
+  
+  
+g2 <- ggplot(data, 
+               aes(x = variable, 
+                   y = value)) +
+    stat_ydensity(geom="segment", 
+                  adjust = 20,
+                  scale = 'area',
+                  aes(xend=..x..+..scaled../4, 
+                      yend=..y.., 
+                      alpha=(..scaled../3)^2), 
+                  size=3, 
+                  color = 'darkgrey',
+                  trim=TRUE) +
+    stat_ydensity(geom="segment", 
+                  adjust = 20,
+                  scale = 'area',
+                  aes(xend=..x..-..scaled../4, 
+                      yend=..y.., 
+                      alpha=(..scaled../3)^2), 
+                  size=3, 
+                  linetype = 1,
+                  color = 'darkgrey',
+                  
+                  trim=TRUE) +
+    labs(x = '',
+         y = 'Accuracy',
+         title = 'Appellate court (cert. grant) vs Appellate court',
+         subtitle = 'Figure 3b. Prediction of Supreme Court and Appellate Court Opinions.',
+         caption = 'Mirrored density plot') +
+    scale_alpha_continuous(range= c(-0, .5)) +
+    geom_jitter(size = 1,
+                color = 'black',
+                width = 0.3,
+                alpha = 0.2,
+                pch = 16) +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') + 
+    theme(axis.text.x=element_text(angle=45, hjust=1))
+  
+g2
+```
+
