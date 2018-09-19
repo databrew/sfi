@@ -53,7 +53,7 @@ options(xtable.comment = FALSE)
 
 #### This markdown if for Feldman figures.
 
-# Alexander 4
+# Feldman 4 (version 1)
 ```{r}
 # Get data
   data <- all_data$feldman$f1 
@@ -101,6 +101,13 @@ options(xtable.comment = FALSE)
                 y_axis_title_style = 'bold',
                 x_axis_title_style = 'bold',
                 title_style = 'bold')  
+  
+  g1
+```
+
+
+# Feldman 4 (version 2)
+```{r}
   # Version 2
   g2 <- ggplot(data %>% filter(clarity_score < 8),
          aes(x = federal,
@@ -139,6 +146,8 @@ options(xtable.comment = FALSE)
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold')
+
+g2
 
 
 ```
