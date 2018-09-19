@@ -38,6 +38,8 @@ options(max.print="75")
 opts_chunk$set(echo=FALSE,
             cache=FALSE,
               prompt=FALSE,
+            
+            
               tidy=TRUE,
               comment=NA,
               message=FALSE,
