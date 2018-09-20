@@ -1,7 +1,7 @@
 ---
 title: \vspace{2.5in}"LAW AS DATA"
 subtitle: "Copus et al Figures"
-date: ''
+date: 'September 20th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
