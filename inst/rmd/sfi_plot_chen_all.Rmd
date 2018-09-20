@@ -44,8 +44,6 @@ opts_chunk$set(echo=FALSE,
               warning=FALSE,
               dpi = 300,
               # dev = "cairo_pdf",
-            fig.width = 7.25,
-            fig.height = 4,
               dev = c("png", "cairo_pdf"),
               fig.pos="!h",
               fig.path = 'figures/')
@@ -58,7 +56,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 1 (version 1)
 
-```{r}
+```{r, fig.width = 7.25,  fig.height = 4}
 # # no scientific notation
   # options(scipen = '999')
   # 
@@ -97,7 +95,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 1 (version 2)
 
-```{r}
+```{r, fig.width = 7.25,  fig.height = 4}
 # # no scientific notation
   # options(scipen = '999')
   # 
@@ -137,7 +135,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 2 (version 1)
 
-```{r}
+```{r, fig.width = 7.25,  fig.height = 4}
 # # get data 
   data <- all_data$chen$f2
   
@@ -170,7 +168,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 2 (version 2)
 
-```{r}
+```{r, fig.width = 7.25,  fig.height = 4}
   # version 11
    # get data 
   data <- all_data$chen$f2
@@ -203,7 +201,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 3 (version 1)
 
-```{r}
+```{r, fig.width = 7.25,  fig.height = 4}
 # # no scientific notation
   # options(scipen = '999')
   # 
@@ -301,7 +299,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 3 (version 2)
 
-```{r}
+```{r, fig.width = 7.25,  fig.height = 4}
 
 # # get data 
   data <- all_data$chen$f3
@@ -380,7 +378,7 @@ g2
 
 # Chen and Ash 4 (version 1)
 
-```{r}
+```{r, fig.width = 7.25,  fig.height = 4}
 # # get data 
   data <- all_data$chen$f4
   
@@ -426,7 +424,7 @@ g2
 
 # Chen and Ash 4 (version 2)
 
-```{r}
+```{r, fig.width = 7.25,  fig.height = 4}
  # get data 
   data <- all_data$chen$f4
   
