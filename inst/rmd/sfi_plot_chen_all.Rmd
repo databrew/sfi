@@ -88,6 +88,7 @@ options(xtable.comment = FALSE)
          caption = '') +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
               title_style = 'bold')
   
   g1
@@ -214,6 +215,7 @@ options(xtable.comment = FALSE)
                           '*Ellipses represent a confidence measurement for the clusters (Version 1)')) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
               title_style = 'bold') +
   annotate(geom = 'text',
            x = 0,
@@ -224,8 +226,8 @@ options(xtable.comment = FALSE)
              y = 50,
              label = 'Criminal Appeal') +
     annotate(geom = 'text',
-             x = -12,
-             y = -27,
+             x = -38,
+             y = -19,
              label = '1st Amendment') +
     annotate(geom = 'text',
              x = -40,
@@ -287,6 +289,7 @@ options(xtable.comment = FALSE)
                           '*Ellipses represent a confidence measurement for the clusters (Version 1)')) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
               title_style = 'bold') +
     annotate(geom = 'text',
              x = 0,
@@ -296,9 +299,9 @@ options(xtable.comment = FALSE)
              x = 0,
              y = 50,
              label = 'Criminal Appeal') +
-    annotate(geom = 'text',
-             x = -12,
-             y = -27,
+     annotate(geom = 'text',
+             x = -38,
+             y = -19,
              label = '1st Amendment') +
     annotate(geom = 'text',
              x = -40,
@@ -358,6 +361,7 @@ g2
          caption = 'Party affiliation, SC & CC Judge Vector, Demeaned by Circuit, Big Topics, and year') +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
               title_style = 'bold')
   
   
@@ -397,6 +401,7 @@ g2
          caption = 'Party affiliation, SC & CC Judge Vector, Demeaned by Circuit, Big Topics, and year') +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
               title_style = 'bold')
 g2
 
