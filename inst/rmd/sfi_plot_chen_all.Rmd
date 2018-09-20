@@ -1,6 +1,6 @@
 ---
 title: \vspace{2.5in}"LAW AS DATA"
-subtitle: "Chen Figures"
+subtitle: "Chen and Ash and AshFigures"
 date: ''
 output: 
   pdf_document:
@@ -53,10 +53,10 @@ opts_knit$set(width=75)
 options(xtable.comment = FALSE)
 ```
 
-
+\newpage
 #### This markdown is for Copus figures.
 
-# Chen 1 (version 1)
+# Chen and Ash 1 (version 1)
 
 ```{r}
 # # no scientific notation
@@ -95,8 +95,47 @@ options(xtable.comment = FALSE)
 
 ```
 
+# Chen and Ash 1 (version 2)
 
-# Chen 2 (version 1)
+```{r}
+# # no scientific notation
+  # options(scipen = '999')
+  # 
+  # # get data 
+  data <- all_data$chen$f1
+  
+  # get label numbers
+  data$text_label <- unlist(lapply(strsplit(data$circuit, '-', fixed = TRUE), function(x) x[length(x)]))
+  
+  # remove 11 with FC and SC with 12, and 0 with dc
+  data$text_label <- gsub('^0$', 'DC', data$text_label)
+  data$text_label <- gsub('12', 'FC', data$text_label)
+
+  # 
+  # version 11
+  g1 <- ggplot(data,
+               aes(x = x,
+                   y = y)) +
+    geom_text(aes(label = text_label),
+              size = 3,
+              alpha = 0.4,
+              color = 'black') +
+    labs(x = 'X',
+         y = 'Y',
+         title = 'Figure 1: Centered by Topic-Year, Averaged by Judge, Labeled by Court',
+         subtitle = 'Circuit, CC Judge Vector, Demeaned by Year and Big Topic',
+         caption = '') +
+    theme_sfi(lp = 'none',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold')
+  
+  g1
+
+```
+
+
+# Chen and Ash 2 (version 1)
 
 ```{r}
 # # get data 
@@ -129,7 +168,7 @@ options(xtable.comment = FALSE)
 
 
 
-# Chen 2 (version 2)
+# Chen and Ash 2 (version 2)
 
 ```{r}
   # version 11
@@ -162,7 +201,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-# Chen 3 (version 1)
+# Chen and Ash 3 (version 1)
 
 ```{r}
 # # no scientific notation
@@ -260,7 +299,7 @@ options(xtable.comment = FALSE)
 
 
 
-# Chen 3 (version 2)
+# Chen and Ash 3 (version 2)
 
 ```{r}
 
@@ -339,7 +378,7 @@ g2
 ```
 
 
-# Chen 4 (version 1)
+# Chen and Ash 4 (version 1)
 
 ```{r}
 # # get data 
@@ -385,7 +424,7 @@ g2
 
 
 
-# Chen 4 (version 2)
+# Chen and Ash 4 (version 2)
 
 ```{r}
  # get data 
