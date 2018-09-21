@@ -1,7 +1,7 @@
 ---
 title: \vspace{2.5in}"LAW AS DATA"
 subtitle: "Dumas Figures"
-date: ''
+date: 'September 21st 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -56,9 +56,9 @@ options(xtable.comment = FALSE)
 ```
 
 
-#### This markdown is for Copus figures.
+#### This markdown is for Dumas figures.
 
-# Dumas 1 (Restrictive vs Permissive Filter)
+# Dumas 1a (Version 1)
 
 ```{r, fig.width = 7.25, fig.height = 6}
 # Get data
@@ -72,6 +72,8 @@ options(xtable.comment = FALSE)
   data$filter <- ifelse(grepl('Restrictive', data$label), 
                         'Restrictive', 'Permissive')
   
+  # recode x and y to fit document
+  # names(data) <- c('label', 'True negative rate', 'True positive rate', 'run', 'filter')
   
   # --------------------------------------------------
   # g4
@@ -85,7 +87,10 @@ options(xtable.comment = FALSE)
                alpha = 0.6) +
     geom_line(size = 0.5, 
               alpha = 0.7) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
     labs(title = 'Appeals level',
+         subtitle = 'Restrictive vs Permissive Filters',
          caption = paste0('The ROC curves of the language model')) +
     scale_color_manual(name = 'Filter type',
                        values = c('black', 'grey')) +
@@ -103,6 +108,7 @@ options(xtable.comment = FALSE)
 ```
 
 
+Dumas 1b (Version 1)
 ```{r, fig.width = 7.25, fig.height = 6}
 # Get data
   data <- all_data$dumas$f2
@@ -129,7 +135,10 @@ options(xtable.comment = FALSE)
                alpha = 0.6) +
     geom_line(size = 0.5, 
               alpha = 0.7) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
     labs(title = 'District Level',
+         subtitle  = 'Restrictive vs Permissive Filters',
          caption = paste0('The ROC curves of the language model')) +
     scale_color_manual(name = 'Filter type',
                        values = c('black', 'grey')) +
@@ -147,7 +156,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-# Dumas 2 (Permissive vs Permissive Filter with Embeddings)
+# Dumas 2a (Verion 1)
 
 ```{r, fig.width = 7.25, fig.height = 6}
   # Get data
@@ -175,9 +184,12 @@ options(xtable.comment = FALSE)
                alpha = 0.6) +
     geom_line(size = 0.5, 
               alpha = 0.7) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
     scale_color_manual(name = 'Filter type',
                        values = c('black', 'grey')) +
     labs(title = 'Appeals level',
+         subtitle = 'Permissive vs Permissive Filters with embeddings',
          caption = paste0('The ROC curves of the language model')) +
     geom_abline(intercept = 1,
                 color = 'black',
@@ -195,6 +207,7 @@ options(xtable.comment = FALSE)
 ```
 
 
+# Dumas 2b (Version 1)
 ```{r, fig.width = 7.25, fig.height = 6}
  # Get data
   data <- all_data$dumas$f4
@@ -221,9 +234,12 @@ options(xtable.comment = FALSE)
                alpha = 0.6) +
     geom_line(size = 0.5, 
               alpha = 0.7) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
     scale_color_manual(name = 'Filter type',
                        values = c('black', 'grey')) +
     labs(title = 'District Level',
+         subtitle = 'Permissive vs Permissive Filters with embeddings',
          caption = paste0('The ROC curves of the language model')) +
     geom_abline(intercept = 1,
                 color = 'black',
