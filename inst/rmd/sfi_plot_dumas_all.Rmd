@@ -86,20 +86,19 @@ options(xtable.comment = FALSE)
     geom_point(size = 1,
                alpha = 0.6) +
     geom_line(size = 0.5, 
-              alpha = 0.7) +
+              alpha = 1) +
     xlim(c(1, 0)) +
     ylim(c(0, 1)) +
     labs(title = 'Appeals level',
          subtitle = 'Restrictive vs Permissive Filters',
          caption = paste0('The ROC curves of the language model')) +
     scale_color_manual(name = 'Filter type',
-                       values = c('black', 'grey')) +
+                       values = c('black', 'darkgrey')) +
     geom_abline(intercept = 1,
                 color = 'black',
-                linetype = 'dashed',
-                slope = -1,
+                slope = 1,
                 size = 1,
-                alpha = 0.6) +
+                alpha = 0.45) +
     facet_wrap(~run, ncol = 3) +
     theme_sfi(lp = 'bottom') 
 
@@ -107,6 +106,46 @@ options(xtable.comment = FALSE)
   g1
 ```
 
+# Dumas 1a (Version 2)
+
+```{r}
+
+g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               color = filter)) +
+    # geom_point(size = 1,
+    #            alpha = 0.6,
+    #            show.legend = FALSE) +
+    geom_smooth(size = 0.1,
+                method = 'loess',
+                se = FALSE,
+                # linetype = 0,
+                alpha = 0.7,
+                show.legend = TRUE) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
+    labs(title = 'Appeals level',
+         subtitle = 'Restrictive vs Permissive Filters',
+         caption = paste0('The ROC curves of the language model', '\n',  
+                          '*lines smoothed by a local regression')) +
+    # scale_color_manual(name = 'Filter type',
+    #                    values = c('black', 'grey')) +
+    scale_color_manual(name = '',
+                       values = c('black', 'grey')) +
+    geom_abline(intercept = 1,
+                color = 'black',
+                # linetype = 'dashed',
+                slope = 1,
+                size = 1,
+                alpha = 0.6) +
+    facet_wrap(~run, ncol = 3) +
+    theme_sfi(lp = 'bottom') 
+
+  g1
+
+```
 
 Dumas 1b (Version 1)
 ```{r, fig.width = 7.25, fig.height = 6}
