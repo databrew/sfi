@@ -58,7 +58,94 @@ options(xtable.comment = FALSE)
 
 #### This markdown is for Dumas figures.
 
+#### There are a total of 4 datasets that come with this publication correspondinging to 2 charts (with 2 figures in each chart - (a) Appeals level and (b) District level). However, the datasets aren't labeld whether they are Appeals or District level, so I went in order of how the datasets were labeled - "figure_1.csv" corresponds to "Figure 1 (a) Appeals level" (from the paper), "figure_2.csv" correponds "Figure 1 (b) District level", "figure_3.csv" correponds "Figure 2 (a) Appeals level", "figure_4.csv" correponds "Figure 2 (b) District level",
+
 # Dumas 1a (Version 1)
+
+```{r, fig.width = 7.25, fig.height = 4}
+# Get data
+  data <- all_data$dumas$f1
+  
+  # create a variable to represent the colors 
+  data$run <- ifelse(grepl('1', data$label), 'Run 1',
+                     ifelse(grepl('2', data$label), 'Run 2',
+                            'Run 3'))
+  
+  data$filter <- ifelse(grepl('Restrictive', data$label), 
+                        'Restrictive', 'Permissive')
+  
+  # recode x and y to fit document
+  # names(data) <- c('label', 'True negative rate', 'True positive rate', 'run', 'filter')
+  
+  # --------------------------------------------------
+  # g4
+  # facet wrap
+  g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               col = filter)) +
+    geom_point(size = 1,
+               alpha = 0.8) +
+    geom_line(size = 0.5, 
+              alpha = 1) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
+    labs(title = 'Appeals level',
+         subtitle = 'Restrictive vs Permissive Filters',
+         caption = paste0('The ROC curves of the language model')) +
+    scale_color_manual(name = 'Filter type',
+                       values = c('black', 'darkgrey')) +
+    geom_abline(intercept = 1,
+                color = 'black',
+                slope = 1,
+                size = 1,
+                alpha = 0.45) +
+    facet_wrap(~run, ncol = 3) +
+    theme_sfi(lp = 'bottom') 
+
+  
+  g1
+```
+
+
+# Dumas 1a (Version 2)
+
+```{r, fig.width = 7.25, fig.height = 4}
+
+g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               color = filter)) +
+    geom_line(size = 1,
+               alpha = 0.8,
+               show.legend = FALSE) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
+    labs(title = 'Appeals level',
+         subtitle = 'Restrictive vs Permissive Filters',
+         caption = paste0('The ROC curves of the language model', '\n',  
+                          '*lines smoothed by a local regression')) +
+    # scale_color_manual(name = 'Filter type',
+    #                    values = c('black', 'grey')) +
+    scale_color_manual(name = '',
+                       values = c('black', 'darkgrey')) +
+    geom_abline(intercept = 1,
+                color = 'black',
+                # linetype = 'dashed',
+                slope = 1,
+                size = .7,
+                alpha = 0.6) +
+    facet_wrap(~run, ncol = 3) +
+    theme_sfi(lp = 'bottom') 
+
+  g1
+
+```
+
+
+# Dumas 1a (Version 3)
 
 ```{r, fig.width = 7.25, fig.height = 6}
 # Get data
@@ -99,55 +186,108 @@ options(xtable.comment = FALSE)
                 slope = 1,
                 size = 1,
                 alpha = 0.45) +
-    facet_wrap(~run, ncol = 3) +
+    facet_wrap(~run, nrow = 3) +
     theme_sfi(lp = 'bottom') 
 
   
   g1
 ```
 
-# Dumas 1a (Version 2)
+# Dumas 1b (Version 1)
 
-```{r}
+```{r, fig.width = 7.25, fig.height = 4}
+# Get data
+  data <- all_data$dumas$f2
 
-g1 <- 
+  
+  # create a variable to represent the colors 
+  data$run <- ifelse(grepl('1', data$label), 'Run 1',
+                     ifelse(grepl('2', data$label), 'Run 2',
+                            'Run 3'))
+  
+  data$filter <- ifelse(grepl('Restrictive', data$label, ignore.case = TRUE), 
+                        'Restrictive', 'Permissive')
+  
+  
+  # --------------------------------------------------
+  # g1
+  # facet wrap
+  g1 <- 
     ggplot(data, 
            aes(x = `True negative rate`,
                y =`True positive rate`,
-               color = filter)) +
-    # geom_point(size = 1,
-    #            alpha = 0.6,
-    #            show.legend = FALSE) +
-    geom_smooth(size = 0.1,
-                method = 'loess',
-                se = FALSE,
-                # linetype = 0,
-                alpha = 0.7,
-                show.legend = TRUE) +
+               col = filter)) +
+    geom_point(size = 0.5, 
+              alpha = 0.8) +
+    geom_line(size = 0.5, 
+              alpha = 1) +
     xlim(c(1, 0)) +
     ylim(c(0, 1)) +
-    labs(title = 'Appeals level',
-         subtitle = 'Restrictive vs Permissive Filters',
-         caption = paste0('The ROC curves of the language model', '\n',  
-                          '*lines smoothed by a local regression')) +
-    # scale_color_manual(name = 'Filter type',
-    #                    values = c('black', 'grey')) +
-    scale_color_manual(name = '',
+    labs(title = 'District Level',
+         subtitle  = 'Restrictive vs Permissive Filters',
+         caption = paste0('The ROC curves of the language model')) +
+    scale_color_manual(name = 'Filter type',
                        values = c('black', 'grey')) +
     geom_abline(intercept = 1,
                 color = 'black',
-                # linetype = 'dashed',
                 slope = 1,
                 size = 1,
                 alpha = 0.6) +
     facet_wrap(~run, ncol = 3) +
     theme_sfi(lp = 'bottom') 
-
+  
+  
   g1
-
 ```
 
-Dumas 1b (Version 1)
+ 
+# Dumas 1b (Version 2)
+
+```{r, fig.width = 7.25, fig.height = 4}
+# Get data
+  data <- all_data$dumas$f2
+
+  
+  # create a variable to represent the colors 
+  data$run <- ifelse(grepl('1', data$label), 'Run 1',
+                     ifelse(grepl('2', data$label), 'Run 2',
+                            'Run 3'))
+  
+  data$filter <- ifelse(grepl('Restrictive', data$label, ignore.case = TRUE), 
+                        'Restrictive', 'Permissive')
+  
+  
+  # --------------------------------------------------
+  # g1
+  # facet wrap
+  g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               col = filter)) +
+    geom_line(size = 0.5, 
+              alpha = 1) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
+    labs(title = 'District Level',
+         subtitle  = 'Restrictive vs Permissive Filters',
+         caption = paste0('The ROC curves of the language model')) +
+    scale_color_manual(name = 'Filter type',
+                       values = c('black', 'grey')) +
+    geom_abline(intercept = 1,
+                color = 'black',
+                slope = 1,
+                size = 0.7,
+                alpha = 0.6) +
+    facet_wrap(~run, ncol = 3) +
+    theme_sfi(lp = 'bottom') 
+  
+  
+  g1
+```
+
+# Dumas 1b (Version 3)
+
 ```{r, fig.width = 7.25, fig.height = 6}
 # Get data
   data <- all_data$dumas$f2
@@ -173,7 +313,7 @@ Dumas 1b (Version 1)
     geom_point(size = 1,
                alpha = 0.6) +
     geom_line(size = 0.5, 
-              alpha = 0.7) +
+              alpha = 1) +
     xlim(c(1, 0)) +
     ylim(c(0, 1)) +
     labs(title = 'District Level',
@@ -183,21 +323,21 @@ Dumas 1b (Version 1)
                        values = c('black', 'grey')) +
     geom_abline(intercept = 1,
                 color = 'black',
-                linetype = 'dashed',
-                slope = -1,
-                size = 1,
+                slope = 1,
+                size = 0.7,
                 alpha = 0.6) +
-    facet_wrap(~run, ncol = 3) +
+    facet_wrap(~run, nrow = 3) +
     theme_sfi(lp = 'bottom') 
   
   
   g1
+  
 ```
 
 
 # Dumas 2a (Verion 1)
 
-```{r, fig.width = 7.25, fig.height = 6}
+```{r, fig.width = 7.25, fig.height = 4}
   # Get data
   data <- all_data$dumas$f3
   
@@ -220,9 +360,9 @@ Dumas 1b (Version 1)
                y =`True positive rate`,
                color = filter)) +
     geom_point(size = 1,
+               alpha = 0.8) +
+    geom_line(size = 1,
                alpha = 0.6) +
-    geom_line(size = 0.5, 
-              alpha = 0.7) +
     xlim(c(1, 0)) +
     ylim(c(0, 1)) +
     scale_color_manual(name = 'Filter type',
@@ -232,8 +372,7 @@ Dumas 1b (Version 1)
          caption = paste0('The ROC curves of the language model')) +
     geom_abline(intercept = 1,
                 color = 'black',
-                linetype = 'dashed',
-                slope = -1,
+                slope = 1,
                 size = 1,
                 alpha = 0.6) +
     facet_wrap(~run, ncol = 3) +
@@ -246,10 +385,59 @@ Dumas 1b (Version 1)
 ```
 
 
-# Dumas 2b (Version 1)
-```{r, fig.width = 7.25, fig.height = 6}
+
+# Dumas 2a (Verion 2)
+
+```{r, fig.width = 7.25, fig.height = 4}
+  # Get data
+  data <- all_data$dumas$f3
+  
+  
+  # create a variable to represent the colors 
+  data$run <- ifelse(grepl('1', data$label), 'Run 1',
+                     ifelse(grepl('2', data$label), 'Run 2',
+                            'Run 3'))
+  
+  data$filter <- ifelse(grepl('with embeddings', data$label), 
+                        'Permissive embeddings', 'Permisive')
+  
+  
+  # --------------------------------------------------
+  # g4
+  # facet wrap
+  g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               color = filter)) +
+    geom_line(size = 1,
+               alpha = 0.6) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
+    scale_color_manual(name = 'Filter type',
+                       values = c('black', 'grey')) +
+    labs(title = 'Appeals level',
+         subtitle = 'Permissive vs Permissive Filters with embeddings',
+         caption = paste0('The ROC curves of the language model')) +
+    geom_abline(intercept = 1,
+                color = 'black',
+                slope = 1,
+                size = 0.7,
+                alpha = 0.6) +
+    facet_wrap(~run, ncol = 3) +
+    theme_sfi(lp = 'bottom',
+              x_axis_title_style = 'bold',
+              y_axis_title_style = 'bold')   
+  
+  g1
+  
+```
+
+
+# Dumas 2a (Version 3)
+```{r, fig.width = 7.25, fig.height = 7}
  # Get data
-  data <- all_data$dumas$f4
+  data <- all_data$dumas$f3
   
   
   # create a variable to represent the colors 
@@ -271,8 +459,8 @@ Dumas 1b (Version 1)
                color = filter)) +
     geom_point(size = 1,
                alpha = 0.6) +
-    geom_line(size = 0.5, 
-              alpha = 0.7) +
+    geom_line(size = 1,
+              alpha = .8) +
     xlim(c(1, 0)) +
     ylim(c(0, 1)) +
     scale_color_manual(name = 'Filter type',
@@ -282,11 +470,157 @@ Dumas 1b (Version 1)
          caption = paste0('The ROC curves of the language model')) +
     geom_abline(intercept = 1,
                 color = 'black',
-                linetype = 'dashed',
-                slope = -1,
+                slope = 1,
+                size = 0.7,
+                alpha = 0.6) +
+    facet_wrap(~run, nrow = 3) +
+    theme_sfi(lp = 'bottom',
+              x_axis_title_style = 'bold',
+              y_axis_title_style = 'bold') 
+
+  g1
+
+```
+
+
+# Dumas 2b (Verion 1)
+
+```{r, fig.width = 7.25, fig.height = 4}
+  # Get data
+  data <- all_data$dumas$f4
+  
+  
+  # create a variable to represent the colors 
+  data$run <- ifelse(grepl('1', data$label), 'Run 1',
+                     ifelse(grepl('2', data$label), 'Run 2',
+                            'Run 3'))
+  
+  data$filter <- ifelse(grepl('with embeddings', data$label), 
+                        'Permissive embeddings', 'Permisive')
+  
+  
+  # --------------------------------------------------
+  # g4
+  # facet wrap
+  g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               color = filter)) +
+    geom_point(size = 1,
+               alpha = 0.8) +
+    geom_line(size = 1,
+               alpha = 0.6) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
+    scale_color_manual(name = 'Filter type',
+                       values = c('black', 'grey')) +
+    labs(title = 'Appeals level',
+         subtitle = 'Permissive vs Permissive Filters with embeddings',
+         caption = paste0('The ROC curves of the language model')) +
+    geom_abline(intercept = 1,
+                color = 'black',
+                slope = 1,
                 size = 1,
                 alpha = 0.6) +
     facet_wrap(~run, ncol = 3) +
+    theme_sfi(lp = 'bottom',
+              x_axis_title_style = 'bold',
+              y_axis_title_style = 'bold')   
+  
+  g1
+  
+```
+
+
+# Dumas 2b (Version 2)
+
+```{r, fig.width = 7.25, fig.height = 4}
+ # Get data
+  data <- all_data$dumas$f4
+  
+  
+  # create a variable to represent the colors 
+  data$run <- ifelse(grepl('1', data$label), 'Run 1',
+                     ifelse(grepl('2', data$label), 'Run 2',
+                            'Run 3'))
+  
+  data$filter <- ifelse(grepl('with embeddings', data$label), 
+                        'Permissive embeddings', 'Permisive')
+  
+  
+  ## --------------------------------------------------
+  # g1
+  # facet wrap
+  g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               color = filter)) +
+    geom_line(size = 1,
+               alpha = 0.6) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
+    scale_color_manual(name = 'Filter type',
+                       values = c('black', 'grey')) +
+    labs(title = 'District Level',
+         subtitle = 'Permissive vs Permissive Filters with embeddings',
+         caption = paste0('The ROC curves of the language model')) +
+    geom_abline(intercept = 1,
+                color = 'black',
+                slope = 1,
+                size = 1,
+                alpha = 0.6) +
+    facet_wrap(~run, ncol = 3) +
+    theme_sfi(lp = 'bottom',
+              x_axis_title_style = 'bold',
+              y_axis_title_style = 'bold') 
+
+  g1
+
+```
+
+# Dumas 2b (Version 3)
+
+```{r, fig.width = 7.25, fig.height = 7}
+ # Get data
+  data <- all_data$dumas$f4
+  
+  
+  # create a variable to represent the colors 
+  data$run <- ifelse(grepl('1', data$label), 'Run 1',
+                     ifelse(grepl('2', data$label), 'Run 2',
+                            'Run 3'))
+  
+  data$filter <- ifelse(grepl('with embeddings', data$label), 
+                        'Permissive embeddings', 'Permisive')
+  
+  
+  ## --------------------------------------------------
+  # g1
+  # facet wrap
+  g1 <- 
+    ggplot(data, 
+           aes(x = `True negative rate`,
+               y =`True positive rate`,
+               color = filter)) +
+    geom_point(size = 1, 
+               alpha = 0.8) +
+    geom_line(size = 1,
+               alpha = 0.6) +
+    xlim(c(1, 0)) +
+    ylim(c(0, 1)) +
+    scale_color_manual(name = 'Filter type',
+                       values = c('black', 'grey')) +
+    labs(title = 'District Level',
+         subtitle = 'Permissive vs Permissive Filters with embeddings',
+         caption = paste0('The ROC curves of the language model')) +
+    geom_abline(intercept = 1,
+                color = 'black',
+                slope = 1,
+                size = 1,
+                alpha = 0.6) +
+    facet_wrap(~run, nrow = 3) +
     theme_sfi(lp = 'bottom',
               x_axis_title_style = 'bold',
               y_axis_title_style = 'bold') 
