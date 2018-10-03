@@ -1,6 +1,6 @@
 ---
 title: \vspace{2.5in}"LAW AS DATA"
-subtitle: "Frakenreiter Figures"
+subtitle: "Eidelman Figures"
 date: ''
 output: 
   pdf_document:
@@ -111,6 +111,57 @@ options(xtable.comment = FALSE)
   
   g1
   
+  
+ g2 <- ggplot(data,
+               aes(reorder(x = State, -value),
+                   y = value,
+                   fill = variable)) +
+    scale_fill_manual(name = '',
+                      values = c('black', 'darkgrey')) +
+    geom_bar(stat = 'identity') +
+    coord_flip() +
+    labs(x = '',
+         y = '',
+         title = 'Figure 1',
+         subtitle = 'Number of bills introduced and receiving floor action for each state',
+         caption = 'Version 1') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold',
+              lkw = TRUE, 
+              lkt = 'point', 
+              legend_width = 40) +
+   theme(axis.text.y=element_text(size = 8, hjust = 1))
+  
+  g2
+  
+  
+  g3 <- ggplot(data,
+               aes(reorder(x = State, -value),
+                   y = value,
+                   fill = variable)) +
+    scale_fill_manual(name = '',
+                      values = c('black', 'darkgrey')) +
+    geom_bar(stat = 'identity') +
+    coord_flip() +
+    labs(x = '',
+         y = '',
+         title = 'Figure 1',
+         subtitle = 'Number of bills introduced and receiving floor action for each state',
+         caption = 'Version 1') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              base_size = 8,
+              y_axis_title_style = 'bold',
+              title_style = 'bold',
+              lkw = TRUE, 
+              lkt = 'point', 
+              legend_width = 40) 
+    # theme(axis.text.y=element_text(size = 9, hjust = 1))
+  
+  g3
+  
 ```
 
 
@@ -220,7 +271,7 @@ options(xtable.comment = FALSE)
                  size = 0.5,
                  color = 'black',
                  alpha = 0.5) + 
-    geom_point(size= 5, 
+    geom_point(size= 2, 
                alpha = 0.8) + 
     scale_y_continuous(labels = no_zero_scale) +
     labs(x = '',
@@ -256,7 +307,7 @@ options(xtable.comment = FALSE)
   no_zero_scale <- function(x) paste0(x*100, "%")
  
   g1 <- ggplot(data,
-               aes(reorder(x = State, value),
+               aes(reorder(x = State, -value),
                    y = value)) +
     geom_bar(stat = 'identity', width = 0.8) +
     scale_y_continuous(labels = no_zero_scale) +
@@ -301,7 +352,7 @@ options(xtable.comment = FALSE)
                  color = 'black',
                  alpha = 0.5) + 
     geom_point(size= 4, 
-               alpha = 0.5) + 
+               alpha = 0.9) + 
     scale_y_continuous(labels = no_zero_scale) +
     labs(x = '',
          y = '',
@@ -377,7 +428,7 @@ options(xtable.comment = FALSE)
                  size = 1,
                  color = 'black',
                  alpha = 0.5) + 
-    geom_point(size= 2, 
+    geom_point(size= 3, 
                alpha = 1) + 
     scale_y_continuous(labels = no_zero_scale) +
     labs(x = '',
@@ -398,5 +449,4 @@ options(xtable.comment = FALSE)
   g2
   
 ```
-
 
