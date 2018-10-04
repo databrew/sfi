@@ -87,7 +87,9 @@ options(xtable.comment = FALSE)
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold') +
+        theme(axis.text=element_text(size = 8, hjust = 1))
+
   
   g1
 
@@ -126,7 +128,9 @@ options(xtable.comment = FALSE)
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold') +     
+    theme(axis.text=element_text(size = 8, hjust = 1))
+
   
   g1
 
@@ -157,7 +161,8 @@ options(xtable.comment = FALSE)
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold') +
+        theme(axis.text=element_text(size = 8, hjust = 1))
   
 
   g1
@@ -192,7 +197,8 @@ options(xtable.comment = FALSE)
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold') +
+        theme(axis.text=element_text(size = 8, hjust = 1))
 
   g2
 
@@ -249,7 +255,7 @@ options(xtable.comment = FALSE)
          subtitle = 'Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
          caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year', 
                           '\n',
-                          '*Ellipses represent a confidence measurement for the clusters (Version 1)')) +
+                          '*Ellipses represent a confidence measurement for the clusters')) +
   annotate(geom = 'text',
            x = 0,
            y = -50,
@@ -288,7 +294,8 @@ options(xtable.comment = FALSE)
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold') 
+              title_style = 'bold') +
+        theme(axis.text=element_text(size = 8, hjust = 1))
    g1 
   
   
@@ -330,7 +337,7 @@ options(xtable.comment = FALSE)
          subtitle = 'Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
          caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year', 
                           '\n',
-                          '*Ellipses represent a confidence measurement for the clusters (Version 1)')) +
+                          '*Ellipses represent a confidence measurement for the clusters')) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
@@ -369,7 +376,8 @@ options(xtable.comment = FALSE)
              family = 'CMU Bright',
              x = 30,
              y = -2,
-             label = 'Due Process')
+             label = 'Due Process') +
+        theme(axis.text=element_text(size = 8, hjust = 1))
   
 g2
 
@@ -412,7 +420,8 @@ g2
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold') +
+        theme(axis.text=element_text(size = 8, hjust = 1))
   
   
  g1
@@ -452,7 +461,8 @@ g2
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold') +
+        theme(axis.text=element_text(size = 8, hjust = 1))
 g2
 
 ```

@@ -85,7 +85,8 @@ options(xtable.comment = FALSE)
     theme_sfi(lp = 'none',
               x_axis_title_style = 'bold',
               y_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
 g1
 ```
@@ -111,11 +112,12 @@ g1
                 se = FALSE,
                 alpha = 1) +
     labs(title = 'Figure 1. In Sample Prediction',
-         subtitle = 'Version 2') +
+         subtitle = '') +
     theme_sfi(lp = 'none',
               x_axis_title_style = 'bold',
               y_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
 
 g2
 
@@ -153,9 +155,8 @@ g2
               legend_width = 30,
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold') +
-    theme(axis.title.x = element_text(size = 9),
-          axis.title.y = element_text(size = 9)) 
+              title_style = 'bold')  +
+    theme(axis.text=element_text(size = 8, hjust = 1))
 
   g1
 ```
@@ -192,7 +193,8 @@ g2
               legend_width = 30,
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold')  +
+    theme(axis.text=element_text(size = 8, hjust = 1))
 
   g1
 ```
@@ -223,10 +225,8 @@ g2
               legend_width = 30,
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold') +
-  theme(axis.title.x = element_text(size = 9),
-          axis.title.y = element_text(size = 9)) 
-  
+              title_style = 'bold')  +
+    theme(axis.text=element_text(size = 8, hjust = 1))
 g2
 
 ```
@@ -258,7 +258,8 @@ g2
               legend_width = 30,
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold')
+              title_style = 'bold')  +
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
 g2
 

@@ -102,7 +102,8 @@ options(xtable.comment = FALSE)
                 size = 1,
                 alpha = 0.45) +
     facet_wrap(~run, ncol = 3) +
-    theme_sfi(lp = 'bottom') 
+    theme_sfi(lp = 'bottom')  +
+    theme(axis.text=element_text(size = 8, hjust = 1))
 
   
   g1
@@ -138,7 +139,8 @@ g1 <-
                 size = .7,
                 alpha = 0.6) +
     facet_wrap(~run, ncol = 3) +
-    theme_sfi(lp = 'bottom') 
+    theme_sfi(lp = 'bottom') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
 
   g1
 
@@ -187,7 +189,8 @@ g1 <-
                 size = 1,
                 alpha = 0.45) +
     facet_wrap(~run, nrow = 3) +
-    theme_sfi(lp = 'bottom') 
+    theme_sfi(lp = 'bottom') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
 
   
   g1
@@ -234,7 +237,8 @@ g1 <-
                 size = 1,
                 alpha = 0.6) +
     facet_wrap(~run, ncol = 3) +
-    theme_sfi(lp = 'bottom') 
+    theme_sfi(lp = 'bottom') +
+    theme(axis.text=element_text(size = 8, hjust = 1)) 
   
   
   g1
@@ -280,7 +284,8 @@ g1 <-
                 size = 0.7,
                 alpha = 0.6) +
     facet_wrap(~run, ncol = 3) +
-    theme_sfi(lp = 'bottom') 
+    theme_sfi(lp = 'bottom') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
   
   g1
@@ -327,7 +332,8 @@ g1 <-
                 size = 0.7,
                 alpha = 0.6) +
     facet_wrap(~run, nrow = 3) +
-    theme_sfi(lp = 'bottom') 
+    theme_sfi(lp = 'bottom') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
   
   g1
@@ -378,7 +384,8 @@ g1 <-
     facet_wrap(~run, ncol = 3) +
     theme_sfi(lp = 'bottom',
               x_axis_title_style = 'bold',
-              y_axis_title_style = 'bold')   
+              y_axis_title_style = 'bold') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
   g1
   
@@ -427,7 +434,8 @@ g1 <-
     facet_wrap(~run, ncol = 3) +
     theme_sfi(lp = 'bottom',
               x_axis_title_style = 'bold',
-              y_axis_title_style = 'bold')   
+              y_axis_title_style = 'bold') +
+    theme(axis.text=element_text(size = 8, hjust = 1))  
   
   g1
   
@@ -476,7 +484,8 @@ g1 <-
     facet_wrap(~run, nrow = 3) +
     theme_sfi(lp = 'bottom',
               x_axis_title_style = 'bold',
-              y_axis_title_style = 'bold') 
+              y_axis_title_style = 'bold') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
 
   g1
 
@@ -526,7 +535,8 @@ g1 <-
     facet_wrap(~run, ncol = 3) +
     theme_sfi(lp = 'bottom',
               x_axis_title_style = 'bold',
-              y_axis_title_style = 'bold')   
+              y_axis_title_style = 'bold') +
+    theme(axis.text=element_text(size = 8, hjust = 1))   
   
   g1
   
@@ -574,7 +584,8 @@ g1 <-
     facet_wrap(~run, ncol = 3) +
     theme_sfi(lp = 'bottom',
               x_axis_title_style = 'bold',
-              y_axis_title_style = 'bold') 
+              y_axis_title_style = 'bold') +
+    theme(axis.text=element_text(size = 8, hjust = 1)) 
 
   g1
 
@@ -623,7 +634,8 @@ g1 <-
     facet_wrap(~run, nrow = 3) +
     theme_sfi(lp = 'bottom',
               x_axis_title_style = 'bold',
-              y_axis_title_style = 'bold') 
+              y_axis_title_style = 'bold') +
+    theme(axis.text=element_text(size = 8, hjust = 1)) 
 
   g1
 

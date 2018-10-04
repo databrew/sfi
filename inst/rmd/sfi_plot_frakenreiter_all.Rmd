@@ -115,7 +115,8 @@ options(xtable.comment = FALSE)
          y = '',
          title = 'Figure 1',
          subtitle = 'Development over time of four measures of style over time. Each opinion is represented by one point per panel',
-         caption = '*Lines smoothed using local regression') 
+         caption = '*Lines smoothed using local regression') +
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
   g1
   

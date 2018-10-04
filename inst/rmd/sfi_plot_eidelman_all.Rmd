@@ -60,7 +60,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-#### This markdown is for Copus figures.
+#### This markdown is for Eidelman figures.
 
 
 
@@ -86,7 +86,6 @@ options(xtable.comment = FALSE)
   data <- melt(data, id.vars = 'State')
      
   
-  
  g1 <- ggplot(data,
                aes(reorder(x = State, -value),
                    y = value,
@@ -99,7 +98,7 @@ options(xtable.comment = FALSE)
          y = '',
          title = 'Figure 1',
          subtitle = 'Number of bills introduced and receiving floor action for each state',
-         caption = 'Version 1') +
+         caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',
@@ -107,60 +106,12 @@ options(xtable.comment = FALSE)
               lkw = TRUE, 
               lkt = 'point', 
               legend_width = 40) +
-    theme(axis.text.y=element_text(size = 9, hjust = 1))
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
   g1
   
   
- g2 <- ggplot(data,
-               aes(reorder(x = State, -value),
-                   y = value,
-                   fill = variable)) +
-    scale_fill_manual(name = '',
-                      values = c('black', 'darkgrey')) +
-    geom_bar(stat = 'identity') +
-    coord_flip() +
-    labs(x = '',
-         y = '',
-         title = 'Figure 1',
-         subtitle = 'Number of bills introduced and receiving floor action for each state',
-         caption = 'Version 1') +
-    theme_sfi(lp = 'bottom',
-              gM = FALSE,
-              y_axis_title_style = 'bold',
-              title_style = 'bold',
-              lkw = TRUE, 
-              lkt = 'point', 
-              legend_width = 40) +
-   theme(axis.text.y=element_text(size = 8, hjust = 1))
-  
-  g2
-  
-  
-  g3 <- ggplot(data,
-               aes(reorder(x = State, -value),
-                   y = value,
-                   fill = variable)) +
-    scale_fill_manual(name = '',
-                      values = c('black', 'darkgrey')) +
-    geom_bar(stat = 'identity') +
-    coord_flip() +
-    labs(x = '',
-         y = '',
-         title = 'Figure 1',
-         subtitle = 'Number of bills introduced and receiving floor action for each state',
-         caption = 'Version 1') +
-    theme_sfi(lp = 'bottom',
-              gM = FALSE,
-              base_size = 8,
-              y_axis_title_style = 'bold',
-              title_style = 'bold',
-              lkw = TRUE, 
-              lkt = 'point', 
-              legend_width = 40) 
-    # theme(axis.text.y=element_text(size = 9, hjust = 1))
-  
-  g3
+
   
 ```
 
@@ -191,7 +142,7 @@ options(xtable.comment = FALSE)
          y = '',
          title = 'Figure 1',
          subtitle = 'Number of bills introduced and receiving floor action for each state',
-         caption = 'Version 2') +
+         caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',
@@ -199,7 +150,7 @@ options(xtable.comment = FALSE)
               lkw = TRUE, 
               lkt = 'point', 
               legend_width = 40) +
-    theme(axis.text.y=element_text(size = 9))
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
   g2
   
@@ -238,15 +189,15 @@ options(xtable.comment = FALSE)
          y = '',
          title = 'Figure 2',
          subtitle = 'Percent of bills reaching floor per state',
-         caption = 'Version 1') +
+         caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',
               title_style = 'bold') +
     theme(axis.title.x=element_blank(),
           axis.text.x=element_blank(),
-          axis.ticks.x=element_blank())
-
+          axis.ticks.x=element_blank()) +
+    theme(axis.text=element_text(size = 8, hjust = 1))
   
  g1
   
@@ -278,14 +229,16 @@ options(xtable.comment = FALSE)
          y = 'Pass Rate',
          title = 'Figure 2',
          subtitle = 'Percent of bills reaching floor per state',
-         caption = 'Version 2') +
+         caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',
               title_style = 'bold') +
     theme(axis.title.x=element_blank(),
           axis.ticks.length = unit(0, "lines"),
-          axis.ticks.x=element_blank()) + coord_flip()
+          axis.ticks.x=element_blank()) + 
+    coord_flip()+
+    theme(axis.text=element_text(size = 8, hjust = 1))
 
   g2
   
@@ -316,12 +269,12 @@ options(xtable.comment = FALSE)
          y = '',
          title = 'Figure 3',
          subtitle = 'Change from baseline with text only features',
-         caption = 'Version 1') +
+         caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',
               title_style = 'bold') +
-        theme(axis.text.y=element_text(size = 7)) +
+        theme(axis.text=element_text(size = 8)) +
     coord_flip() + geom_hline(yintercept = 0)
   
   g1
@@ -358,7 +311,7 @@ options(xtable.comment = FALSE)
          y = '',
          title = 'Figure 3',
          subtitle = 'Change from baseline with text only features',
-         caption = 'Version 2') +
+         caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',
@@ -366,7 +319,7 @@ options(xtable.comment = FALSE)
     theme(axis.title.x=element_blank(),
           axis.ticks.length = unit(0, "lines"),
           axis.ticks.x=element_blank(),
-          axis.text.y=element_text(size = 7)) +
+          axis.text=element_text(size = 8)) +
     coord_flip() + geom_hline(yintercept = 0)
   
   g2
@@ -394,13 +347,13 @@ options(xtable.comment = FALSE)
          y = '',
          title = 'Figure 4',
          subtitle = paste0('Change from baseline with sponsor only features', '\n', 'Just sponsor improvement per state/chamber'),
-         caption = 'Version 1') +
+         caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',
               title_style = 'bold') +
     coord_flip() +
-    theme(axis.text.y=element_text(size = 6)) +
+    theme(axis.text=element_text(size = 8)) +
      geom_hline(yintercept = 0)
   g1
   
@@ -435,7 +388,7 @@ options(xtable.comment = FALSE)
          y = '',
          title = 'Figure 4',
          subtitle = paste0('Change from baseline with sponsor only features', '\n', 'Just sponsor improvement per state/chamber'),
-         caption = 'Version 2') +
+         caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
               y_axis_title_style = 'bold',
@@ -443,7 +396,7 @@ options(xtable.comment = FALSE)
     theme(axis.title.x=element_blank(),
           axis.ticks.length = unit(0, "lines"),
           axis.ticks.x=element_blank()) +
-    theme(axis.text.y=element_text(size = 7)) +
+    theme(axis.text=element_text(size = 8)) +
     coord_flip() + geom_hline(yintercept = 0)
   
   g2
