@@ -1,7 +1,7 @@
 ---
-title: \vspace{2.5in}"LAW AS DATA"
-subtitle: "Frakenreiter Figures"
-date: ''
+title: "Frankenreiter"
+subtitle: "Figures"
+date: 'Oct 19th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -55,11 +55,13 @@ options(xtable.comment = FALSE)
 ```
 
 
-#### This markdown is for Copus figures.
+#### This markdown is for Frankenreiter figures.
 
-# Frakenrieter 2 (version 1)
+\newpage
 
-```{r, fig.width = 7.25, fig.height = 4}
+# Frankenreiter 2 (version 1)
+
+```{r, fig.width = 7, fig.height = 6}
  # Get data
   data <- all_data$frankenreiter$f2
   data <- data %>%
@@ -111,12 +113,13 @@ options(xtable.comment = FALSE)
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
-    labs(x = 'Date',
+    labs(x = '',
          y = '',
          title = 'Figure 1',
-         subtitle = 'Development over time of four measures of style over time. Each opinion is represented by one point per panel',
+         subtitle = paste0('Development over time of four measures of style over time.',
+                           '\n', 'Each opinion is represented by one point per panel'),
          caption = '*Lines smoothed using local regression') +
-    theme(axis.text=element_text(size = 8, hjust = 1))
+    theme(axis.text=element_text(size = 10, hjust = 1))
   
   g1
   
@@ -124,9 +127,9 @@ options(xtable.comment = FALSE)
 ```
 
 
-# Frakenrieter 2 (version 2)
+# Frankenreiter 2 (version 2)
 
-```{r,  fig.width = 7.25, fig.height = 4}
+```{r,  fig.width = 7, fig.height = 6}
  # Get data
   data <- all_data$frankenreiter$f2
   data <- data %>%
@@ -186,20 +189,22 @@ options(xtable.comment = FALSE)
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
-    labs(x = 'Date',
+    labs(x = '',
          y = '',
-         title = 'Figure 1 (Version 2)',
-         subtitle = 'Development over time of four measures of style over time. Each opinion is represented by one point per panel',
-         caption = '*Std error smoothed using local regression. Showing only mean points.') 
+         title = 'Figure 1',
+         subtitle = paste0('Development over time of four measures of style over time', 
+                           '\n', 'Each opinion is represented by one point per panel'),
+         caption = '*Std error smoothed using local regression. Showing only mean points.')  +
+    theme(axis.text=element_text(size = 10, hjust = 1))
 
   g2
 
 ```
 
 
-# Frakenrieter 3 (version 1)
+# Frankenreiter 3 (version 1)
 
-```{r,  fig.width = 7.25, fig.height = 4}
+```{r,  fig.width = 7, fig.height = 6}
 # Get data
   data <- all_data$frankenreiter$f3
   
@@ -215,19 +220,20 @@ options(xtable.comment = FALSE)
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
-    labs(x = 'Date',
+    labs(x = '',
          y = '',
          title = 'Figure 3 Similarity and temporal distance',
-         caption = '*Std error from local regression.') 
+         caption = '*Std error from local regression.') +
+    theme(axis.text=element_text(size = 10, hjust = 1))
   g1
   
   
 ```
 
 
-# Frakenrieter 3 (version 2)
+# Frankenreiter 3 (version 2)
 
-```{r,  fig.width = 7.25, fig.height = 4}
+```{r,  fig.width = 7, fig.height = 6}
  #Get data
   data <- all_data$frankenreiter$f3
   # FILTERING OUT SOME DATA TO MATCH THEIRS
@@ -261,52 +267,54 @@ options(xtable.comment = FALSE)
                aes(x = diff,
                    y = similarity)) +
     geom_violin(aes(group = factor(diff)),
-                alpha = 0.2,
-                fill = 'black',
+                alpha = 1,
+                fill = 'darkgrey',
                 color = NA) +
+    ylim(0, 1) +
     geom_jitter(alpha = 0.7,
                 # pch = 1,
                 size = 1) +
-    ylim(0, 1) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
-    labs(x = 'Date',
+    labs(x = '',
          y = '',
          title = 'Figure 3 Similarity and temporal distance',
          subtitle = '(Grouped every 10 years)',
-         caption = '*Distribution represented with mirrored normal density (violin plot).') 
+         caption = paste0('*Distribution represented with mirrored normal density (violin plot).', '\n', 'Data points randomly "jittered" on the X axis.')) +
+    theme(axis.text=element_text(size = 10, hjust = 1)) 
   
   g2
 
 ```
 
 
-# Frakenrieter 4 (version 1)
+# Frankenreiter 4 (version 1)
 
-```{r, fig.width = 7.25, fig.height = 4}
+```{r, fig.width = 7, fig.height = 6}
 
 # Get data
   data <- all_data$frankenreiter$f4 %>%
     filter(diff >= 0) # we are making this modification to match the vis from the paper
   
   g1 <- ggplot(data, aes(diff, similarity)) +
+    geom_smooth(method = 'loess',
+                linetype = 0,
+                fill = 'darkgrey',
+                alpha = 1) +
     geom_point(size = 1, 
                alpha = 0.9,
                color = 'black') +
-    geom_smooth(method = 'loess',
-                linetype = 0,
-                fill = 'black',
-                alpha = 0.3) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
-    labs(x = 'Date',
+    labs(x = '',
          y = '',
          title = 'Figure 4 Similarity between different judges as a function of time',
-         caption = '*Std error from local regression.') 
+         caption = '*Std error from local regression.') +
+    theme(axis.text=element_text(size = 10, hjust = 1))
   
   
   g1
@@ -315,9 +323,9 @@ options(xtable.comment = FALSE)
 ```
 
 
-# Frakenrieter 4 (version 2)
+# Frankenreiter 4 (version 2)
 
-```{r, fig.width = 7.25, fig.height = 4}
+```{r, fig.width = 7, fig.height = 6}
   
   # Get data
   data <- all_data$frankenreiter$f4 %>%
@@ -349,31 +357,34 @@ g2 <- ggplot(data = data %>%
                 mutate(diff = round(diff, digits = -1)),
               aes(x = diff,
                   y = similarity)) +
-    geom_violin(aes(group = factor(diff)),
-                alpha = 0.4,
-                fill = 'black',
-                color = NA) +
     geom_jitter(alpha = 0.3,
+                width = 2,
                 # pch = 1,
                 size = 1) +
+  geom_violin(aes(group = factor(diff)),
+                alpha = 0.8,
+                width = 10,
+                fill = 'darkgrey',
+                color = NA) +
     ylim(0, 1) +
     theme_sfi(lp = 'none',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
-  labs(x = 'Date',
+  labs(x = '',
        y = '',
        title = 'Figure 4 Similarity between different judges as a function of time',
        subtitle = '(Grouped every 10 years)',
-       caption = '*Std error from local regression.') 
+        caption = paste0('*Distribution represented with mirrored normal density (violin plot).', '\n', 'Data points randomly "jittered" on the X axis.'))  +
+    theme(axis.text=element_text(size = 10, hjust = 1))
 
 g2
 ```
 
 
-# Frakenrieter 5 (version 1)
+# Frankenreiter 5 (version 1)
 
-```{r, fig.width = 7.25, fig.height = 4}
+```{r, fig.width = 7, fig.height = 6}
 
   # Get data
   data <- all_data$frankenreiter$f5
@@ -398,8 +409,6 @@ g2
     geom_point(size = 4,
                pch = 16,
                alpha = 0.9)  +
-    ggrepel::geom_text_repel(data=subset(data1, year ==  1960 | year==  2010),
-                             aes(coord2, coord1, label=year), vjust = -2, hjust = 1.5) +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
@@ -412,14 +421,15 @@ g2
          title = 'Figure 5.',
          subtitle = 'Metrix MDS (1955-2014)',
          caption = 'Multidimensional scaling of KL divergences between different years') +
-    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") 
+    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") +
+    theme(axis.text=element_text(size = 10, hjust = 1))
   
 g1
 
 ```
 
 
-```{r,fig.width = 7.25, fig.height = 4}
+```{r,fig.width = 7, fig.height = 6}
 # Get data
   data <- all_data$frankenreiter$f5
 
@@ -448,13 +458,14 @@ g1
          title = 'Figure 5.',
          subtitle = 'Metrix MDS (1970-2014)',
          caption = 'Multidimensional scaling of KL divergences between different years') +
-    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") 
+    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") +
+    theme(axis.text=element_text(size = 10, hjust = 1))
 
 
 g2
 ```
 
-# Frakenrieter 6 (version 1)
+# Frankenreiter 6 1973 enlargment (version 1)
 
 ```{r, fig.width = 7.25, fig.height = 7}
 
@@ -496,11 +507,68 @@ between 1973 and 1975') +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
-              title_style = 'bold') 
+              title_style = 'bold')  +
+    theme(axis.text=element_text(size = 10, hjust = 1))
   
   g1
   
 ```
+
+# Frankenreiter 6 1973 enlargment (version 2)
+
+```{r, fig.width = 7.25, fig.height = 7}
+
+# Get data
+  data <- all_data$frankenreiter$f6 %>%
+    mutate(year = as.numeric(year))
+  
+  # separate data into two datasets based on key
+  data_1 <- data[data$key == '1973 enlargement',]
+
+  # capitalize data 
+  data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
+
+  # recode data so the new judgetrad variable indicates if the judge is new
+  data_1$judgetrad <- ifelse(data_1$new == 1, paste0(data_1$judgetrad, ' New'), data_1$judgetrad)
+  
+  # -----------------------
+  # 1973 enlargement
+  
+  # Version 1 with lines at end
+  g1 <- ggplot(data = data_1,
+               aes(x = year,
+                   y = kl.dist3,
+                   group = interaction(judgetrad,judge),
+                   color = judgetrad)) +
+    geom_line(size = 1) +
+    geom_point(size = 1,
+               alpha = 0.6,
+               color = 'black') +
+    xlim(c(1973, 1990)) +
+    geom_dl(aes(label = judge), 
+            method = list(dl.combine("last.points"), hjust = -0.5, 
+                          cex = 0.6,
+                          dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
+    scale_color_manual(name = '',
+                       values = c('black', '#414141', '#979797', '#C6C6C6')) +
+    labs(x = 'Year',
+         y = '',
+         title = 'Figure 6 (1973 Enlargement)',
+         subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
+between 1973 and 1975') +
+    theme_sfi(lp = 'bottom',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold')  +
+    theme(axis.text=element_text(size = 10, hjust = 1))
+  
+  g1
+  
+
+```
+
+
+# Frankenreiter 6 1995 englargment (version 1)
 
 ```{r, fig.width = 7.25, fig.height = 8}
   
@@ -538,6 +606,7 @@ between 1973 and 1975') +
               title_style = 'bold') +
     scale_fill_manual(name = '',
                       values = c('black', "#595959", "#9C9C9C",'#D3D0D0' )) +
+    theme(axis.text=element_text(size = 10, hjust = 1)) +
     facet_wrap(~judge) 
 
    g2 
@@ -545,7 +614,8 @@ between 1973 and 1975') +
 ```
 
 
-# Frakenrieter 6 (version 2)
+
+# Frankenreiter 6 1995 englargment (version 2)
 
 ```{r, fig.width = 7.25, fig.height = 8}
  
@@ -590,7 +660,8 @@ between 1973 and 1975') +
       theme_sfi(lp = 'none',
                 y_axis_title_style = 'bold',
                 x_axis_title_style = 'bold',
-                title_style = 'bold') 
+                title_style = 'bold') +
+    theme(axis.text=element_text(size = 10, hjust = 1))
     
     g3
 

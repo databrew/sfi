@@ -1,0 +1,135 @@
+---
+title: "Livermore, Grom, Eidelman"
+subtitle: "Figures"
+date: 'Oct 19th 2018'
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
+library(sfi)
+library(webshot)
+library(reshape2)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+
+# webshot::install_phantomjs()
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+            
+            
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+            fig.width = 7.25,
+            fig.height = 4,
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
+
+#### This markdown is for Livermore, Grom, Eidelman figures.
+
+\newpage
+
+# Livermore, Grom, Eidelman 1 (version 1)
+
+```{r, fig.width = 4, fig.height = 7.25}
+
+# # no scientific notation
+  # options(scipen = '999')
+  # 
+  # # get data 
+  data <- all_data$livermoregrom$f1
+  
+  # get those columns 
+  data <- data[, c('agency_ideol', 'sent_agency', 
+                   'ml_mean_compress2', 'agency_ideol_E')]
+  
+  data$agency_ideol <- as.numeric(data$agency_ideol)
+  
+  # make long form
+  data <- melt(data)
+  
+  g1 <- ggplot() + geom_point(aes(data$value[data$variable =='agency_ideol_E'], 
+                                  data$value[data$variable =='ml_mean_compress2'], 
+                                  size = 'Rule Sentiment'),
+                              alpha = 0.9) +
+    geom_point(aes(data$value[data$variable =='agency_ideol_E'], 
+                   data$value[data$variable =='sent_agency'],
+                   size = 'Agency Average Summit'), 
+               color = '#6D6D6D', alpha = 0.1) +
+    xlab('Agency Polarity') + ylab('Sentiment') +
+    theme_sfi(lp = 'bottom', x_axis_title_style = 'bold', y_axis_title_style = 'bold') +
+    scale_size_manual(name = '',
+                      values = c(4,1)) +
+    theme(axis.text=element_text(size = 10, hjust = 1))
+  
+  g1
+
+```
+
+# Livermore, Grom, Eidelman 1 (version 1)
+
+```{r, fig.width = 4, fig.height = 7.25}
+
+# # no scientific notation
+  # options(scipen = '999')
+  # 
+  # # get data 
+  data <- all_data$livermoregrom$f1
+  
+  # get those columns 
+  data <- data[, c('agency_ideol', 'sent_agency', 
+                   'ml_mean_compress2', 'agency_ideol_E')]
+  
+  data$agency_ideol <- as.numeric(data$agency_ideol)
+  
+  # make long form
+  data <- melt(data)
+  
+  g2 <- ggplot() + geom_point(aes(data$value[data$variable =='agency_ideol_E'], 
+                                  data$value[data$variable =='ml_mean_compress2'], 
+                                  size = 'Rule Sentiment'),
+                              alpha = 0.9) +
+    geom_point(aes(data$value[data$variable =='agency_ideol_E'], 
+                   data$value[data$variable =='sent_agency'],
+                   size = 'Agency Average Summit'), 
+               color = '#6D6D6D', alpha = 1) +
+    xlab('Agency Polarity') + ylab('Sentiment') +
+    theme_sfi(lp = 'bottom', x_axis_title_style = 'bold', y_axis_title_style = 'bold') +
+    scale_size_manual(name = '',
+                      values = c(4,2)) +
+    theme(axis.text=element_text(size = 10, hjust = 1))
+  
+  g2
+
+```

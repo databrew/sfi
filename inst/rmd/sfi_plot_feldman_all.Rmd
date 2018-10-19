@@ -1,7 +1,7 @@
 ---
-title: \vspace{2.5in}"LAW AS DATA"
-subtitle: "Feldman Figures"
-date: ''
+title: "Feldman"
+subtitle: "Figures"
+date: 'Oct 19th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -44,8 +44,6 @@ opts_chunk$set(echo=FALSE,
               warning=FALSE,
               dpi = 300,
               # dev = "cairo_pdf",
-            fig.width = 7.25,
-            fig.height = 4,
               dev = c("png", "cairo_pdf"),
               fig.pos="!h",
               fig.path = 'figures/')
@@ -54,10 +52,12 @@ options(xtable.comment = FALSE)
 ```
 
 
+\newpage
+
 #### This markdown is for Feldman figures.
 
 # Feldman 1 (version 1)
-```{r}
+```{r, fig.width = 5, fig.height = 5}
 # Get data
   data <- all_data$feldman$f1 
   
@@ -89,14 +89,15 @@ options(xtable.comment = FALSE)
                 y_axis_title_style = 'bold',
                 x_axis_title_style = 'bold',
                 title_style = 'bold') +
-    theme(axis.text=element_text(size = 8, hjust = 1))
+    theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size = 12, face = "bold"))
   
   g1
 ```
 
 
 # Feldman 1 (version 2)
-```{r}
+```{r, fig.width = 5, fig.height = 5}
   # Version 2
   g2<- ggplot(data, 
          aes(x = federal, 
@@ -118,7 +119,9 @@ options(xtable.comment = FALSE)
       theme_sfi(lp = 'none',
                 y_axis_title_style = 'bold',
                 x_axis_title_style = 'bold',
-                title_style = 'bold')  
+                title_style = 'bold') +
+    theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size = 12, face = "bold"))
   
   g2
 
@@ -127,7 +130,7 @@ options(xtable.comment = FALSE)
 
 # Feldman 2 (version 1)
 
-```{r}
+```{r, fig.width = 5, fig.height = 5}
 # Get data
   data <- all_data$feldman$f2 
   
@@ -159,14 +162,15 @@ options(xtable.comment = FALSE)
                 y_axis_title_style = 'bold',
                 x_axis_title_style = 'bold',
                 title_style = 'bold')  +
-    theme(axis.text=element_text(size = 8, hjust = 1))
+    theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size = 12, face = "bold"))
   
   g3
 ```
 
 # Feldman 2 (version 2)
 
-```{r}
+```{r, fig.width = 5, fig.height = 5}
 # Get data
   data <- all_data$feldman$f2 
   
@@ -198,7 +202,8 @@ options(xtable.comment = FALSE)
                 y_axis_title_style = 'bold',
                 x_axis_title_style = 'bold',
                 title_style = 'bold')  +
-    theme(axis.text=element_text(size = 8, hjust = 1))
+    theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size = 12, face = "bold"))
   
   g4
 ```

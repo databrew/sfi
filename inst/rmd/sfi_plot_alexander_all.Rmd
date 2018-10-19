@@ -1,20 +1,22 @@
 ---
-title: \vspace{2.5in}"LAW AS DATA"
-always_allow_html: yes
-subtitle: "Alexander et al"
-date: ''
+title: "Alexander et al"
+subtitle: "Figures"
+date: 'Oct 19th 2018'
 output: 
   html_document:
+    includes:
+      in_header: preamble.sty
 fig_width: 4
 fig_height: 3
 bibliography: bibliography.bib
 ---
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache.lazy = FALSE, results = 'hide'}
 # Packages
 library(sfi)
 library(webshot)
 library(ggplot2)
+library(readxl)
 library(dplyr)
 library(plotly)
 library(ggiraph)
@@ -41,22 +43,54 @@ opts_chunk$set(echo=FALSE,
               warning=FALSE,
               dpi = 300,
               # dev = "cairo_pdf",
-            fig.width = 4,
-            fig.height = 3,
+            # fig.width = 4,
+            # fig.height = 3,
               dev = c("png", "cairo_pdf"),
               fig.pos="!h",
               fig.path = 'figures/')
 opts_knit$set(width=75)
 options(xtable.comment = FALSE)
+
 ```
 
 
-#### This markdown is for alexander plots only. Because they are written with the package plotly, including them with the other plots causes a sizing issue. 
+```{r, fig.width = 4, fig.height = 7.25}
+# read in data
+# -------------------
+alexander_et_al_1 <- read_csv('../../data-raw/Databrew Graphics/Alexander et al/Figure 1.csv')
+alexander_et_al_1 <- alexander_et_al_1[!is.na(alexander_et_al_1$case_number),]
+
+# read in figure 6
+alexander_et_al_6 <- read_excel('../../data-raw/Databrew Graphics/Alexander et al/Figure 6.xlsx', sheet = 1)
+
+# read in figures 4 and 7 and seperate, also rename columns and remove NA
+alexander_et_al_4_7 <- read_excel('../../data-raw/Databrew Graphics/Alexander et al/Figures 4 _7.xlsx', sheet = 1)
+alexander_et_al_4 <- alexander_et_al_4_7[, 1:2]
+alexander_et_al_7 <- alexander_et_al_4_7[, 4:5]
+names(alexander_et_al_4) <- c('key', 'value')
+names(alexander_et_al_7) <- c('key', 'value')
+alexander_et_al_4 <- alexander_et_al_4[!is.na(alexander_et_al_4$key),]
+alexander_et_al_7 <- alexander_et_al_7[!is.na(alexander_et_al_7$key),]
+
+alexander <- list()
+alexander$f1 <- alexander_et_al_1
+alexander$f4 <- alexander_et_al_4
+alexander$f6 <- alexander_et_al_6
+alexander$f7 <- alexander_et_al_7
+
+
+```
+
+
+
+#### This markdown is for alexander plots only. Because they are written with the package plotly, they can only be rendered in HTML. Also, ignore the latex output at the top of the page. I think it might also be worth making a few flipped bar charts instead of doughnut charts if you all don't like these.
+
+\newpage
 
 # Alexander 4
-```{r}
+```{r, fig.width = 4, fig.height = 7.25}
  # Get data
-  data <- all_data$alexander$f4
+  data <- alexander$f4
   
   # Flag the groups
   data$group <-
@@ -180,10 +214,10 @@ export(g2, file = tmpFile)
 
 # Alexander 7
 
-```{r results = 'asis'}
+```{r, fig.width = 4, fig.height = 7.25}
 
 # # Get data
-  data <- all_data$alexander$f7
+  data <- alexander$f7
   data$value <- data$value * 100
   
   # get colors
