@@ -1,22 +1,23 @@
 ---
-title: "Alexander et al"
+title: "Chen and Ash"
 subtitle: "Figures"
 date: 'Oct 19th 2018'
 output: 
-  html_document:
+  pdf_document:
+    latex_engine: xelatex
     includes:
       in_header: preamble.sty
 fig_width: 4
-fig_height: 3
+fig_height: 2.6
 bibliography: bibliography.bib
 ---
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache.lazy = FALSE, results = 'hide'}
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
 # Packages
 library(sfi)
 library(webshot)
 library(ggplot2)
-library(readxl)
 library(dplyr)
 library(plotly)
 library(ggiraph)
@@ -43,53 +44,23 @@ opts_chunk$set(echo=FALSE,
               warning=FALSE,
               dpi = 300,
               # dev = "cairo_pdf",
-            # fig.width = 4,
-            # fig.height = 3,
               dev = c("png", "cairo_pdf"),
               fig.pos="!h",
               fig.path = 'figures/')
 opts_knit$set(width=75)
 options(xtable.comment = FALSE)
-
 ```
 
 
-```{r, fig.width = 4, fig.height = 7.25}
-# read in data
-# -------------------
-alexander_et_al_1 <- read_csv('../../data-raw/Databrew Graphics/Alexander et al/Figure 1.csv')
-alexander_et_al_1 <- alexander_et_al_1[!is.na(alexander_et_al_1$case_number),]
-
-# read in figure 6
-alexander_et_al_6 <- read_excel('../../data-raw/Databrew Graphics/Alexander et al/Figure 6.xlsx', sheet = 1)
-
-# read in figures 4 and 7 and seperate, also rename columns and remove NA
-alexander_et_al_4_7 <- read_excel('../../data-raw/Databrew Graphics/Alexander et al/Figures 4 _7.xlsx', sheet = 1)
-alexander_et_al_4 <- alexander_et_al_4_7[, 1:2]
-alexander_et_al_7 <- alexander_et_al_4_7[, 4:5]
-names(alexander_et_al_4) <- c('key', 'value')
-names(alexander_et_al_7) <- c('key', 'value')
-alexander_et_al_4 <- alexander_et_al_4[!is.na(alexander_et_al_4$key),]
-alexander_et_al_7 <- alexander_et_al_7[!is.na(alexander_et_al_7$key),]
-
-alexander <- list()
-alexander$f1 <- alexander_et_al_1
-alexander$f4 <- alexander_et_al_4
-alexander$f6 <- alexander_et_al_6
-alexander$f7 <- alexander_et_al_7
-
-
-```
-
-
-
-#### This markdown is for alexander plots only. Because they are written with the package plotly, they can only be rendered in HTML. Also, ignore the latex output at the top of the page. I think it might also be worth making a few flipped bar charts instead of doughnut charts if you all don't like these.
+#### This markdown is for Chen and Ash figures.
 
 \newpage
 
-# Alexander 4
+# Alexander 1 (Version 1)
+
 ```{r, fig.width = 4, fig.height = 7.25}
- # Get data
+
+# Get data
   data <- alexander$f4
   
   # Flag the groups
@@ -122,165 +93,5 @@ alexander$f7 <- alexander_et_al_7
   dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
   dat_origin <- dat_origin[order(dat_origin$value, decreasing = TRUE),]
   
-  
-  ##------- USING PLOTLY
-  # remove dark color
-  # get font object
-  inside_f <- list(
-    family = "Computer modern",
-    size = 12,
-    color = 'white'
-  )
-  
-  outside_f_claim <- list(
-    family = "Computer modern",
-    size = 12,
-    color = colors_claim 
-  )
-  
-  outside_f_origin <- list(
-    family = "Computer modern",
-    size = 12,
-    color = colors_origin
-  )
-  
-  # text font 
-  t <- list(
-    family = "Computer modern",
-    size = 12,
-    color = 'black'
-  )
-  
-  
-  # plot
-  g1 <- plot_ly(dat_claim,
-          labels = ~key, 
-          values = ~round(value),
-          type ='pie',
-          hole = 0.5,
-          textposition = 'outside',
-          textinfo = 'percent+label',
-          rotation = 90,
-          outsidetextfont = outside_f_claim,
-          marker = list(colors = colors_claim),
-          width = 500, 
-          height = 350)  %>%
-    config(displayModeBar = F) %>%
-    
-    layout(title ='' ,
-           font = t,
-           showlegend = F,
-           annotations = list(
-             showarrow = FALSE,
-             text = paste0('Figure 4a', '\n', 'Title VII Claim types', '\n', 'from complaint text'),
-             font = t), 
-           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
-  
-tmpFile <- tempfile(fileext = ".png")
-
-export(g1, file = tmpFile)
-  
-  # plot
-  g2 <- plot_ly(dat_origin,
-                labels = ~key, 
-                values = ~round(value),
-                type ='pie',
-                hole = 0.5,
-                textposition = 'outside',
-                textinfo = 'percent+label',
-                rotation = 10,
-                outsidetextfont = outside_f_origin,
-                width = 500, 
-                height = 350,
-                marker = list(colors = colors_origin))  %>%
-    config(displayModeBar = F) %>%
-    
-    layout(title ='' ,
-           font = t,
-           showlegend = F,
-           annotations = list(
-             showarrow = FALSE,
-             text = paste0('Figure 4b', '\n', "Title VII Plaintiff's race", '\n', 'from complaint text'),
-             font = t), 
-           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
-  
-tmpFile <- tempfile(fileext = ".png")
-
-export(g2, file = tmpFile)
- 
-```
-
-# Alexander 7
-
-```{r, fig.width = 4, fig.height = 7.25}
-
-# # Get data
-  data <- alexander$f7
-  data$value <- data$value * 100
-  
-  # get colors
-  colors  <- make_colors(length(unique(data$key)), bw = TRUE)
-
-  # sort data
-  data <- data[order(data$value, decreasing = TRUE),]
-
-  # get font object
-  inside_f <- list(
-    family = "Computer modern",
-    size = 12,
-    color = 'white'
-  )
-  
-  outside_f <- list(
-    family = "Computer modern",
-    size = 12,
-    color = colors
-  )
-  
-  
-  # text font 
-  t <- list(
-    family = "Computer modern",
-    size = 12,
-    color = 'black'
-  )
-  
-  
-  # plot
-  g3 <- plot_ly(data,
-                labels = ~key, 
-                values = ~round(value),
-                type ='pie',
-                hole = 0.6,
-                textposition = 'outside',
-                textinfo = 'percent+label',
-                rotation = 120,
-                outsidetextfont = outside_f,
-                marker = list(colors = colors),
-                width = 500, 
-                height = 350)  %>%
-    config(displayModeBar = F) %>%
-    
-    layout(title ='' ,
-           font = t,
-           showlegend = F,
-           annotations = list(
-             showarrow = FALSE,
-             text = paste0('Figure 7', '\n', "District courst judges'" , '\n', 'actions on magistrate', '\n','judges'),
-             font = t), 
-           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
-  
-tmpFile <- tempfile(fileext = ".png")
-
-export(g3, file = tmpFile)
- 
 
 ```
-
-
-
-
-
