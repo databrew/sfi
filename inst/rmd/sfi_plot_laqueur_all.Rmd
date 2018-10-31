@@ -1,7 +1,7 @@
 ---
 title: "Laqueur and Venancio"
 subtitle: "Figures"
-date: 'Oct 19th 2018'
+date: 'Oct 29th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -31,6 +31,7 @@ library(RColorBrewer)
 library(extrafont)
 library(kableExtra)
 library(grid)
+library(ggrepel)
 
 # webshot::install_phantomjs()
 
@@ -60,9 +61,9 @@ options(xtable.comment = FALSE)
 \newpage
 
 
-# Laqueur and Venancio 1 (version 1)
+# Laqueur and Venancio 1 (version 1a)
 
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 6, fig.height = 7.25}
  # get data 
   data <- all_data$laqueur$f1
   
@@ -79,11 +80,9 @@ options(xtable.comment = FALSE)
                color = 'black',
                alpha = 0.8,
                pch = 16) +
-    geom_text(aes(label = number_of_grants),
+    geom_text_repel(aes(label = number_of_grants),
               size = 2,
-              color = 'black',
-              nudge_y = 0,
-              vjust = -2) +
+              color = 'black') +
     labs(x = '',
          y = 'Number of grants',
          title = 'Figure 1',
@@ -100,15 +99,14 @@ options(xtable.comment = FALSE)
  g1
 ```
 
+# Laqueur and Venancio 1 (version 1b)
 
-# Laqueur and Venancio 1 (version 2)
-
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 6, fig.height = 7.25}
  # get data 
   data <- all_data$laqueur$f1
   
   # version 1
-  g1 <- 
+  g2 <- 
     ggplot(data, 
            aes(x = year, 
                y = number_of_grants)) +
@@ -120,6 +118,11 @@ options(xtable.comment = FALSE)
                color = 'black',
                alpha = 0.8,
                pch = 16) +
+    geom_label_repel(aes(label = number_of_grants),
+              size = 2,
+              color = 'black',
+              label.r = .40,
+              label.padding = 0.3) +
     labs(x = '',
          y = 'Number of grants',
          title = 'Figure 1',
@@ -133,7 +136,44 @@ options(xtable.comment = FALSE)
     theme(axis.text=element_text(size = 10, hjust = 1))
   
 
- g1
+ g2
+```
+
+
+
+```{r, fig.width = 6, fig.height = 7.25}
+# Laqueur and Venancio 1 (version 2)
+
+ # # get data 
+ #  data <- all_data$laqueur$f1
+ #  
+ #  # version 1
+ #  g1 <- 
+ #    ggplot(data, 
+ #           aes(x = year, 
+ #               y = number_of_grants)) +
+ #    geom_smooth(method = 'loess',
+ #                alpha = 0.7,
+ #                color = 'black',
+ #                linetype = 0) + 
+ #    geom_point(size = 3, 
+ #               color = 'black',
+ #               alpha = 0.8,
+ #               pch = 16) +
+ #    labs(x = '',
+ #         y = 'Number of grants',
+ #         title = 'Figure 1',
+ #         subtitle = 'Number of Hearings Resulting in a Grant: 1978-2015',
+ #         caption = paste0('Smoothed with a local regression', '\n', 
+ #                          'with bands representing standard errors')) +
+ #    theme_sfi(lp = 'none',
+ #              y_axis_title_style = 'bold',
+ #              x_axis_title_style = 'bold',
+ #              title_style = 'bold') +
+ #    theme(axis.text=element_text(size = 10, hjust = 1))
+ #  
+ # 
+ # g1
 ```
 
 
@@ -179,38 +219,39 @@ g1
  
 ```
 
-# Laqueur and Venancio 2 (version 2)
 
 ```{r, fig.width = 4, fig.height = 7.25}
+# Laqueur and Venancio 2 (version 2)
+
  # get data 
-  data <- all_data$laqueur$f2
-  
-  # version 6
-  g1 <- 
-    ggplot(data, 
-           aes(x = year, 
-               y = percent_of_conducted_hearings_resulting_in_a_grant)) +
-    ylim(c(0, 50)) +
-    geom_smooth(method = 'lm',
-                alpha = 0.4,
-                fill = 'black',
-                linetype = 0) + 
-    geom_point(size = 4, 
-               color = 'black',
-               alpha = 0.8,
-               pch = 16) +
-    labs(x = '',
-         y = '% of hearings resulting in a grant',
-         title = 'Figure 2',
-         subtitle = 'Rate of Parole Grant: 2007-2014',
-         caption = paste0('Smoothed with a local regression', '\n', 
-                          'with bands representing standard errors')) +
-    theme_sfi(lp = 'none',
-              y_axis_title_style = 'bold',
-              x_axis_title_style = 'bold',
-              title_style = 'bold') +
-    theme(axis.text=element_text(size = 10, hjust = 1))
- 
-g1
+#   data <- all_data$laqueur$f2
+#   
+#   # version 6
+#   g1 <- 
+#     ggplot(data, 
+#            aes(x = year, 
+#                y = percent_of_conducted_hearings_resulting_in_a_grant)) +
+#     ylim(c(0, 50)) +
+#     geom_smooth(method = 'lm',
+#                 alpha = 0.4,
+#                 fill = 'black',
+#                 linetype = 0) + 
+#     geom_point(size = 4, 
+#                color = 'black',
+#                alpha = 0.8,
+#                pch = 16) +
+#     labs(x = '',
+#          y = '% of hearings resulting in a grant',
+#          title = 'Figure 2',
+#          subtitle = 'Rate of Parole Grant: 2007-2014',
+#          caption = paste0('Smoothed with a local regression', '\n', 
+#                           'with bands representing standard errors')) +
+#     theme_sfi(lp = 'none',
+#               y_axis_title_style = 'bold',
+#               x_axis_title_style = 'bold',
+#               title_style = 'bold') +
+#     theme(axis.text=element_text(size = 10, hjust = 1))
+#  
+# g1
  
 ```

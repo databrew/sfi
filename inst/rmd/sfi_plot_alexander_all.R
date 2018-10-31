@@ -64,6 +64,12 @@ outside_f_claim <- list(
   color = colors_claim 
 )
 
+outside_f <- list(
+  family = c("sans serif", "Computer modern"),
+  size = 12,
+  color = colors_claim 
+)
+
 outside_f_origin <- list(
   family = c("sans serif", "Computer modern"),
   size = 12,
@@ -108,7 +114,7 @@ g1
 
 Sys.setenv("plotly_username" = "benmbrew")
 Sys.setenv("plotly_api_key" = "3HeqonChf4J1DY3KGcts")
-plotly_IMAGE(g1, format = "png", out_file = "~/Desktop/plot.png")
+plotly_IMAGE(g1, format = "png", out_file = "alexander_plots/alexander_4a.png")
 
 
 # plot
@@ -136,9 +142,11 @@ g2 <- plot_ly(dat_origin,
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
-tmpFile <- tempfile(fileext = ".png")
+g2
 
-export(g2, file = tmpFile)
+Sys.setenv("plotly_username" = "benmbrew")
+Sys.setenv("plotly_api_key" = "3HeqonChf4J1DY3KGcts")
+plotly_IMAGE(g2, format = "png", out_file = "alexander_plots/alexander_4b.png")
 
 
 # # Get data
@@ -150,27 +158,6 @@ colors  <- make_colors(length(unique(data$key)), bw = TRUE)
 
 # sort data
 data <- data[order(data$value, decreasing = TRUE),]
-
-# get font object
-inside_f <- list(
-  family = "Computer modern",
-  size = 12,
-  color = 'white'
-)
-
-outside_f <- list(
-  family = "Computer modern",
-  size = 12,
-  color = colors
-)
-
-
-# text font 
-t <- list(
-  family = "Computer modern",
-  size = 12,
-  color = 'black'
-)
 
 
 # plot
@@ -198,9 +185,10 @@ g3 <- plot_ly(data,
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
-tmpFile <- tempfile(fileext = ".png")
+g3 
 
-export(g3, file = tmpFile)
+Sys.setenv("plotly_username" = "benmbrew")
+Sys.setenv("plotly_api_key" = "3HeqonChf4J1DY3KGcts")
+plotly_IMAGE(g3, format = "png", out_file = "alexander_plots/alexander_7.png")
 
 
-### TRY WITH GOOGLEVIZ

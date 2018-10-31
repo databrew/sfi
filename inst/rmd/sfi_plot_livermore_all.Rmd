@@ -1,7 +1,7 @@
 ---
 title: "Livermore, Ashley, Riddell, Carlson, Rockmore"
 subtitle: "Figures"
-date: 'Oct 19th 2018'
+date: 'Oct 26thth 2018'
 output: 
   pdf_document:
     latex_engine: xelatex

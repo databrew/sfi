@@ -1,7 +1,7 @@
 ---
 title: "Eidelman, Kornilova, Argyle"
-subtitle: "Figures"
-date: 'Oct 19th 2018'
+subtitle: "Final Version of Figures"
+date: 'Oct 31st 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -61,9 +61,12 @@ options(xtable.comment = FALSE)
 #### This markdown is for Eidelman figures.
 
 
+<!-- # Eidelman, Kornilova, Argyle 1 (version 1) -->
+
+```{r,  fig.width = 6, fig.height = 9}
+
 # Eidelman, Kornilova, Argyle 1 (version 1)
 
-```{r,  fig.width = 4, fig.height = 9}
 
   # read in stat dict from current directory
   state_dict <- read_csv('state_dict.csv')
@@ -73,41 +76,41 @@ options(xtable.comment = FALSE)
 
   # make states upper case
   data$State <- toupper(data$State)
-  
-  # join by state 
+
+  # join by state
   data <- inner_join(data, state_dict, by = 'State')
   data$State <- NULL
   names(data) <- c('Pass', 'Intro', 'State')
-    
+
   # make data long format
   data <- melt(data, id.vars = 'State')
-     
-  
- g1 <- ggplot(data,
-               aes(reorder(x = State, -value),
-                   y = value,
-                   fill = variable)) +
-    scale_fill_manual(name = '',
-                      values = c('black', 'darkgrey')) +
-    geom_bar(stat = 'identity') +
-    coord_flip() +
-    labs(x = '',
-         y = '',
-         title = 'Figure 1',
-         subtitle = 'Number of bills introduced and receiving floor action for each state',
-         caption = '') +
-    theme_sfi(lp = 'bottom',
-              gM = FALSE,
-              y_axis_title_style = 'bold',
-              title_style = 'bold',
-              lkw = TRUE, 
-              lkt = 'point', 
-              legend_width = 40) +
-    theme(axis.title = element_text(size = 10, hjust = 1),
-          axis.text = element_text(size = 10, hjust = 1))
-  
-  g1
-  
+
+ #  
+ # g1 <- ggplot(data,
+ #               aes(reorder(x = State, -value),
+ #                   y = value,
+ #                   fill = variable)) +
+ #    scale_fill_manual(name = '',
+ #                      values = c('black', 'darkgrey')) +
+ #    geom_bar(stat = 'identity') +
+ #    coord_flip() +
+ #    labs(x = '',
+ #         y = '',
+ #         title = 'Figure 1',
+ #         subtitle = 'Number of bills introduced and receiving floor action for each state',
+ #         caption = '') +
+ #    theme_sfi(lp = 'bottom',
+ #              gM = FALSE,
+ #              y_axis_title_style = 'bold',
+ #              title_style = 'bold',
+ #              lkw = TRUE, 
+ #              lkt = 'point', 
+ #              legend_width = 40) +
+ #    theme(axis.title = element_text(size = 10, hjust = 1),
+ #          axis.text = element_text(size = 10, hjust = 1))
+ #  
+ #  g1
+ #  
   
 
   
@@ -117,7 +120,7 @@ options(xtable.comment = FALSE)
 
 # Eidelman, Kornilova, Argyle 1 (version 2)
 
-```{r,  fig.width = 4, fig.height = 7.25}
+```{r,  fig.width = 6, fig.height = 7.25}
 
 
   # candlestick flipped
@@ -157,9 +160,10 @@ options(xtable.comment = FALSE)
 ```
 
 
-# Eidelman, Kornilova, Argyle 2 (version 1)
 
 ```{r,  fig.width = 4, fig.height = 9}
+# Eidelman, Kornilova, Argyle 2 (version 1)
+
 # # no scientific notation
   # options(scipen = '999')
   # 
@@ -178,51 +182,54 @@ options(xtable.comment = FALSE)
   data$State <- NULL
   names(data) <- c('value','State')
   # barplot
-  g1 <- ggplot(data,
-               aes(reorder(x = State, value),
-                   y = value)) +
-    geom_bar(stat = 'identity', width = 0.9) +
-    scale_y_continuous(labels = no_zero_scale) +
-    coord_flip() +
-    labs(x = '',
-         y = '',
-         title = 'Figure 2',
-         subtitle = 'Percent of bills reaching floor per state',
-         caption = '') +
-    theme_sfi(lp = 'bottom',
-              gM = FALSE,
-              y_axis_title_style = 'bold',
-              title_style = 'bold') +
-    theme(axis.title.x=element_blank(),
-          axis.text.x=element_blank(),
-          axis.ticks.x=element_blank()) +
-    theme(axis.title = element_text(size = 10, hjust = 1),
-          axis.text = element_text(size = 10, hjust = 1))
- g1
+ #  g1 <- ggplot(data,
+ #               aes(reorder(x = State, value),
+ #                   y = value)) +
+ #    geom_bar(stat = 'identity', width = 0.9) +
+ #    scale_y_continuous(labels = no_zero_scale) +
+ #    coord_flip() +
+ #    labs(x = '',
+ #         y = '',
+ #         title = 'Figure 2',
+ #         subtitle = 'Percent of bills reaching floor per state',
+ #         caption = '') +
+ #    theme_sfi(lp = 'bottom',
+ #              gM = FALSE,
+ #              y_axis_title_style = 'bold',
+ #              title_style = 'bold') +
+ #    theme(axis.title.x=element_blank(),
+ #          axis.text.x=element_blank(),
+ #          axis.ticks.x=element_blank()) +
+ #    theme(axis.title = element_text(size = 10, hjust = 1),
+ #          axis.text = element_text(size = 10, hjust = 1))
+ # g1
   
 ```
 
 # Eidelman, Kornilova, Argyle 2 (version 2)
 
+
 ```{r,  fig.width = 4, fig.height = 7.25}
+
+
  # # get data 
 
   no_zero_scale <- function(x) paste0(x*100, "%")
 
   # candlestick
   g2 <- ggplot(data,
-               aes(reorder(x = State, 
+               aes(reorder(x = State,
                            value),
                    y = value)) +
-    geom_segment(aes(x=reorder(State, -value), 
-                     xend=State, 
-                     y=0, 
+    geom_segment(aes(x=reorder(State, -value),
+                     xend=State,
+                     y=0,
                      yend=value),
                  size = 0.5,
                  color = 'black',
-                 alpha = 0.5) + 
-    geom_point(size= 2, 
-               alpha = 0.8) + 
+                 alpha = 0.5) +
+    geom_point(size= 2,
+               alpha = 0.8) +
     scale_y_continuous(labels = no_zero_scale) +
     labs(x = '',
          y = '',
@@ -236,7 +243,7 @@ options(xtable.comment = FALSE)
               title_style = 'bold') +
     theme(axis.title.x=element_blank(),
           axis.ticks.length = unit(0, "lines"),
-          axis.ticks.x=element_blank()) + 
+          axis.ticks.x=element_blank()) +
     coord_flip() +
     theme(axis.title = element_text(size = 10, hjust = 1),
           axis.text = element_text(size = 10, hjust = 1))
@@ -244,9 +251,10 @@ options(xtable.comment = FALSE)
   
 ```
 
-# Eidelman, Kornilova, Argyle 3 (version 1)
 
 ```{r,  fig.width = 4, fig.height = 9}
+
+# Eidelman, Kornilova, Argyle 3 (version 1)
 
    # # no scientific notation
   # options(scipen = '999')
@@ -259,27 +267,27 @@ options(xtable.comment = FALSE)
   
   no_zero_scale <- function(x) paste0(x*100, "%")
  
-  g1 <- ggplot(data,
-               aes(reorder(x = State, -value),
-                   y = value)) +
-    geom_bar(stat = 'identity', width = 0.8) +
-    scale_y_continuous(labels = no_zero_scale) +
-    # scale_y_continuous(labels = percent, limits = c(-.25, .21), breaks = c(-.20,-.15, -.10, -.05, .05,.10, .15,.20)) +
-    labs(x = '',
-         y = '',
-         title = 'Figure 3',
-         subtitle = 'Change from baseline with text only features',
-         caption = '') +
-    theme_sfi(lp = 'bottom',
-              gM = FALSE,
-              y_axis_title_style = 'bold',
-              title_style = 'bold')+
-    theme(axis.title = element_text(size = 8, hjust = 1),
-          axis.text.y = element_text(size = 6.25, hjust = 1),
-          axis.text.x = element_text(size = 8, hjust = 1)) +
-    coord_flip() + geom_hline(yintercept = 0)
-  
-  g1
+  # g1 <- ggplot(data,
+  #              aes(reorder(x = State, -value),
+  #                  y = value)) +
+  #   geom_bar(stat = 'identity', width = 0.8) +
+  #   scale_y_continuous(labels = no_zero_scale) +
+  #   # scale_y_continuous(labels = percent, limits = c(-.25, .21), breaks = c(-.20,-.15, -.10, -.05, .05,.10, .15,.20)) +
+  #   labs(x = '',
+  #        y = '',
+  #        title = 'Figure 3',
+  #        subtitle = 'Change from baseline with text only features',
+  #        caption = '') +
+  #   theme_sfi(lp = 'bottom',
+  #             gM = FALSE,
+  #             y_axis_title_style = 'bold',
+  #             title_style = 'bold')+
+  #   theme(axis.title = element_text(size = 8, hjust = 1),
+  #         axis.text.y = element_text(size = 6.25, hjust = 1),
+  #         axis.text.x = element_text(size = 8, hjust = 1)) +
+  #   coord_flip() + geom_hline(yintercept = 0)
+  # 
+  # g1
 
   
 ```
@@ -329,10 +337,11 @@ options(xtable.comment = FALSE)
 ```
 
 
-# Eidelman, Kornilova, Argyle 4 (version 1)
+<!-- # Eidelman, Kornilova, Argyle 4 (version 1) -->
 
 ```{r,  fig.width = 4, fig.height = 9}
-# 
+# # Eidelman, Kornilova, Argyle 3 (version 1)
+
 
   no_zero_scale <- function(x) paste0(x*100, "%")
 
@@ -341,27 +350,27 @@ options(xtable.comment = FALSE)
   names(data) <- c('State', 'value')
   data$State <-toupper(data$State)
   
-  g1 <- ggplot(data,
-               aes(reorder(x = State, -value),
-                   y = value)) +
-    geom_bar(stat = 'identity', width = 0.8) +
-    scale_y_continuous(labels = no_zero_scale) +
-    labs(x = '',
-         y = '',
-         title = 'Figure 4',
-         subtitle = paste0('Change from baseline with sponsor only features', '\n', 'Just sponsor improvement per state/chamber'),
-         caption = '') +
-    theme_sfi(lp = 'bottom',
-              gM = FALSE,
-              y_axis_title_style = 'bold',
-              title_style = 'bold') +
-    coord_flip() +
-    theme(axis.title = element_text(size = 8, hjust = 1),
-          axis.text.y = element_text(size = 6.25, hjust = 1),
-          axis.text.x = element_text(size = 8, hjust = 1)) +
-    geom_hline(yintercept = 0)
-  g1
-  
+  # g1 <- ggplot(data,
+  #              aes(reorder(x = State, -value),
+  #                  y = value)) +
+  #   geom_bar(stat = 'identity', width = 0.8) +
+  #   scale_y_continuous(labels = no_zero_scale) +
+  #   labs(x = '',
+  #        y = '',
+  #        title = 'Figure 4',
+  #        subtitle = paste0('Change from baseline with sponsor only features', '\n', 'Just sponsor improvement per state/chamber'),
+  #        caption = '') +
+  #   theme_sfi(lp = 'bottom',
+  #             gM = FALSE,
+  #             y_axis_title_style = 'bold',
+  #             title_style = 'bold') +
+  #   coord_flip() +
+  #   theme(axis.title = element_text(size = 8, hjust = 1),
+  #         axis.text.y = element_text(size = 6.25, hjust = 1),
+  #         axis.text.x = element_text(size = 8, hjust = 1)) +
+  #   geom_hline(yintercept = 0)
+  # g1
+  # 
 
  
   

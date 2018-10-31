@@ -1,7 +1,7 @@
 ---
 title: "Feldman"
 subtitle: "Figures"
-date: 'Oct 19th 2018'
+date: 'Oct 26th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -82,7 +82,7 @@ options(xtable.comment = FALSE)
     labs(x = '',
          y = 'Clarity Score',
          title = 'Figure 1. Federal and State Clarity Score Distribution',
-         caption = paste0('The violin distribution plot represents a mirrored denstity.',
+         caption = paste0('The violin distribution plot represents a mirrored density.',
                           '\n', 'Data points randomly "jittered" on the X axis.')) +
     scale_alpha_continuous(range= c(-0, .5)) +
       theme_sfi(lp = 'none',
@@ -113,7 +113,7 @@ options(xtable.comment = FALSE)
     labs(x = '',
          y = 'Clarity Score',
          title = 'Figure 1. Federal and State Clarity Score Distribution',
-         caption = paste0('The violin distribution plot represents a mirrored denstity.',
+         caption = paste0('The violin distribution plot represents a mirrored density.',
                           '\n', 'Data points randomly "jittered" on the X axis.')) +
     scale_alpha_continuous(range= c(-0, .5)) +
       theme_sfi(lp = 'none',
@@ -155,7 +155,7 @@ options(xtable.comment = FALSE)
     labs(x = '',
          y = 'Words',
          title = 'Figure 2. Federal and State Court Opinion Word Length',
-         caption = paste0('The violin distribution plot represents a mirrored denstity.',
+         caption = paste0('The violin distribution plot represents a mirrored density.',
                           '\n', 'Data points randomly "jittered" on the X axis.', '\n',
                           'Note: 25 opinions over 20,000 words were removed from plot.')) +
       theme_sfi(lp = 'none',
@@ -195,7 +195,7 @@ options(xtable.comment = FALSE)
     labs(x = '',
          y = 'Words',
          title = 'Figure 2. Federal and State Court Opinion Word Length',
-         caption = paste0('The violin distribution plot represents a mirrored denstity.',
+         caption = paste0('The violin distribution plot represents a mirrored density.',
                           '\n', 'Data points randomly "jittered" on the X axis.', '\n',
                           'Note: 25 opinions over 20,000 words were removed from plot.')) +
       theme_sfi(lp = 'none',

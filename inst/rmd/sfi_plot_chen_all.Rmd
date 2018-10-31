@@ -1,7 +1,7 @@
 ---
 title: "Chen and Ash"
-subtitle: "Figures"
-date: 'Oct 19th 2018'
+subtitle: "Final Version of Figures"
+date: 'Oct 31st 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -59,7 +59,9 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 1 (version 1)
 
-```{r, fig.width = 4, fig.height = 7.25}
+### K-means clustering
+
+```{r, fig.width = 8, fig.height = 6}
 # # no scientific notation
   # options(scipen = '999')
   # 
@@ -100,7 +102,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 1 (version 2)
 
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 8, fig.height = 6}
 # # no scientific notation
   # options(scipen = '999')
   # 
@@ -142,7 +144,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 2 (version 1)
 
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 8, fig.height = 6}
 # # get data 
   data <- all_data$chen$f2
   
@@ -176,7 +178,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 2 (version 2)
 
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 8, fig.height = 6}
   # version 11
    # get data 
   data <- all_data$chen$f2
@@ -210,7 +212,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 3 (version 1)
 
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 8, fig.height = 6}
 # # no scientific notation
   # options(scipen = '999')
   # 
@@ -309,7 +311,7 @@ options(xtable.comment = FALSE)
 
 # Chen and Ash 3 (version 2)
 
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 8, fig.height = 6}
 
 # # get data 
   data <- all_data$chen$f3
@@ -389,7 +391,7 @@ g2
 
 # Chen and Ash 4 (version 1)
 
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 8, fig.height = 6}
 # # get data 
   data <- all_data$chen$f4
   
@@ -436,7 +438,7 @@ g2
 
 # Chen and Ash 4 (version 2)
 
-```{r, fig.width = 4, fig.height = 7.25}
+```{r, fig.width = 8, fig.height = 6}
  # get data 
   data <- all_data$chen$f4
   
@@ -468,4 +470,4 @@ g2
         theme(axis.text=element_text(size = 10, hjust = 1))
 g2
 
-```
+  ```
