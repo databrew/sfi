@@ -1,7 +1,7 @@
 ---
 title: "Chen and Ash"
 subtitle: "Final Version of Figures"
-date: 'Oct 31st 2018'
+date: 'Nov 2nd 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -16,6 +16,8 @@ bibliography: bibliography.bib
 ```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
 # Packages
 library(sfi)
+library(kmodR)
+library(directlabels)
 library(webshot)
 library(ggplot2)
 library(dplyr)
@@ -57,11 +59,12 @@ options(xtable.comment = FALSE)
 \newpage
 
 
-# Chen and Ash 1 (version 1)
+# Chen and Ash 1
 
-### K-means clustering
+### K-means clustering with outlier detection
 
-```{r, fig.width = 8, fig.height = 6}
+```{r, fig.width = 8, fig.height = 6, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+
 # # no scientific notation
   # options(scipen = '999')
   # 
@@ -74,100 +77,207 @@ options(xtable.comment = FALSE)
   # remove 11 with FC and SC with 12, and 0 with dc
   data$text_label <- gsub('^0$', 'DC', data$text_label)
   data$text_label <- gsub('12', 'FC', data$text_label)
-
-  # 
-  # version 11
-  g1 <- ggplot(data,
-               aes(x = x,
-                   y = y)) +
-    geom_text(aes(label = text_label),
-              size = 2,
-              alpha = 0.6,
-              color = 'black') +
-    labs(x = '',
-         y = '',
-         title = 'Figure 1: Centered by Topic-Year, Averaged by Judge, Labeled by Court',
-         subtitle = 'Circuit, CC Judge Vector, Demeaned by Year and Big Topic',
-         caption = '') +
-    theme_sfi(lp = 'none',
-              y_axis_title_style = 'bold',
-              x_axis_title_style = 'bold',
-              title_style = 'bold') +
-        theme(axis.text=element_text(size = 10, hjust = 1))
-
   
-  g1
+#   # Compute and plot wss for k = 2 to k = 15.
+# length(unique(data$text_label))
+# dat <- data[, c('x', 'y')]
+# k.max <- 14
+# wss <- sapply(1:k.max,
+#               function(k){kmeans(dat, k, nstart=50,iter.max = 15 )$tot.withinss})
+# # wss
+# plot(1:k.max, wss,
+#      type="b", pch = 19, frame = FALSE,
+#      xlab="Number of clusters K",
+#      ylab="Total within-clusters sum of squares")
+# 
+# 
+# # K-Means Cluster Analysis
+# fit <- kmeans(dat, 13) # 5 cluster solution
+# # get cluster means
+# aggregate(dat,by=list(fit$cluster),FUN=mean)
+# # append cluster assignment
+# dat_clust <- data.frame(dat, fit$cluster)
+
+temp <- kmod(data[, c('x', 'y')], k = 13, l = 200, i_max = 300, conv_method = "delta_C",
+     conv_error = 0, allow_empty_c = TRUE)
+dat_c <- as.data.frame(cbind(data, clust_dist = temp$XC_dist_sqr_assign))
+outlier_index <- as.character(temp$L_index)
+
+# create an variable that indicates outlier
+dat_c$outlier <- ifelse(dat_c$clust_dist.dist_sqr > 50, 'Outlier', 'In Cluster')
+dat_c$clust_dist.c <- as.factor(as.character(dat_c$clust_dist.c))
+
+# recode SC and FC as in cluster
+dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster', 
+                        ifelse(dat_c$text_label == 'FC', 'In Cluster', dat_c$outlier))
 
 ```
 
-# Chen and Ash 1 (version 2)
+\newpage 
 
-```{r, fig.width = 8, fig.height = 6}
-# # no scientific notation
-  # options(scipen = '999')
-  # 
-  # # get data 
-  data <- all_data$chen$f1
-  
-  # get label numbers
-  data$text_label <- unlist(lapply(strsplit(data$circuit, '-', fixed = TRUE), function(x) x[length(x)]))
-  
-  # remove 11 with FC and SC with 12, and 0 with dc
-  data$text_label <- gsub('^0$', 'DC', data$text_label)
-  data$text_label <- gsub('12', 'FC', data$text_label)
+### finished computing clusters (ignore R output)
+```{r}
+# find outliers based on
 
-  # 
   # version 11
-  g1 <- ggplot(data,
+  g1 <- ggplot(dat_c,
                aes(x = x,
-                   y = y)) +
-    geom_text(aes(label = text_label),
-              size = 3,
-              alpha = 0.4,
-              color = 'black') +
+                   y = y,
+                   group = clust_dist.c,
+                   color = outlier)) +
+    geom_point(size = 1,
+              alpha = 0.8) +
     labs(x = '',
          y = '',
          title = 'Figure 1: Centered by Topic-Year, Averaged by Judge, Labeled by Court',
          subtitle = 'Circuit, CC Judge Vector, Demeaned by Year and Big Topic',
          caption = '') +
-    theme_sfi(lp = 'none',
+    scale_color_manual(name = '',
+                       values = c('black', 'grey'))+
+    theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +     
-    theme(axis.text=element_text(size = 10, hjust = 1))
-
+    theme(axis.text=element_text(size = 10, hjust = 1)) +
+    annotate(geom = 'text', 
+             label = 'SC',
+             alpha = 0.8,
+             x = -28, 
+             y = 42,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = 'FC',
+             alpha = 0.8,
+             x = -32, 
+             y = 30,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+   annotate(geom = 'text', 
+             label = 'DC',
+             alpha = 0.8,
+             x = -20, 
+             y = 30,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = '9',
+             alpha = 0.8,
+             x = -23, 
+             y = 9,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = '5',
+             alpha = 0.8,
+             x = -7, 
+             y = -5.5,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+  annotate(geom = 'text', 
+             label = '8',
+             alpha = 0.8,
+             x = 16, 
+             y = -40,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = '6',
+             alpha = 0.8,
+             x = 24, 
+             y = 6,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = '10',
+             alpha = 0.8,
+             x = 24, 
+             y = -16,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = '4',
+             alpha = 0.8,
+             x = 2, 
+             y = 8,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = '7',
+             alpha = 0.8,
+             x = 10, 
+             y = 18,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = '2',
+             alpha = 0.8,
+             x = 10, 
+             y = 40,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6) +
+    annotate(geom = 'text', 
+             label = '3',
+             alpha = 0.8,
+             x = -5, 
+             y = 36,
+             family = 'CMU Bright', 
+             fontface = 2,
+             size =6)
+  
   
   g1
 
 ```
 
 
-# Chen and Ash 2 (version 1)
+
+
+# Chen and Ash 2
 
 ```{r, fig.width = 8, fig.height = 6}
 # # get data 
   data <- all_data$chen$f2
+
+# rename 
+names(data) <- c('x', 'y', 'circuit','decade', 'decades')
   
+  # remove s from decades so it can be numeric
+  data$decades <- gsub('s', '', data$decades, fixed = TRUE)
+  data$decades <- as.numeric(data$decades)
+
+  cols <- make_colors(length(unique(data$decade)), bw = TRUE)
   
   # version 11
   g1 <- ggplot(data,
                aes(x = x,
-                   y = y)) +
+                   y = y,
+                   color = decades)) +
     ylim(c(-7, 18)) +
-    geom_text(aes(label = `decade-s`),
-              size = 2,
-              alpha = 0.6,
-              color = 'black') +
+    geom_point(size = 2) +
+    geom_dl(data = subset(data, decades ==  1890 | decades == 1950 | decades == 2010), aes(label = decades), method = 'smart.grid') +
+    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") +                     
     labs(x = '',
          y = '',
          title = 'Figure 2.',
          subtitle = 'Centered by Court Topic, Averaged by Court-Year, Labeled by Decade',
          caption = 'Court Decade, SC & CC Court Decade Vector, Demeaned by Circuit and Big Topic') +
-    theme_sfi(lp = 'none',
+    theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
-        theme(axis.text=element_text(size = 10, hjust = 1))
+        theme(axis.text=element_text(size = 10))
   
 
   g1
@@ -175,42 +285,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-
-# Chen and Ash 2 (version 2)
-
-```{r, fig.width = 8, fig.height = 6}
-  # version 11
-   # get data 
-  data <- all_data$chen$f2
-  
-  g2 <- ggplot(data,
-               aes(x = x,
-                   y = y)) +
-    geom_text(aes(label = `decade-s`),
-              size = 2,
-              alpha = 0.6,
-              color = 'black') +
-    stat_ellipse(aes(x, y,color= `decade-s`),type = "norm", size = 0.3, alpha = 1) +
-    scale_color_manual(name = 'Confidence elipse',
-                       values = c('darkgrey','darkgrey', 'darkgrey','darkgrey','darkgrey','darkgrey',
-                                  'darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey')) +
-    labs(x = '',
-         y = '',
-         title = 'Figure 2.',
-         subtitle = 'Centered by Court Topic, Averaged by Court-Year, Labeled by Decade',
-         caption = 'Court Decade, SC & CC Court Decade Vector, Demeaned by Circuit and Big Topic') +
-    theme_sfi(lp = 'none',
-              y_axis_title_style = 'bold',
-              x_axis_title_style = 'bold',
-              title_style = 'bold') +
-        theme(axis.text=element_text(size = 10, hjust = 1))
-
-  g2
-
-```
-
-
-# Chen and Ash 3 (version 1)
+# Chen and Ash 3
 
 ```{r, fig.width = 8, fig.height = 6}
 # # no scientific notation
@@ -246,11 +321,9 @@ options(xtable.comment = FALSE)
   g1 <- ggplot(data,
                aes(x = x,
                    y = y)) +
-    geom_text(aes(label = `big.issue.n`),
-               size = 2,
+    geom_point(size = 2,
                color = 'black',
                alpha = 0.4) +
-    stat_ellipse(aes(x, y,color= `big.issue.n`),type = "norm", size = 0.5,alpha = 1) +
     scale_color_manual(name = 'Confidence elipse',
                        values = c('darkgrey','darkgrey', 'darkgrey','darkgrey','darkgrey','darkgrey',
                                   'darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey','darkgrey')) +
@@ -309,87 +382,7 @@ options(xtable.comment = FALSE)
 
 
 
-# Chen and Ash 3 (version 2)
-
-```{r, fig.width = 8, fig.height = 6}
-
-# # get data 
-  data <- all_data$chen$f3
-  names(data) <- gsub('-', '.', names(data), fixed = TRUE)
-  
-  data <- data[data$big.issue != 'Others',]
-  data <- data[data$big.issue != '9',]
-  data$big.issue <- as.factor(data$big.issue)
-  JY_levels <- levels(data$big.issue)
-  JY_labels <- c('1 - Criminal Appeal', '2 - Civil Rights', '3 - First Amendment','4 - Due Process',
-                 '5 - Privacy', '6 - Labor','7 - Regulation')
-  JY_labels_n <- c('1', '2', '3','4','5', '6','7')
-  data$big.issue.n <- data$big.issue
-  data$big.issue  <- factor(data$big.issue, levels=JY_levels, labels=JY_labels)
-
-  data$big.issue.n  <- factor(data$big.issue.n, levels=JY_levels, labels=JY_labels_n)
-  
-  g2 <- ggplot(data,
-               aes(x = x,
-                   y = y)) +
-    geom_text(aes(label = `big.issue.n`),
-              size = 2,
-              color = 'black',
-              alpha = 0.4) +
-    labs(x = '',
-         y = '',
-         title = 'Figure 3.',
-         subtitle = 'Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
-         caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year', 
-                          '\n',
-                          '*Ellipses represent a confidence measurement for the clusters')) +
-    theme_sfi(lp = 'none',
-              y_axis_title_style = 'bold',
-              x_axis_title_style = 'bold',
-              title_style = 'bold') +
-    annotate(geom = 'text',
-           x = 0,
-           y = -50,
-           family = 'CMU Bright',
-           label = 'Regulation') +
-    annotate(geom = 'text',
-            family = 'CMU Bright', 
-             x = 0,
-             y = 50,
-             label = 'Criminal Appeal') +
-    annotate(geom = 'text',
-             family = 'CMU Bright', 
-             x = -38,
-             y = -19,
-             label = '1st Amendment') +
-    annotate(geom = 'text',
-             family = 'CMU Bright',
-             x = -40,
-             y = 28,
-             label = 'Civil Rights') + 
-    annotate(geom = 'text',
-             family = 'CMU Bright',
-             x = 17,
-             y = 31,
-             label = 'Privacy') +
-    annotate(geom = 'text',
-             family = 'CMU Bright',
-             x = 38,
-             y = 13,
-             label = 'Labor') +
-    annotate(geom = 'text',
-             family = 'CMU Bright',
-             x = 30,
-             y = -2,
-             label = 'Due Process') +
-        theme(axis.text=element_text(size = 10, hjust = 1))
-  
-g2
-
-```
-
-
-# Chen and Ash 4 (version 1)
+# Chen and Ash 4
 
 ```{r, fig.width = 8, fig.height = 6}
 # # get data 
@@ -404,19 +397,16 @@ g2
   g1 <- ggplot(data,
                aes(x = x,
                    y = y,
-                   label = party,
-                   color = party)) +
-    geom_point(size = 0, 
-               alpha = 0) +
-    geom_text(size = 2,
-              alpha = 0.6,
-              show.legend = FALSE) +
-    scale_color_manual(name = 'Party affiliation',
-                       values = c('black', '#4F4F4F'),
+                   color = party,
+                   shape = party)) +
+    geom_point(size = 2, 
+               alpha = 0.7) +
+    scale_shape_manual(name = 'Party affiliation',
+                       values = c(17, 15),
                        breaks = c('D', 'R'),
-                       labels = c('D = Democrat', 'R = Republican')) +
-      guides(label = guide_legend(override.aes = list(text = 0)),
-             color = guide_legend(override.aes = list(text = 0))) +
+                       labels = c('D = Democrat (black)', 'R = Republican (grey)')) +
+    scale_color_manual(name = '',
+                       values = c('black', 'darkgrey')) +
     labs(x = '',
          y = '',
          title = 'Figure 4.',
@@ -426,48 +416,15 @@ g2
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
-        theme(axis.text=element_text(size = 10, hjust = 1))
+        theme(axis.text=element_text(size = 10, hjust = 1)) + guides(col = FALSE)
   
   
  g1
+ 
+ 
   
 
 ```
 
 
 
-# Chen and Ash 4 (version 2)
-
-```{r, fig.width = 8, fig.height = 6}
- # get data 
-  data <- all_data$chen$f4
-  
-  # recode party affiliation
-  data <- data[data$party %in% c(1,0),]
-  data$party <- ifelse(data$party == 0, 'R', 'D')
-  
- 
-  g2 <- ggplot(data,
-               aes(x = x,
-                   y = y,
-                   color = party)) +
-    geom_point(size = 2, 
-               alpha = 0.5) +
-    scale_color_manual(name = 'Party affiliation',
-                       values = c('black', 'darkgrey'),
-                       labels = c('Democrat', 'Republican')) +
-    guides(label = guide_legend(override.aes = list(text = 0)),
-           color = guide_legend(override.aes = list(text = 0))) +
-    labs(x = '',
-         y = '',
-         title = 'Figure 4.',
-         subtitle = 'Centered by Court-Topic-Year, Averaged by Judge, Labeled by Political Party',
-         caption = 'Party affiliation, SC & CC Judge Vector, Demeaned by Circuit, Big Topics, and year') +
-    theme_sfi(lp = 'bottom',
-              y_axis_title_style = 'bold',
-              x_axis_title_style = 'bold',
-              title_style = 'bold') +
-        theme(axis.text=element_text(size = 10, hjust = 1))
-g2
-
-  ```

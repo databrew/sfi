@@ -79,7 +79,7 @@ outside_f_origin <- list(
 # text font 
 t <- list(
   family = c("sans serif", "Computer modern"),
-  size = 15,
+  size = 14,
   color = 'black'
 )
 
@@ -104,7 +104,7 @@ g1 <- plot_ly(dat_claim,
          showlegend = F,
          annotations = list(
            showarrow = FALSE,
-           text = paste0('Figure 4a', '\n', 'Title VII Claim types', '\n', 'from complaint text'),
+           text = paste0('Title VII claim', '\n','types extracted from', '\n', 'Complaint text'),
            font = t), 
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
@@ -115,16 +115,19 @@ g1
 Sys.setenv("plotly_username" = "benmbrew")
 Sys.setenv("plotly_api_key" = "3HeqonChf4J1DY3KGcts")
 plotly_IMAGE(g1, format = "png", out_file = "alexander_plots/alexander_4a.png")
+dat_origin$value <- round(dat_origin$value, 3)
+
+# make label vector
 
 
 # plot
 g2 <- plot_ly(dat_origin,
-              labels = ~key, 
-              values = ~round(value),
+              labels = temp, 
+              values = ~round(value,1),
               type ='pie',
               hole = 0.5,
               textposition = 'outside',
-              textinfo = 'percent+label',
+              textinfo = 'label',
               rotation = 10,
               outsidetextfont = outside_f_origin,
               width = 500, 
@@ -137,7 +140,8 @@ g2 <- plot_ly(dat_origin,
          showlegend = F,
          annotations = list(
            showarrow = FALSE,
-           text = paste0('Figure 4b', '\n', "Title VII Plaintiff's race", '\n', 'from complaint text'),
+           text = paste0('Title VII plaintiffs', '\n', 'race/national origin','\n' , 'extracted from', 
+                         '\n', 'Complaint text'),
            font = t), 
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
@@ -180,7 +184,7 @@ g3 <- plot_ly(data,
          showlegend = F,
          annotations = list(
            showarrow = FALSE,
-           text = paste0('Figure 7', '\n', "District courst judges'" , '\n', 'actions on magistrate', '\n','judges'),
+           text = paste0('Figure 7', '\n', "District courts judges'" , '\n', 'actions on magistrate', '\n','judges'),
            font = t), 
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))

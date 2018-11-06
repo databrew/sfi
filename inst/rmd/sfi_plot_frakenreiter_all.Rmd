@@ -1,7 +1,7 @@
 ---
 title: "Frankenreiter"
-subtitle: "Figures"
-date: 'Oct 26th 2018'
+subtitle: "Final Version of figuresFigures"
+date: 'Oct Nov 1st 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -382,7 +382,9 @@ g2
 ```
 
 
-# Frankenreiter 5 (version 1)
+# Frankenreiter 5 
+
+## 1955 - 2014
 
 ```{r, fig.width = 7, fig.height = 6}
 
@@ -409,6 +411,10 @@ g2
     geom_point(size = 4,
                pch = 16,
                alpha = 0.9)  +
+    ggrepel::geom_text_repel(data=subset(data1, year ==  1973 | year==  1981 | year == 1986 | year ==1995 | year == 2004 ),
+                             aes(coord2, coord1, label=year), vjust = -1, hjust = 1.5) +
+    ggrepel::geom_text_repel(data=subset(data1, year ==  2007 | year==  2013),
+                             aes(coord2, coord1, label=year), vjust = 1, hjust = -1.5) +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
@@ -418,16 +424,17 @@ g2
               legend_width = 30) +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = 'Figure 5.',
-         subtitle = 'Metrix MDS (1955-2014)',
-         caption = 'Multidimensional scaling of KL divergences between different years') +
-    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") +
-    theme(axis.text=element_text(size = 10, hjust = 1))
+         title = 'Figure 5: Metrix MDS (1955 - 2014)',
+         subtitle = 'Multidimensional scaling of KL divergences between different years') +
+    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") 
   
 g1
 
 ```
 
+# Frankenreiter 5 
+
+## 1970 - 2014
 
 ```{r,fig.width = 7, fig.height = 6}
 # Get data
@@ -444,8 +451,10 @@ g1
     geom_point(size = 4,
                pch = 16,
                alpha = 0.9)  +
-    ggrepel::geom_text_repel(data=subset(data2, year ==  1970 | year==  2010),
-                             aes(coord2, coord1, label=year), vjust = 2, hjust = 2.5) +
+     ggrepel::geom_text_repel(data=subset(data2, year ==  1970 | year == 1973 | year==  1981 | year == 1986 | year == 1990 | year == 1995 ),
+                             aes(coord2, coord1, label=year), vjust = -1, hjust = 1.5) +
+    ggrepel::geom_text_repel(data=subset(data2,year == 2000 | year == 2004 | year ==  2007 | year==  2010 | year == 2014),
+                             aes(coord2, coord1, label=year), vjust = 1, hjust = -1.5) +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
@@ -455,9 +464,8 @@ g1
               legend_width = 30) +
     labs(x = 'Coordinate 2',
          y = 'Coordinate 1',
-         title = 'Figure 5.',
-         subtitle = 'Metrix MDS (1970-2014)',
-         caption = 'Multidimensional scaling of KL divergences between different years') +
+         title = 'Figure 5: Metrix MDS (1970-2014)',
+         subtitle = 'Multidimensional scaling of KL divergences between different years') +
     scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") +
     theme(axis.text=element_text(size = 10, hjust = 1))
 
@@ -465,26 +473,26 @@ g1
 g2
 ```
 
+
 # Frankenreiter 6 1973 enlargment (version 1)
 
 ```{r, fig.width = 7.25, fig.height = 7}
-
 # Get data
   data <- all_data$frankenreiter$f6 %>%
     mutate(year = as.numeric(year))
-  
+
   # separate data into two datasets based on key
   data_1 <- data[data$key == '1973 enlargement',]
 
-  # capitalize data 
+  # capitalize data
   data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
 
   # recode data so the new judgetrad variable indicates if the judge is new
   data_1$judgetrad <- ifelse(data_1$new == 1, paste0(data_1$judgetrad, ' New'), data_1$judgetrad)
-  
+
   # -----------------------
   # 1973 enlargement
-  
+
   # Version 1 with lines at end
   g1 <- ggplot(data = data_1,
                aes(x = year,
@@ -493,8 +501,8 @@ g2
                    color = judgetrad)) +
     geom_line(size = 1) +
     xlim(c(1973, 1990)) +
-    geom_dl(aes(label = judge), 
-            method = list(dl.combine("last.points"), hjust = -0.5, 
+    geom_dl(aes(label = judge),
+            method = list(dl.combine("last.points"), hjust = -0.5,
                           cex = 0.6,
                           dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
     scale_color_manual(name = '',
@@ -509,7 +517,7 @@ between 1973 and 1975') +
               x_axis_title_style = 'bold',
               title_style = 'bold')  +
     theme(axis.text=element_text(size = 10, hjust = 1))
-  
+
   g1
   
 ```
@@ -581,7 +589,7 @@ between 1973 and 1975') +
 
 
 # version 5 barplot
-  g2 <- ggplot(data = data_1,
+  g2 <- ggplot(data = data_2,
          aes(x = year,
              y = kl.dist3,
              fill = judgetrad)) +
@@ -594,10 +602,10 @@ between 1973 and 1975') +
             method = list(dl.combine("last.points"), cex = 0.7,
                           vjust = -0.3,alpha = 0.8, color = 'black',
                           dl.trans(x = x - 2.8))) +
-    ylim(c(0, .1)) +
+    ylim(c(0, .035)) +
     labs(x = 'Year',
          y = '',
-         title = 'Figure 6 (1973 Enlargement)',
+         title = 'Figure 6 (1995 Enlargement)',
          subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
 between 1973 and 1975') +
     theme_sfi(lp = 'none',
@@ -605,7 +613,7 @@ between 1973 and 1975') +
               x_axis_title_style = 'bold',
               title_style = 'bold') +
     scale_fill_manual(name = '',
-                      values = c('black', "#595959", "#9C9C9C",'#D3D0D0' )) +
+                      values = c('black', 'black','black',"#595959", "#9C9C9C",'#D3D0D0')) +
     theme(axis.text=element_text(size = 10, hjust = 1)) +
     facet_wrap(~judge) 
 
