@@ -48,6 +48,8 @@ colors_origin  <- make_colors(length(unique(dat_origin$key)), bw = TRUE)
 dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
 dat_origin <- dat_origin[order(dat_origin$value, decreasing = TRUE),]
 
+# change Color to 1% instead of zero
+dat_claim$value[dat_claim$key == 'Color'] <- 1
 
 ##------- USING PLOTLY
 # remove dark color
@@ -82,16 +84,18 @@ t <- list(
   size = 14,
   color = 'black'
 )
+# make label vector
+temp <- paste0(dat_claim$key, '\n', dat_claim$value, '%')
 
 
 # plot
 g1 <- plot_ly(dat_claim,
-              labels = ~key, 
-              values = ~round(value),
+              labels = temp, 
+              values = ~value,
               type ='pie',
               hole = 0.5,
               textposition = 'outside',
-              textinfo = 'percent+label',
+              textinfo = 'label',
               rotation = 90,
               outsidetextfont = outside_f_claim,
               marker = list(colors = colors_claim),
@@ -115,10 +119,9 @@ g1
 Sys.setenv("plotly_username" = "benmbrew")
 Sys.setenv("plotly_api_key" = "3HeqonChf4J1DY3KGcts")
 plotly_IMAGE(g1, format = "png", out_file = "alexander_plots/alexander_4a.png")
-dat_origin$value <- round(dat_origin$value, 3)
 
 # make label vector
-
+temp <- paste0(dat_origin$key, '\n', dat_origin$value, '%')
 
 # plot
 g2 <- plot_ly(dat_origin,
@@ -184,7 +187,7 @@ g3 <- plot_ly(data,
          showlegend = F,
          annotations = list(
            showarrow = FALSE,
-           text = paste0('Figure 7', '\n', "District courts judges'" , '\n', 'actions on magistrate', '\n','judges'),
+           text = paste0('District courts judges' , '\n', 'actions on magistrate', '\n','R%Rs'),
            font = t), 
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))

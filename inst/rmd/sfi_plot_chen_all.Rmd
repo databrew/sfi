@@ -1,7 +1,7 @@
 ---
 title: "Chen and Ash"
 subtitle: "Final Version of Figures"
-date: 'Nov 2nd 2018'
+date: 'Nov 7th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -22,6 +22,7 @@ library(directlabels)
 library(webshot)
 library(ggplot2)
 library(dplyr)
+library(ggrepel)
 library(plotly)
 library(ggiraph)
 library(scales)
@@ -64,7 +65,7 @@ options(xtable.comment = FALSE)
 
 ### K-means clustering with outlier detection
 
-```{r, fig.width = 8, fig.height = 6}
+```{r}
 
 # # no scientific notation
   # options(scipen = '999')
@@ -110,14 +111,15 @@ dat_c$clust_dist.c <- as.factor(as.character(dat_c$clust_dist.c))
 
 # recode SC and FC as in cluster
 dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster', 
-                        ifelse(dat_c$text_label == 'FC', 'In Cluster', dat_c$outlier))
+                        ifelse(dat_c$text_label == 'FC', 'In Cluster', 
+                               ifelse(dat_c$text_label == 'DC', 'In Cluster', dat_c$outlier)))
 
 ```
 
 \newpage 
 
 ### finished computing clusters (ignore R output)
-```{r}
+```{r, fig.width = 8, fig.height = 6}
 # find outliers based on
 
   # version 11
@@ -130,23 +132,23 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
               alpha = 0.8) +
     labs(x = '',
          y = '',
-         title = 'Figure 1: Centered by Topic-Year, Averaged by Judge, Labeled by Court',
-         subtitle = 'Circuit, CC Judge Vector, Demeaned by Year and Big Topic',
-         caption = '') +
+         title = paste0('Figure 1: Centered by Topic-Year', '\n', 'Averaged by Judge, Labeled by Court'),
+         caption = paste0('Circuit, CC Judge Vector', '\n',
+'Demeaned by Year and Big Topic')) +
     scale_color_manual(name = '',
                        values = c('black', 'grey'))+
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +     
-    theme(axis.text=element_text(size = 10, hjust = 1)) +
+    theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size =12)) +
     annotate(geom = 'text', 
              label = 'SC',
              alpha = 0.8,
              x = -28, 
              y = 42,
-             family = 'CMU Bright', 
-             fontface = 2,
+             family = c("Computer modern"), 
              size =6) +
     annotate(geom = 'text', 
              label = 'FC',
@@ -154,15 +156,13 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
              x = -32, 
              y = 30,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
    annotate(geom = 'text', 
              label = 'DC',
              alpha = 0.8,
-             x = -20, 
-             y = 30,
+             x = -10, 
+             y = 26,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
     annotate(geom = 'text', 
              label = '9',
@@ -170,15 +170,13 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
              x = -23, 
              y = 9,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
     annotate(geom = 'text', 
              label = '5',
              alpha = 0.8,
              x = -7, 
-             y = -5.5,
+             y = -35.5,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
   annotate(geom = 'text', 
              label = '8',
@@ -186,15 +184,13 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
              x = 16, 
              y = -40,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
     annotate(geom = 'text', 
              label = '6',
              alpha = 0.8,
-             x = 24, 
-             y = 6,
+             x = 26, 
+             y = 8,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
     annotate(geom = 'text', 
              label = '10',
@@ -202,7 +198,6 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
              x = 24, 
              y = -16,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
     annotate(geom = 'text', 
              label = '4',
@@ -210,31 +205,26 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
              x = 2, 
              y = 8,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
     annotate(geom = 'text', 
              label = '7',
              alpha = 0.8,
-             x = 10, 
-             y = 18,
+             x = 13, 
+             y = 21,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
     annotate(geom = 'text', 
              label = '2',
-             alpha = 0.8,
              x = 10, 
              y = 40,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6) +
     annotate(geom = 'text', 
              label = '3',
              alpha = 0.8,
-             x = -5, 
+             x = -1, 
              y = 36,
              family = 'CMU Bright', 
-             fontface = 2,
              size =6)
   
   
@@ -257,6 +247,32 @@ names(data) <- c('x', 'y', 'circuit','decade', 'decades')
   # remove s from decades so it can be numeric
   data$decades <- gsub('s', '', data$decades, fixed = TRUE)
   data$decades <- as.numeric(data$decades)
+  
+# create an empty label column
+data$label <- ''
+
+# create list to store loop results
+data_list <- list()
+
+i = 1
+unique_years <- unique(data$decades)
+for(i in 1:length(unique_years)){
+  this_year <- unique_years[i]
+  sub_year <- data[data$decades == this_year,]
+
+  if(this_year == 1890 | this_year == 1950 | this_year == 2010) {
+  
+    
+    # randomly assign year label to one row
+    random_row <- sample(1:nrow(sub_year), 1)
+    sub_year$label[random_row] <- this_year
+    
+  } 
+  data_list[[i]] <- sub_year
+  print(this_year)
+}
+
+  data <- do.call('rbind', data_list)
 
   cols <- make_colors(length(unique(data$decade)), bw = TRUE)
   
@@ -265,16 +281,25 @@ names(data) <- c('x', 'y', 'circuit','decade', 'decades')
                aes(x = x,
                    y = y,
                    color = decades)) +
-    ylim(c(-7, 18)) +
+    ylim(c(-7, 20)) +
     geom_point(size = 2) +
-    geom_dl(data = subset(data, decades ==  1890 | decades == 1950 | decades == 2010), aes(label = decades), method = 'smart.grid') +
-    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") +                     
+    #  geom_dl(data = subset(data, decades ==  1890),
+    #         aes(label = decades), method = 'last.qp', hjust  = 1) +
+    # geom_dl(data = subset(data, decades ==  1950),
+    #         aes(label = decades), method = 'smart.grid') +
+    # geom_dl(data = subset(data, decades == 2010),
+    #         aes(label = decades), method = 'last.qp') +
+    geom_text_repel(aes(label = label),segment.size = 0) +
+    scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") +  
     labs(x = '',
          y = '',
          title = 'Figure 2.',
          subtitle = 'Centered by Court Topic, Averaged by Court-Year, Labeled by Decade',
          caption = 'Court Decade, SC & CC Court Decade Vector, Demeaned by Circuit and Big Topic') +
     theme_sfi(lp = 'bottom',
+              lkw = TRUE, 
+              lkt = 'point', 
+              legend_width = 40,
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold') +
@@ -332,9 +357,7 @@ names(data) <- c('x', 'y', 'circuit','decade', 'decades')
          y = '',
          title = 'Figure 3.',
          subtitle = 'Centered by Judge-Year, Averaged by Topic-Year, Labeled by Topic',
-         caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year', 
-                          '\n',
-                          '*Ellipses represent a confidence measurement for the clusters')) +
+         caption = paste0('Big Topics and Year, SC and CC Topic Year Vector, Demeaned by Judge & Year')) +
   annotate(geom = 'text',
            x = 0,
            y = -50,

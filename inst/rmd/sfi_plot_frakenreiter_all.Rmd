@@ -1,7 +1,7 @@
 ---
 title: "Frankenreiter"
-subtitle: "Final Version of figuresFigures"
-date: 'Oct Nov 1st 2018'
+subtitle: "Final Version of Figures"
+date: 'Oct Nov 7th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -474,7 +474,7 @@ g2
 ```
 
 
-# Frankenreiter 6 1973 enlargment (version 1)
+# Frankenreiter 6 1973 enlargement (version 1)
 
 ```{r, fig.width = 7.25, fig.height = 7}
 # Get data
@@ -522,7 +522,7 @@ between 1973 and 1975') +
   
 ```
 
-# Frankenreiter 6 1973 enlargment (version 2)
+# Frankenreiter 6 1973 enlargement (version 2)
 
 ```{r, fig.width = 7.25, fig.height = 7}
 
@@ -576,7 +576,7 @@ between 1973 and 1975') +
 ```
 
 
-# Frankenreiter 6 1995 englargment (version 1)
+# Frankenreiter 6 1995 enlargement (version 1)
 
 ```{r, fig.width = 7.25, fig.height = 8}
   
@@ -623,7 +623,7 @@ between 1973 and 1975') +
 
 
 
-# Frankenreiter 6 1995 englargment (version 2)
+# Frankenreiter 6 1995 enlargement (version 2)
 
 ```{r, fig.width = 7.25, fig.height = 8}
  
