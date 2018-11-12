@@ -1,0 +1,215 @@
+---
+title: "Alexander et al"
+subtitle: "Figures"
+date: 'Oct 21st 2018'
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
+library(sfi)
+library(webshot)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+
+# webshot::install_phantomjs()
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
+
+
+#### This markdown is for alternative (as compared to the doughnut charts) Alexander et al figures.
+
+\newpage
+
+# Alexander 4
+
+```{r, fig.width = 6, fig.height = 7.25}
+
+# Get data
+  data <- alexander$f4
+  
+  # Flag the groups
+  data$group <-
+    ifelse(data$key %in% 
+             c('Exemption',
+               'Color',
+               'Race',
+               'National origin',
+               'Religion',
+               'Sex',
+               'Retaliation'), 
+           'Claim type',
+           'National origin')
+  
+  # Get percentage
+  data$value <- data$value * 100
+  
+  # subset to claim type 
+  dat_claim <- data[data$group == 'Claim type',]
+  
+  # subset to National origin
+  dat_origin <- data[data$group == 'National origin',]
+  
+  # get a color vector
+  colors_claim  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
+  colors_origin  <- make_colors(length(unique(dat_origin$key)), bw = TRUE)
+  
+  # sort data
+  dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
+  dat_origin <- dat_origin[order(dat_origin$value, decreasing = TRUE),]
+  
+  g1 <- ggplot(dat_claim,
+               aes(reorder(x = key, -value),
+                   y = value)) +
+    geom_bar(stat = 'identity',
+             color = 'grey',
+             fill = 'black', 
+             alpha = 0.7) +
+    coord_flip() +
+    labs(x = '',
+         y = '',
+         title = 'Figure 1',
+         subtitle = paste0('Figure 4a', '\n', 'Title VII Claim types', '\n', 'from complaint text'),
+         caption = '') +
+    theme_sfi() +
+    theme(axis.title = element_text(size = 10, hjust = 1),
+          axis.text = element_text(size = 10, hjust = 1))
+  
+    g1
+
+```
+
+```{r, fig.width = 6, fig.height = 7.25}
+
+  
+  # candlestick flipped
+  g2 <-ggplot(dat_origin,
+               aes(reorder(x = key, -value),
+                   y = value)) +  
+    geom_segment(aes(x=reorder(key, value), 
+                     xend=key, 
+                     y=0, 
+                     yend=value),
+                 size = 2,
+                 color = 'black',
+                 alpha = 0.5) + 
+    coord_flip() +
+    geom_point(size= 3, 
+               alpha = 1) + 
+    labs(x = '',
+         y = '',
+         title = 'Figure 1',
+         subtitle = paste0('Figure 4b', '\n', "Title VII Plaintiff's race", '\n', 'from complaint text'),
+         caption = '') +
+    theme_sfi() +
+    theme(axis.title = element_text(size = 10, hjust = 1),
+          axis.text = element_text(size = 10, hjust = 1))
+  
+  g2
+  
+  
+  
+
+```
+
+Alexander 7
+
+```{r, fig.width = 4, fig.height = 4}
+# Get data
+  data <- alexander$f7
+  data$value <- data$value * 100
+  
+  # get colors
+  colors  <- make_colors(length(unique(data$key)), bw = TRUE)
+
+  # sort data
+  data <- data[order(data$value, decreasing = TRUE),]
+  
+  # add id
+  data$id <- 1:nrow(data)
+
+   
+# ----- This section prepare a dataframe for labels ---- #
+# Get the name and the y position of each label
+
+label_data=data
+ 
+# calculate the ANGLE of the labels
+number_of_bar=nrow(label_data)
+angle= 90 - 360 * (label_data$id-0.5) /number_of_bar     # I substract 0.5 because the letter must have the angle of the center of the bars. Not extreme right(1) or extreme left (0)
+ 
+# calculate the alignment of labels: right or left
+# If I am on the left part of the plot, my labels have currently an angle < -90
+label_data$hjust<-ifelse( angle < -90, 1, 0)
+
+ 
+# flip angle BY to make them readable
+label_data$angle<-ifelse(angle < -90, angle+180, angle)
+# ----- ------------------------------------------- ---- #
+
+data$value_2 <- data$value + 8
+ 
+# Start the plot
+p = ggplot(data, aes(x=as.factor(id), y=value_2)) +       # Note that id is a factor. If x is numeric, there is some space between the first bar
+  
+  # This add the bars with a blue color
+  geom_bar(stat="identity", fill=alpha("black", 0.7)) +
+  
+  # Limits of the plot = very important. The negative value controls the size of the inner circle, the positive one is useful to add size over each bar
+  ylim(-100,120) +
+  
+  # Custom the theme: no axis title and no cartesian grid
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = unit(rep(-1,4), "cm")      # Adjust the margin to make in sort labels are not truncated!
+  ) +
+  
+  # This makes the coordinate polar instead of cartesian.
+  coord_polar(start = 0) +
+  
+  # Add the labels, using the label_data dataframe that we have created before
+  geom_text(data=label_data, aes(x=id, y=value+10, label=key, hjust=hjust), color="black", fontface="bold",alpha=0.6, size=2.5, angle= label_data$angle, inherit.aes = FALSE ) +
+    geom_text(data=label_data, aes(x=id, y=value+15, label=value, vjust=-2), color="black", fontface="bold",alpha=0.6, size=2.5, angle= label_data$angle, inherit.aes = FALSE ) 
+
+ 
+p
+  
+```

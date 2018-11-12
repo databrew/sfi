@@ -1,0 +1,231 @@
+---
+title: "Chen_voice"
+subtitle: "Final Version of Figures"
+date: 'Nov 12th 2018'
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+
+# Packages
+library(sfi)
+library(kmodR)
+library(directlabels)
+library(webshot)
+library(ggplot2)
+library(dplyr)
+library(ggrepel)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+
+# webshot::install_phantomjs()
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
+
+
+#### This markdown is for Chen voice figures: correlation plot and audio plot
+
+\newpage
+
+
+# Chen voice figure 1 version 1
+
+```{r, fig.width= 8, fig.height=6}
+# get data 
+data <- all_data$chenvoice$f1
+
+# recode variables for plot
+data$qtype <- Hmisc::capitalize(data$qtype)
+data$qtype <- gsub('_', ' ', data$qtype)
+
+#  make correlation plot 
+g1 <-ggplot(data,
+       aes(zresponse1, zresponse2)) +
+  geom_point(size = 1) +
+  labs(title = 'Correlation plot (version 1)',
+       x = '1 Mean response',
+       y = '0 Mean response') +
+   theme_sfi() +
+   theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size =12)) +
+  facet_wrap(~qtype, nrow = 2)
+
+g1
+  
+
+```
+
+# Chen voice figure 1 version 2
+
+```{r, fig.width= 8, fig.height=6}
+
+#  make correlation plot 
+g1 <-ggplot(data,
+       aes(zresponse1, zresponse2)) +
+  geom_point(size = 2) +
+  geom_smooth(method = 'lm', 
+              se = TRUE, 
+              linetype = 0) +
+  labs(title = 'Correlation plot (version 2)',
+       x = '1 Mean response',
+       y = '0 Mean response',
+       caption = 'Std error estimated with a linear model') +
+   theme_sfi() +
+   theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size =12)) +
+  facet_wrap(~qtype, nrow = 2)
+
+g1
+  
+```
+
+
+# Chen voice figure 2 version 1
+
+```{r}
+data <- all_data$chenvoice$f2
+data <- as.data.frame(rbind(names(data), data))
+names(data) <- c('var1', 'var2', 'value')
+
+# recode
+data$var1 <- gsub('X1', 'Both', data$var1)
+data$var2 <- gsub('1', 'Intercept', data$var2)
+
+# restructure 
+data$var1 <- as.factor(data$var1)
+data$var2 <- as.factor(data$var2)
+data$value <- as.numeric(data$value)
+
+# plot
+g1 <- ggplot(data, 
+       aes(reorder(var2, -value), 
+           value, group = var1, fill = var1)) +
+    geom_bar(stat = 'identity', position = 'dodge') +
+    scale_fill_manual(name='',
+                      values = c('#AEAEAE', '#181818','#6C6C6C')) +
+  labs(title = 'Audio features', 
+       subtitle = 'feature importance (version 1)',
+       x = 'Names of features', 
+       y = 'Importance score for features') +
+  theme_sfi() + 
+  theme(axis.text=element_text(size = 10, hjust = 1),
+        axis.text.x = element_text(angle = 45),
+          plot.title = element_text(size =12)) 
+g1
+
+```
+
+# Chen voice figure 2 version 2
+
+```{r}
+data <- all_data$chenvoice$f2
+data <- as.data.frame(rbind(names(data), data))
+names(data) <- c('var1', 'var2', 'value')
+
+# recode
+data$var1 <- gsub('X1', 'Both', data$var1)
+data$var2 <- gsub('1', 'Intercept', data$var2)
+
+# restructure 
+data$var1 <- as.factor(data$var1)
+data$var2 <- as.factor(data$var2)
+data$value <- as.numeric(data$value)
+
+# plot
+g1 <- ggplot(data, 
+       aes(reorder(var2, -value), 
+           value, group = var1, fill = var1)) +
+    geom_bar(stat = 'identity', position = 'dodge') +
+    scale_fill_manual(name='',
+                      values = c('#AEAEAE', '#181818','#6C6C6C')) +
+  labs(title = 'Audio features', 
+       subtitle = 'feature importance (version 2)',
+       x = 'Names of features', 
+       y = 'Importance score for features') +
+  coord_flip()+
+  theme_sfi() + 
+  theme(axis.text=element_text(size = 10, hjust = 1),
+        axis.text.x = element_text(),
+          plot.title = element_text(size =12)) 
+g1
+
+```
+
+# Chen voice figure 2 version 3
+
+
+```{r}
+data <- all_data$chenvoice$f2
+data <- as.data.frame(rbind(names(data), data))
+names(data) <- c('var1', 'var2', 'value')
+
+# recode
+data$var1 <- gsub('X1', 'Both', data$var1)
+data$var2 <- gsub('1', 'Intercept', data$var2)
+
+# restructure 
+data$var1 <- as.factor(data$var1)
+data$var2 <- as.factor(data$var2)
+data$value <- as.numeric(data$value)
+
+# plot
+g1 <- ggplot(data, 
+       aes(reorder(var2, -value), 
+           value, 
+           group = var1, 
+           col = var1)) +
+           geom_segment(aes(x=reorder(var2, value), 
+                     xend=var2, 
+                     y=0, 
+                     yend=value),
+                 size = 1,
+                 alpha = 0.5) + 
+    geom_point(size= 2, 
+               alpha = 1,
+               aes(color = var1)) + scale_color_manual(name='',
+                      values = c('#AEAEAE', '#181818','#6C6C6C')) +
+  labs(title = 'Audio features', 
+       subtitle = 'feature importance (version 3)',
+       x = 'Names of features', 
+       y = 'Importance score for features') +
+  coord_flip()+
+  theme_sfi(gM = FALSE) + 
+  theme(axis.text=element_text(size = 10, hjust = 1),
+        axis.text.x = element_text(),
+          plot.title = element_text(size =12)) 
+g1
+```
+

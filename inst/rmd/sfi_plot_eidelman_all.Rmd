@@ -1,7 +1,7 @@
 ---
 title: "Eidelman, Kornilova, Argyle"
 subtitle: "Final Version of Figures"
-date: 'Oct 31st 2018'
+date: 'Nov 12th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -120,8 +120,7 @@ options(xtable.comment = FALSE)
 
 # Eidelman, Kornilova, Argyle 1 (version 2)
 
-```{r,  fig.width = 6, fig.height = 7.25}
-
+```{r,  fig.width = 6, fig.height = 9}
 
   # candlestick flipped
   g2 <- ggplot(data, 
@@ -142,7 +141,7 @@ options(xtable.comment = FALSE)
     labs(x = '',
          y = '',
          title = 'Figure 1',
-         subtitle = 'Number of bills introduced and receiving floor action for each state',
+         subtitle = paste0('Number of bills introduced and receiving','\n','floor action for each state'),
          caption = '') +
     theme_sfi(lp = 'bottom',
               gM = FALSE,
@@ -156,12 +155,11 @@ options(xtable.comment = FALSE)
   
   g2
   
-  
 ```
 
 
 
-```{r,  fig.width = 4, fig.height = 9}
+```{r,  fig.width = 6, fig.height = 9}
 # Eidelman, Kornilova, Argyle 2 (version 1)
 
 # # no scientific notation
@@ -209,7 +207,7 @@ options(xtable.comment = FALSE)
 # Eidelman, Kornilova, Argyle 2 (version 2)
 
 
-```{r,  fig.width = 4, fig.height = 7.25}
+```{r,  fig.width = 6, fig.height = 7.25}
 
 
  # # get data 
@@ -252,7 +250,7 @@ options(xtable.comment = FALSE)
 ```
 
 
-```{r,  fig.width = 4, fig.height = 9}
+```{r,  fig.width = 6, fig.height = 9}
 
 # Eidelman, Kornilova, Argyle 3 (version 1)
 
@@ -294,7 +292,7 @@ options(xtable.comment = FALSE)
 
 # Eidelman, Kornilova, Argyle 3 (version 2)
 
-```{r,  fig.width = 4, fig.height = 9}
+```{r,  fig.width = 6, fig.height = 9}
     # # no scientific notation
   # options(scipen = '999')
   no_zero_scale <- function(x) paste0(x*100, "%")
@@ -339,7 +337,7 @@ options(xtable.comment = FALSE)
 
 <!-- # Eidelman, Kornilova, Argyle 4 (version 1) -->
 
-```{r,  fig.width = 4, fig.height = 9}
+```{r,  fig.width = 6, fig.height = 9}
 # # Eidelman, Kornilova, Argyle 3 (version 1)
 
 
@@ -378,7 +376,7 @@ options(xtable.comment = FALSE)
 
 # Eidelman, Kornilova, Argyle 4 (version 2)
 
-```{r,  fig.width = 4, fig.height = 9}
+```{r,  fig.width = 6, fig.height = 9}
  # # get data 
   data <- all_data$eidelman$f4
   names(data) <- c('State', 'value')
@@ -419,3 +417,55 @@ options(xtable.comment = FALSE)
   
 ```
 
+# Eidelman, Kornilova, Argyle 5 (version 1)
+
+```{r,  fig.width = 6, fig.height = 11}
+ # # get data 
+  data <- all_data$eidelman$f5
+  data$State <- toupper(data$State)
+   # get levels for each state based on the sum of all data points across variable
+  data$all <- data$Baseline + data$Combined
+  temp <- data
+  temp <- temp[order(temp$all, decreasing = TRUE),]
+  state_levels <- as.character(temp$State)
+  rm(temp)
+  data$all <- NULL
+  data <- melt(data, id.vars = 'State')
+  names(data) <- c('State', 'variable','value')
+  data$State <- as.factor(data$State)
+  data$value <- round((data$value*100))
+ 
+  # relevel data
+  data$State <- factor(data$State, levels =  state_levels)
+  
+  # plot
+ g2 <- ggplot(data,
+         aes(value, 
+             State)) + 
+    geom_segment(aes(x= 0, 
+                     xend=value, 
+                     y=reorder(State, value),
+                     yend=State),
+                 size = 1,
+                 alpha = 0.5) + 
+    geom_point(size= 2, 
+               alpha = 1,
+               aes(color = variable)) + 
+    scale_color_manual(name = '', values = c('#000000', '#BFBFBF')) +
+    labs(x = '',
+         y = '',
+         title = 'Figure 5',
+         subtitle = 'Number of bills introduced and receiving floor action for each state',
+         caption = '') +
+    theme_sfi(lp = 'bottom',
+              gM = FALSE,
+              y_axis_title_style = 'bold',
+              title_style = 'bold',
+              lkw = TRUE, 
+              lkt = 'point', 
+              legend_width = 40) +
+    theme(axis.title = element_text(size = 10, hjust = 1),
+          axis.text = element_text(size = 8, hjust = 1))
+  
+  g2
+```

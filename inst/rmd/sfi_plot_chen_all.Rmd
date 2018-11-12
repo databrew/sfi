@@ -1,7 +1,7 @@
 ---
 title: "Chen and Ash"
 subtitle: "Final Version of Figures"
-date: 'Nov 7th 2018'
+date: 'Nov 12th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -143,6 +143,7 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
               title_style = 'bold') +     
     theme(axis.text=element_text(size = 10, hjust = 1),
           plot.title = element_text(size =12)) +
+  
     annotate(geom = 'text', 
              label = 'SC',
              alpha = 0.8,
@@ -160,8 +161,8 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
    annotate(geom = 'text', 
              label = 'DC',
              alpha = 0.8,
-             x = -10, 
-             y = 26,
+             x = -16, 
+             y = 30,
              family = 'CMU Bright', 
              size =6) +
     annotate(geom = 'text', 
@@ -195,15 +196,15 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
     annotate(geom = 'text', 
              label = '10',
              alpha = 0.8,
-             x = 24, 
+             x = 27, 
              y = -16,
              family = 'CMU Bright', 
              size =6) +
     annotate(geom = 'text', 
              label = '4',
              alpha = 0.8,
-             x = 2, 
-             y = 8,
+             x = 3, 
+             y = -13,
              family = 'CMU Bright', 
              size =6) +
     annotate(geom = 'text', 
@@ -222,8 +223,8 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
     annotate(geom = 'text', 
              label = '3',
              alpha = 0.8,
-             x = -1, 
-             y = 36,
+             x = -9, 
+             y = 30,
              family = 'CMU Bright', 
              size =6)
   
@@ -231,9 +232,6 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
   g1
 
 ```
-
-
-
 
 # Chen and Ash 2
 
@@ -309,6 +307,9 @@ for(i in 1:length(unique_years)){
   g1
 
 ```
+
+
+
 
 
 # Chen and Ash 3

@@ -1,7 +1,7 @@
 ---
 title: "Frankenreiter"
 subtitle: "Final Version of Figures"
-date: 'Oct Nov 7th 2018'
+date: 'Oct Nov 12th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -312,7 +312,7 @@ options(xtable.comment = FALSE)
               title_style = 'bold') +
     labs(x = '',
          y = '',
-         title = 'Figure 4 Similarity between different judges as a function of time',
+         title = paste0('Figure 4 Similarity between different', '\n' , 'judges as a function of time'),
          caption = '*Std error from local regression.') +
     theme(axis.text=element_text(size = 10, hjust = 1))
   
@@ -373,7 +373,7 @@ g2 <- ggplot(data = data %>%
               title_style = 'bold') +
   labs(x = '',
        y = '',
-       title = 'Figure 4 Similarity between different judges as a function of time',
+       title = paste0('Figure 4 Similarity between different', '\n' , 'judges as a function of time'),
        subtitle = '(Grouped every 10 years)',
         caption = paste0('*Distribution represented with mirrored normal density (violin plot).', '\n', 'Data points randomly "jittered" on the X axis.'))  +
     theme(axis.text=element_text(size = 10, hjust = 1))

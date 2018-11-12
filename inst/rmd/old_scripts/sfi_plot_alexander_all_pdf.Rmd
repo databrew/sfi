@@ -1,0 +1,298 @@
+---
+title: "Alexander pdf"
+subtitle: "Figures"
+date: ''
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    includes:
+      in_header: preamble.sty
+fig_width: 4
+fig_height: 2.6
+bibliography: bibliography.bib
+---
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE, comment = NA, error= FALSE, cache = FALSE}
+# Packages
+library(sfi)
+library(webshot)
+library(reshape2)
+library(ggplot2)
+library(readxl)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(knitr)
+library(Hmisc)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+
+# webshot::install_phantomjs()
+
+loadfonts()
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+            cache=FALSE,
+              prompt=FALSE,
+            
+            
+              tidy=TRUE,
+              comment=NA,
+              message=FALSE,
+              warning=FALSE,
+              dpi = 300,
+              # dev = "cairo_pdf",
+            fig.width = 7.25,
+            fig.height = 4,
+              dev = c("png", "cairo_pdf"),
+              fig.pos="!h",
+              fig.path = 'figures/')
+opts_knit$set(width=75)
+options(xtable.comment = FALSE)
+```
+
+\newpage
+
+```{r}
+# read in data
+# -------------------
+alexander_et_al_1 <- read_csv('../../data-raw/Databrew Graphics/Alexander et al/Figure 1.csv')
+alexander_et_al_1 <- alexander_et_al_1[!is.na(alexander_et_al_1$case_number),]
+
+# read in figure 6
+alexander_et_al_6 <- read_excel('../../data-raw/Databrew Graphics/Alexander et al/Figure 6.xlsx', sheet = 1)
+
+# read in figures 4 and 7 and seperate, also rename columns and remove NA
+alexander_et_al_4_7 <- read_excel('../../data-raw/Databrew Graphics/Alexander et al/Figures 4 _7.xlsx', sheet = 1)
+alexander_et_al_4 <- alexander_et_al_4_7[, 1:2]
+alexander_et_al_7 <- alexander_et_al_4_7[, 4:5]
+names(alexander_et_al_4) <- c('key', 'value')
+names(alexander_et_al_7) <- c('key', 'value')
+alexander_et_al_4 <- alexander_et_al_4[!is.na(alexander_et_al_4$key),]
+alexander_et_al_7 <- alexander_et_al_7[!is.na(alexander_et_al_7$key),]
+
+alexander <- list()
+alexander$f1 <- alexander_et_al_1
+alexander$f4 <- alexander_et_al_4
+alexander$f6 <- alexander_et_al_6
+alexander$f7 <- alexander_et_al_7
+
+
+
+```
+
+
+#### This markdown is for alexander plots only. Because they are written with the package plotly, including them with the other plots causes a sizing issue. 
+
+# Alexander 4a
+
+```{r, fig.width=4.5, fig.height=7}
+ # Get data
+  data <- alexander$f4
+  
+  # Flag the groups
+  data$group <-
+    ifelse(data$key %in% 
+             c('Exemption',
+               'Color',
+               'Race',
+               'National origin',
+               'Religion',
+               'Sex',
+               'Retaliation'), 
+           'Claim type',
+           'National origin')
+  
+  # Get percentage
+  data$value <- data$value * 100
+  
+  # subset to claim type 
+  dat_claim <- data[data$group == 'Claim type',]
+  
+  # subset to National origin
+  dat_origin <- data[data$group == 'National origin',]
+  
+  # get a color vector
+  colors_claim  <- make_colors(length(unique(dat_claim$key)), bw = TRUE)
+  colors_origin  <- make_colors(length(unique(dat_origin$key)), bw = TRUE)
+  
+  # sort data
+  dat_claim <- dat_claim[order(dat_claim$value, decreasing = TRUE),]
+  dat_origin <- dat_origin[order(dat_origin$value, decreasing = TRUE),]
+  
+   ##------- USING PLOTLY
+  # remove dark color
+  # get font object
+  inside_f <- list(
+    family = "Computer modern",
+    size = 8,
+    color = 'white'
+  )
+  
+  outside_f_claim <- list(
+    family = "Computer modern",
+    size = 8,
+    color = colors_claim 
+  )
+  
+  outside_f_origin <- list(
+    family = "Computer modern",
+    size = 8,
+    color = colors_origin
+  )
+  
+  # text font 
+  t <- list(
+    family = "Computer modern",
+    size = 8,
+    color = 'black'
+  )
+
+  
+  # plot
+  g1 <- plot_ly(dat_claim,
+          labels = ~key, 
+          values = ~round(value),
+          type ='pie',
+          hole = 0.5,
+          textposition = 'outside',
+          textinfo = 'percent+label',
+          rotation = 90,
+          outsidetextfont = outside_f_claim,
+          marker = list(colors = colors_claim),
+          width = 500, 
+          height = 350)  %>%
+    config(displayModeBar = F) %>%
+    
+    layout(title ='' ,
+           font = t,
+           showlegend = F,
+           annotations = list(
+             showarrow = FALSE,
+             text = paste0('Figure 4a', '\n', 'Title VII Claim types', '\n', 'from complaint text'),
+             font = t), 
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+  
+tmpFile <- tempfile(fileext = ".png")
+
+export(g1, file = tmpFile)
+  
+
+```
+![Caption for the picture.](`r tmpFile`)
+
+
+# Alexander 4b
+
+```{r, fig.width=4.5, fig.height=7}
+
+  # plot
+  g2 <- plot_ly(dat_origin,
+                labels = ~key, 
+                values = ~round(value),
+                type ='pie',
+                hole = 0.5,
+                textposition = 'outside',
+                textinfo = 'percent+label',
+                rotation = 10,
+                outsidetextfont = outside_f_origin,
+                width = 500, 
+                height = 350,
+                marker = list(colors = colors_origin))  %>%
+    config(displayModeBar = F) %>%
+    
+    layout(title ='' ,
+           font = t,
+           showlegend = F,
+           annotations = list(
+             showarrow = FALSE,
+             text = paste0('Figure 4b', '\n', "Title VII Plaintiff's race", '\n', 'from complaint text'),
+             font = t), 
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+  
+tmpFile <- tempfile(fileext = ".png")
+
+export(g2, file = tmpFile)
+ 
+```
+
+# Alexander 7
+
+```{r results = 'asis', fig.width=4.5, fig.height=7}
+
+# # Get data
+  data <- alexander$f7
+  data$value <- data$value * 100
+  
+  # get colors
+  colors  <- make_colors(length(unique(data$key)), bw = TRUE)
+
+  # sort data
+  data <- data[order(data$value, decreasing = TRUE),]
+
+  # get font object
+  inside_f <- list(
+    family = "Computer modern",
+    size = 8,
+    color = 'white'
+  )
+  
+  outside_f <- list(
+    family = "Computer modern",
+    size = 8,
+    color = colors
+  )
+  
+  
+  # text font 
+  t <- list(
+    family = "Computer modern",
+    size = 8,
+    color = 'black'
+  )
+  
+  
+  # plot
+  g3 <- plot_ly(data,
+                labels = ~key, 
+                values = ~round(value),
+                type ='pie',
+                hole = 0.6,
+                textposition = 'outside',
+                textinfo = 'percent+label',
+                rotation = 120,
+                outsidetextfont = outside_f,
+                marker = list(colors = colors),
+                width = 500, 
+                height = 350)  %>%
+    config(displayModeBar = F) %>%
+    
+    layout(title ='' ,
+           font = t,
+           showlegend = F,
+           annotations = list(
+             showarrow = FALSE,
+             text = paste0('Figure 7', '\n', "District courst judges'" , '\n', 'actions on magistrate', '\n','judges'),
+             font = t), 
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+  
+tmpFile <- tempfile(fileext = ".png")
+
+export(g3, file = tmpFile)
+ 
+
+```
+
+
+
+
+
