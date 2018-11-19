@@ -53,6 +53,7 @@ opts_chunk$set(echo=FALSE,
               fig.path = 'figures/')
 opts_knit$set(width=75)
 options(xtable.comment = FALSE)
+options(tinytex.verbose = TRUE)
 ```
 
 
@@ -68,40 +69,25 @@ options(xtable.comment = FALSE)
 ```{r}
 
 # # no scientific notation
-  # options(scipen = '999')
-  # 
-  # # get data 
-  data <- all_data$chen$f1
-  
-  # get label numbers
-  data$text_label <- unlist(lapply(strsplit(data$circuit, '-', fixed = TRUE), function(x) x[length(x)]))
-  
-  # remove 11 with FC and SC with 12, and 0 with dc
-  data$text_label <- gsub('^0$', 'DC', data$text_label)
-  data$text_label <- gsub('12', 'FC', data$text_label)
-  
-#   # Compute and plot wss for k = 2 to k = 15.
-# length(unique(data$text_label))
-# dat <- data[, c('x', 'y')]
-# k.max <- 14
-# wss <- sapply(1:k.max,
-#               function(k){kmeans(dat, k, nstart=50,iter.max = 15 )$tot.withinss})
-# # wss
-# plot(1:k.max, wss,
-#      type="b", pch = 19, frame = FALSE,
-#      xlab="Number of clusters K",
-#      ylab="Total within-clusters sum of squares")
+# options(scipen = '999')
 # 
-# 
-# # K-Means Cluster Analysis
-# fit <- kmeans(dat, 13) # 5 cluster solution
-# # get cluster means
-# aggregate(dat,by=list(fit$cluster),FUN=mean)
-# # append cluster assignment
-# dat_clust <- data.frame(dat, fit$cluster)
+# # get data 
+data <- all_data$chen$f1
 
-temp <- kmod(data[, c('x', 'y')], k = 13, l = 200, i_max = 300, conv_method = "delta_C",
-     conv_error = 0, allow_empty_c = TRUE)
+# get label numbers
+data$text_label <- unlist(lapply(strsplit(data$circuit, '-', fixed = TRUE), function(x) x[length(x)]))
+
+# remove 11 with FC and SC with 12, and 0 with dc
+data$text_label <- gsub('^0$', 'DC', data$text_label)
+data$text_label <- gsub('12', 'FC', data$text_label)
+
+# randomly sample half of the data set for clarity
+keep_index <- sample(1:nrow(data), nrow(data)/2)
+data <- data[keep_index, ]
+
+
+temp <- kmod(data[, c('x', 'y')], k = 14, l = 200, i_max = 300, conv_method = "delta_C",
+   conv_error = 0, allow_empty_c = TRUE)
 dat_c <- as.data.frame(cbind(data, clust_dist = temp$XC_dist_sqr_assign))
 outlier_index <- as.character(temp$L_index)
 
@@ -110,15 +96,20 @@ dat_c$outlier <- ifelse(dat_c$clust_dist.dist_sqr > 50, 'Outlier', 'In Cluster')
 dat_c$clust_dist.c <- as.factor(as.character(dat_c$clust_dist.c))
 
 # recode SC and FC as in cluster
-dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster', 
-                        ifelse(dat_c$text_label == 'FC', 'In Cluster', 
-                               ifelse(dat_c$text_label == 'DC', 'In Cluster', dat_c$outlier)))
+dat_c$outlier <- as.factor(ifelse(dat_c$text_label == 'SC', 'In Cluster', 
+                      ifelse(dat_c$text_label == 'FC', 'In Cluster', 
+                             ifelse(dat_c$text_label == 'DC', 'In Cluster', dat_c$outlier))))
+
+
 
 ```
 
 \newpage 
 
 ### finished computing clusters (ignore R output)
+
+# figure 1 (sampled half the data set (n = 1089))
+
 ```{r, fig.width = 8, fig.height = 6}
 # find outliers based on
 
@@ -183,7 +174,7 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
              label = '8',
              alpha = 0.8,
              x = 16, 
-             y = -40,
+             y = -38,
              family = 'CMU Bright', 
              size =6) +
     annotate(geom = 'text', 
@@ -196,8 +187,8 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
     annotate(geom = 'text', 
              label = '10',
              alpha = 0.8,
-             x = 27, 
-             y = -16,
+             x = 23, 
+             y = -15,
              family = 'CMU Bright', 
              size =6) +
     annotate(geom = 'text', 
@@ -211,7 +202,7 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
              label = '7',
              alpha = 0.8,
              x = 13, 
-             y = 21,
+             y = 18,
              family = 'CMU Bright', 
              size =6) +
     annotate(geom = 'text', 
@@ -223,7 +214,7 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
     annotate(geom = 'text', 
              label = '3',
              alpha = 0.8,
-             x = -9, 
+             x = -6, 
              y = 30,
              family = 'CMU Bright', 
              size =6)
@@ -232,6 +223,217 @@ dat_c$outlier <- ifelse(dat_c$text_label == 'SC', 'In Cluster',
   g1
 
 ```
+
+# figure 1 (sampled half the data set (n = 1089) and using different point shapes) 
+
+```{r, fig.width = 8, fig.height = 6}
+# find outliers based on
+
+  # version 11
+  g1 <- ggplot(dat_c,
+               aes(x = x,
+                   y = y,
+                   group = clust_dist.c,
+                   shape = clust_dist.c,
+                   color = outlier)) +
+    geom_point(size = 1,
+              alpha = 0.8) +
+  scale_color_manual(name = '',
+                       values = c('black', 'grey')) +
+    scale_shape_manual(name = 'Cluster group',
+                       breaks = sort(c('1', '10', '11', '12', '13', '14', '2', '3', '4', '5','6', '7', '8', '9')),
+                       values = c(14, 20, 8, 19, 12, 1, 2, 3, 5, 6, 7, 10, 15, 17)) +
+    
+      labs(x = '',
+         y = '',
+         title = paste0('Figure 1: Centered by Topic-Year', '\n', 'Averaged by Judge, Labeled by Court'),
+         caption = paste0('Circuit, CC Judge Vector', '\n',
+'Demeaned by Year and Big Topic')) +
+    theme_sfi(lp = 'bottom',
+              y_axis_title_style = 'bold',
+              x_axis_title_style = 'bold',
+              title_style = 'bold') +     
+    theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size =12)) +
+
+  
+    annotate(geom = 'text', 
+             label = 'SC',
+             alpha = 0.8,
+             x = -28, 
+             y = 42,
+             family = c("Computer modern"), 
+             size =6) +
+    annotate(geom = 'text', 
+             label = 'FC',
+             alpha = 0.8,
+             x = -32, 
+             y = 30,
+             family = 'CMU Bright', 
+             size =6) +
+   annotate(geom = 'text', 
+             label = 'DC',
+             alpha = 0.8,
+             x = -16, 
+             y = 30,
+             family = 'CMU Bright', 
+             size =6) +
+    annotate(geom = 'text', 
+             label = '9',
+             alpha = 0.8,
+             x = -23, 
+             y = 9,
+             family = 'CMU Bright', 
+             size =6) +
+    annotate(geom = 'text', 
+             label = '5',
+             alpha = 0.8,
+             x = -7, 
+             y = -35.5,
+             family = 'CMU Bright', 
+             size =6) +
+  annotate(geom = 'text', 
+             label = '8',
+             alpha = 0.8,
+             x = 16, 
+             y = -38,
+             family = 'CMU Bright', 
+             size =6) +
+    annotate(geom = 'text', 
+             label = '6',
+             alpha = 0.8,
+             x = 26, 
+             y = 8,
+             family = 'CMU Bright', 
+             size =6) +
+    annotate(geom = 'text', 
+             label = '10',
+             alpha = 0.8,
+             x = 23, 
+             y = -15,
+             family = 'CMU Bright', 
+             size =6) +
+    annotate(geom = 'text', 
+             label = '4',
+             alpha = 0.8,
+             x = 3, 
+             y = -13,
+             family = 'CMU Bright', 
+             size =6) +
+    annotate(geom = 'text', 
+             label = '7',
+             alpha = 0.8,
+             x = 13, 
+             y = 18,
+             family = 'CMU Bright', 
+             size =6) +
+    annotate(geom = 'text', 
+             label = '2',
+             x = 10, 
+             y = 40,
+             family = 'CMU Bright', 
+             size =6) +
+    annotate(geom = 'text', 
+             label = '3',
+             alpha = 0.8,
+             x = -6, 
+             y = 30,
+             family = 'CMU Bright', 
+             size =6)
+  
+  
+  g1
+
+```
+
+
+# figure 1 (sampled half the data set (n = 1089) and using different point shapes) 
+
+```{r, fig.width = 8, fig.height = 6}
+
+# # get data 
+data <- all_data$chen$f1
+
+# get label numbers
+data$text_label <- unlist(lapply(strsplit(data$circuit, '-', fixed = TRUE), function(x) x[length(x)]))
+
+# remove 11 with FC and SC with 12, and 0 with dc
+data$text_label <- gsub('^0$', 'DC', data$text_label)
+data$text_label <- gsub('12', 'FC', data$text_label)
+
+# randomly sample half of the data set for clarity
+keep_index <- sample(1:nrow(data), nrow(data)/2)
+data <- data[keep_index, ]
+
+# run kmeans clustering
+cluster_data <- data[, c('x', 'y')]
+dat_c <- kmeans(cluster_data, 14)
+centers <- as.data.frame(dat_c$centers[dat_c$cluster, ])
+distances <- sqrt(rowSums((cluster_data-centers)^2))
+
+# combine with old data
+data$cluster <- as.character(dat_c$cluster)
+data$distance <- as.numeric(distances)
+data <- data[order(data$distance, decreasing = TRUE),]
+
+# if distance over 3.5, then outlier 
+data$outlier <- ifelse(data$distance > 8, 'Outlier', 'In cluster')
+
+# get one text_label per group with ggrepel
+# create an empty label column
+data$label <- ''
+
+# create list to store loop results
+data_list <- list()
+
+unique_text_label <- unique(data$text_label)
+for(i in 1:length(unique_text_label)){
+  this_text <- unique_text_label[i]
+  sub_text <- data[data$text_label == this_text,]
+
+    
+  # randomly assign year label to one row
+  sub_text <- sub_text[order(sub_text$clust_dist.dist_sqr, decreasing = FALSE),]
+  top_ten <- 1
+  sub_text$label[top_ten] <- as.character(this_text)
+  
+  data_list[[i]] <- sub_text
+  print(this_text)
+}
+
+dat <- do.call('rbind', data_list)
+
+
+# version 11
+g1 <- ggplot(dat,
+             aes(x = x,
+                 y = y,
+                 group = clust_dist.c,
+                 color = outlier)) +
+  geom_point(size = 1,
+            alpha = 0.8) +
+  geom_label_repel(aes(label = label), size = 7,segment.size = 0, box.padding = 0.5) +
+  scale_color_manual(name = '',
+                     values = c('black', 'grey')) +
+  
+    labs(x = '',
+       y = '',
+       title = paste0('Figure 1: Centered by Topic-Year', '\n', 'Averaged by Judge, Labeled by Court'),
+       caption = paste0('Circuit, CC Judge Vector', '\n',
+'Demeaned by Year and Big Topic')) +
+  theme_sfi(lp = 'bottom',
+            y_axis_title_style = 'bold',
+            x_axis_title_style = 'bold',
+            title_style = 'bold') +     
+  theme(axis.text=element_text(size = 10, hjust = 1),
+        plot.title = element_text(size =12)) 
+g1
+
+```
+
+
+
+
 
 # Chen and Ash 2
 

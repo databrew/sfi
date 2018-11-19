@@ -1,7 +1,7 @@
 ---
 title: "Chen_voice"
 subtitle: "Final Version of Figures"
-date: 'Nov 12th 2018'
+date: 'Nov 19th 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -61,34 +61,8 @@ options(xtable.comment = FALSE)
 \newpage
 
 
-# Chen voice figure 1 version 1
 
-```{r, fig.width= 8, fig.height=6}
-# get data 
-data <- all_data$chenvoice$f1
-
-# recode variables for plot
-data$qtype <- Hmisc::capitalize(data$qtype)
-data$qtype <- gsub('_', ' ', data$qtype)
-
-#  make correlation plot 
-g1 <-ggplot(data,
-       aes(zresponse1, zresponse2)) +
-  geom_point(size = 1) +
-  labs(title = 'Correlation plot (version 1)',
-       x = '1 Mean response',
-       y = '0 Mean response') +
-   theme_sfi() +
-   theme(axis.text=element_text(size = 10, hjust = 1),
-          plot.title = element_text(size =12)) +
-  facet_wrap(~qtype, nrow = 2)
-
-g1
-  
-
-```
-
-# Chen voice figure 1 version 2
+# Chen voice figure 1 (normalized data)
 
 ```{r, fig.width= 8, fig.height=6}
 
@@ -113,44 +87,34 @@ g1
 ```
 
 
-# Chen voice figure 2 version 1
+# Chen voice figure 1 (not normalized)
 
-```{r}
-data <- all_data$chenvoice$f2
-data <- as.data.frame(rbind(names(data), data))
-names(data) <- c('var1', 'var2', 'value')
+```{r, fig.width= 8, fig.height=6}
 
-# recode
-data$var1 <- gsub('X1', 'Both', data$var1)
-data$var2 <- gsub('1', 'Intercept', data$var2)
+#  make correlation plot 
+g1 <-ggplot(data,
+       aes(mean_response1, mean_response2)) +
+  geom_point(size = 2) +
+  geom_smooth(method = 'lm', 
+              se = TRUE, 
+              linetype = 0) +
+  labs(title = 'Correlation plot (version 2)',
+       x = '1 Mean response',
+       y = '0 Mean response',
+       caption = 'Std error estimated with a linear model') +
+   theme_sfi() +
+   theme(axis.text=element_text(size = 10, hjust = 1),
+          plot.title = element_text(size =12)) +
+  facet_wrap(~qtype, nrow = 2)
 
-# restructure 
-data$var1 <- as.factor(data$var1)
-data$var2 <- as.factor(data$var2)
-data$value <- as.numeric(data$value)
-
-# plot
-g1 <- ggplot(data, 
-       aes(reorder(var2, -value), 
-           value, group = var1, fill = var1)) +
-    geom_bar(stat = 'identity', position = 'dodge') +
-    scale_fill_manual(name='',
-                      values = c('#AEAEAE', '#181818','#6C6C6C')) +
-  labs(title = 'Audio features', 
-       subtitle = 'feature importance (version 1)',
-       x = 'Names of features', 
-       y = 'Importance score for features') +
-  theme_sfi() + 
-  theme(axis.text=element_text(size = 10, hjust = 1),
-        axis.text.x = element_text(angle = 45),
-          plot.title = element_text(size =12)) 
 g1
-
+  
 ```
 
-# Chen voice figure 2 version 2
 
-```{r}
+# Chen voice figure 2 (jitter by importance value)
+
+```{r, fig.width= 6, fig.height= 6}
 data <- all_data$chenvoice$f2
 data <- as.data.frame(rbind(names(data), data))
 names(data) <- c('var1', 'var2', 'value')
@@ -164,55 +128,23 @@ data$var1 <- as.factor(data$var1)
 data$var2 <- as.factor(data$var2)
 data$value <- as.numeric(data$value)
 
-# plot
-g1 <- ggplot(data, 
-       aes(reorder(var2, -value), 
-           value, group = var1, fill = var1)) +
-    geom_bar(stat = 'identity', position = 'dodge') +
-    scale_fill_manual(name='',
-                      values = c('#AEAEAE', '#181818','#6C6C6C')) +
-  labs(title = 'Audio features', 
-       subtitle = 'feature importance (version 2)',
-       x = 'Names of features', 
-       y = 'Importance score for features') +
-  coord_flip()+
-  theme_sfi() + 
-  theme(axis.text=element_text(size = 10, hjust = 1),
-        axis.text.x = element_text(),
-          plot.title = element_text(size =12)) 
-g1
+data$jitter_value <- ave(as.numeric(data$value), data$value,
+                         FUN = function(x) x + rnorm(length(x), sd = .3))
 
-```
-
-# Chen voice figure 2 version 3
-
-
-```{r}
-data <- all_data$chenvoice$f2
-data <- as.data.frame(rbind(names(data), data))
-names(data) <- c('var1', 'var2', 'value')
-
-# recode
-data$var1 <- gsub('X1', 'Both', data$var1)
-data$var2 <- gsub('1', 'Intercept', data$var2)
-
-# restructure 
-data$var1 <- as.factor(data$var1)
-data$var2 <- as.factor(data$var2)
-data$value <- as.numeric(data$value)
 
 # plot
 g1 <- ggplot(data, 
-       aes(reorder(var2, -value), 
-           value, 
+       aes(reorder(var2, -jitter_value), 
+           jitter_value, 
            group = var1, 
            col = var1)) +
-           geom_segment(aes(x=reorder(var2, value), 
+           geom_segment(aes(x=reorder(var2, jitter_value), 
                      xend=var2, 
                      y=0, 
-                     yend=value),
+                     yend=jitter_value),
                  size = 1,
-                 alpha = 0.5) + 
+                 alpha = 0.5,
+                 position = 'stack') + 
     geom_point(size= 2, 
                alpha = 1,
                aes(color = var1)) + scale_color_manual(name='',
@@ -227,5 +159,42 @@ g1 <- ggplot(data,
         axis.text.x = element_text(),
           plot.title = element_text(size =12)) 
 g1
+
+
+
+
 ```
+
+
+# Figure 2 (jittr by petitioner and responded. Equivalent to position = dodge)
+
+
+```{r, fig.width= 6, fig.height=6}
+g1 <- ggplot(data, 
+       aes(reorder(var2, -value), 
+           value, 
+           group = var1)) +
+  geom_point(size= 2, 
+               alpha = 1,
+               position = position_dodge(0.5),
+               aes(color = var1)) + scale_color_manual(name='',
+                      values = c('#AEAEAE', '#181818','#6C6C6C')) +
+           geom_linerange(aes(ymin =0 , 
+                              ymax =value, 
+                              color = var1), 
+                          size = 0.5,
+                          position = position_dodge(0.5)) +
+  labs(title = 'Audio features', 
+       subtitle = 'feature importance',
+       x = 'Names of features', 
+       y = 'Importance score for features') +
+  coord_flip()+
+  theme_sfi(gM = FALSE) + 
+  theme(axis.text=element_text(size = 10, hjust = 1),
+        axis.text.x = element_text(),
+          plot.title = element_text(size =12)) 
+g1
+
+```
+
 
