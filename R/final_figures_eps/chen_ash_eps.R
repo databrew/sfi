@@ -644,8 +644,8 @@ g1 <- ggplot(data,
                  y = y,
                  group = cohort,
                  shape = cohort)) +
-  geom_point(size = 1,
-             alpha = 0.8) +
+  geom_point(size = 2,
+             alpha = 0.7) +
   scale_shape_manual(name = '',
                      breaks = c('1910s', '1920s', '1930s', '1940s', '1950s'),
                      values = c(0, 1, 2, 15, 16)) +
@@ -654,49 +654,47 @@ g1 <- ggplot(data,
        y = '',
        title = paste0(''),
        caption = paste0('')) +
-  theme_sfi(lp = 'bottom') +     
+  theme_sfi(lp = 'right') +     
   theme(axis.text=element_text(size = 10, hjust = 1),
-        plot.title = element_text(size =12))
+        plot.title = element_text(size =12),
+        legend.text = element_text(size = 10))
 g1
 
-ggsave("image_files/Chen_Ash_Figure_5.eps", width = 6, height = 6, device=cairo_ps, fallback_resolution = 2000)
+ggsave("image_files/Chen_Ash_Figure_5.eps", width = 8, height = 6, device=cairo_ps, fallback_resolution = 2000)
 
 
 # figure 6 (use figure 4 data)
 data <- all_data$chen$f1
 
-unique(data$law_sch)[grepl('Stanford', unique(data$law_sch))]
+unique(data$law_sch)[grepl('Texas', unique(data$law_sch))]
 
-harvard
-stanford
-yale
-university of chicago
-virginia
-penn
-michigan
-texas
-law_schools <-'Columbia Law School|Harvard Law School|Stanford'
+
+law_schools <-'University of Texas School of Law|University of Michigan Law School|University of Pennsylvania Law School|Columbia Law School|Harvard Law School|Stanford Law School|Yale Law School|University of Chicago Law School|University of Virginia School of Law'
+
+# subset data by law school
+dat_law <- data[grepl(law_schools, data$law_sch),]
+
 # version 11
-g1 <- ggplot(data,
+g1 <- ggplot(dat_law,
              aes(x = x,
                  y = y,
                  group = law_sch,
                  shape = law_sch)) +
-  geom_point(size = 1,
-             alpha = 0.8) +
+  geom_point(size = 2,
+             alpha = 0.7) +
   scale_shape_manual(name = '',
-                     breaks = c('1910s', '1920s', '1930s', '1940s', '1950s'),
-                     values = c(0, 1, 2, 15, 16)) +
+                     values = c(0, 1, 2, 3, 5, 6, 15, 16, 17)) +
   
   labs(x = '',
        y = '',
        title = paste0(''),
        caption = paste0('')) +
-  theme_sfi(lp = 'bottom') +     
+  theme_sfi(lp = 'right') +     
   theme(axis.text=element_text(size = 10, hjust = 1),
-        plot.title = element_text(size =12))
+        plot.title = element_text(size =12),
+        legend.text = element_text(size = 10))
 g1
 
-ggsave("image_files/Chen_Ash_Figure_5.eps", width = 6, height = 6, device=cairo_ps, fallback_resolution = 2000)
+ggsave("image_files/Chen_Ash_Figure_6.eps", width = 9, height = 6, device=cairo_ps, fallback_resolution = 2000)
 
 
