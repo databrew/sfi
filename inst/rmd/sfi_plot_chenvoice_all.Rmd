@@ -1,7 +1,7 @@
 ---
 title: "Chen_voice"
 subtitle: "Final Version of Figures"
-date: 'Nov 19th 2018'
+date: 'Nov 22nd 2018'
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -66,6 +66,7 @@ options(xtable.comment = FALSE)
 
 ```{r, fig.width= 8, fig.height=6}
 
+data <- all_data$chenvoice$f1
 #  make correlation plot 
 g1 <-ggplot(data,
        aes(zresponse1, zresponse2)) +
@@ -73,7 +74,7 @@ g1 <-ggplot(data,
   geom_smooth(method = 'lm', 
               se = TRUE, 
               linetype = 0) +
-  labs(title = 'Correlation plot (version 2)',
+  labs(title = 'Correlation plot',
        x = '1 Mean response',
        y = '0 Mean response',
        caption = 'Std error estimated with a linear model') +
@@ -87,29 +88,6 @@ g1
 ```
 
 
-# Chen voice figure 1 (not normalized)
-
-```{r, fig.width= 8, fig.height=6}
-
-#  make correlation plot 
-g1 <-ggplot(data,
-       aes(mean_response1, mean_response2)) +
-  geom_point(size = 2) +
-  geom_smooth(method = 'lm', 
-              se = TRUE, 
-              linetype = 0) +
-  labs(title = 'Correlation plot (version 2)',
-       x = '1 Mean response',
-       y = '0 Mean response',
-       caption = 'Std error estimated with a linear model') +
-   theme_sfi() +
-   theme(axis.text=element_text(size = 10, hjust = 1),
-          plot.title = element_text(size =12)) +
-  facet_wrap(~qtype, nrow = 2)
-
-g1
-  
-```
 
 
 # Chen voice figure 2 (jitter by importance value)
@@ -150,7 +128,7 @@ g1 <- ggplot(data,
                aes(color = var1)) + scale_color_manual(name='',
                       values = c('#AEAEAE', '#181818','#6C6C6C')) +
   labs(title = 'Audio features', 
-       subtitle = 'feature importance (version 3)',
+       subtitle = 'feature importance (jittered by importance)',
        x = 'Names of features', 
        y = 'Importance score for features') +
   coord_flip()+
@@ -185,7 +163,7 @@ g1 <- ggplot(data,
                           size = 0.5,
                           position = position_dodge(0.5)) +
   labs(title = 'Audio features', 
-       subtitle = 'feature importance',
+       subtitle = 'feature importance (jittered by petitioner and respondent)',
        x = 'Names of features', 
        y = 'Importance score for features') +
   coord_flip()+

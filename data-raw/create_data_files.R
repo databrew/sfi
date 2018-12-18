@@ -1,3 +1,5 @@
+
+
 library(devtools)
 library(readr)
 library(readxl)
@@ -12,11 +14,30 @@ library(Hmisc)
 folder_names <- c('Feldman', 'Laqueur and Venancio', 'Frankenreiter', 
                   'Copus et al', 'Livermore, Grom, Eidelman',
                   'Livermore, Ashley, Riddell, Carlson, Rockmore', 'Dumas', 
-                  'Chen and Ash', 'Eidelman, Kornilova, Argyle')
+                  'Chen and Ash', 'Eidelman, Kornilova, Argyle', 'Chen_voice')
 
 
 
 
+
+
+# --------------------
+# Chen voice
+chenvoice_1 <- read_csv('Databrew Graphics/Chen_voice/corr_plot.csv')
+
+chenvoice_2 <- read_csv('Databrew Graphics/Chen_voice/FigureAudio.csv')
+
+chenvoice_3 <- read_csv('Databrew Graphics/Chen_voice/replication.csv')
+
+
+# create a list to store files
+chenvoice <- list()
+chenvoice$f1 <- chenvoice_1
+chenvoice$f2 <- chenvoice_2
+chenvoice$f3 <- chenvoice_3
+
+# save data
+devtools::use_data(chenvoice, overwrite = TRUE)
 
 # --------------------
 # Livermore, Grom, Eidelman
@@ -206,8 +227,9 @@ frankenreiter_3 <- read_csv('Databrew Graphics/Frankenreiter/data/figure3.csv')
 frankenreiter_4 <- read_csv('Databrew Graphics/Frankenreiter/data/figure4.csv')
 frankenreiter_5_1 <- read_csv('Databrew Graphics/Frankenreiter/data/figure5_1.csv')
 frankenreiter_5_2 <- read_csv('Databrew Graphics/Frankenreiter/data/figure5_2.csv')
-frankenreiter_6_1 <- read_csv('Databrew Graphics/Frankenreiter/data/figure6_1.csv')
-frankenreiter_6_2 <- read_csv('Databrew Graphics/Frankenreiter/data/figure6_2.csv')
+frankenreiter_6_1 <- read_csv('Databrew Graphics/Frankenreiter/data/figure6_1_new.csv')
+frankenreiter_6_2 <- read_csv('Databrew Graphics/Frankenreiter/data/figure6_2_new.csv')
+
 
 frankenreiter_6 <- 
   bind_rows(frankenreiter_6_1 %>% mutate(key = '1973 enlargement'),
@@ -326,6 +348,7 @@ devtools::use_data(feldman, overwrite = TRUE)
 # -----------
 # store all author lists into one main list 
 all_data <- list()
+all_data$chenvoice <- chenvoice
 all_data$eidelman <- eidelman
 all_data$dumas <- dumas
 all_data$frankenreiter <- frankenreiter

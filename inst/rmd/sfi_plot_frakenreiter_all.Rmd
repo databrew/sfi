@@ -474,70 +474,36 @@ g2
 ```
 
 
-# Frankenreiter 6 1973 enlargement (version 1)
 
-```{r, fig.width = 7.25, fig.height = 7}
-# Get data
-  data <- all_data$frankenreiter$f6 %>%
-    mutate(year = as.numeric(year))
 
-  # separate data into two datasets based on key
-  data_1 <- data[data$key == '1973 enlargement',]
+# Frankenreiter 6 1973 enlargement 
 
-  # capitalize data
-  data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
-
-  # recode data so the new judgetrad variable indicates if the judge is new
-  data_1$judgetrad <- ifelse(data_1$new == 1, paste0(data_1$judgetrad, ' New'), data_1$judgetrad)
-
-  # -----------------------
-  # 1973 enlargement
-
-  # Version 1 with lines at end
-  g1 <- ggplot(data = data_1,
-               aes(x = year,
-                   y = kl.dist3,
-                   group = interaction(judgetrad,judge),
-                   color = judgetrad)) +
-    geom_line(size = 1) +
-    xlim(c(1973, 1990)) +
-    geom_dl(aes(label = judge),
-            method = list(dl.combine("last.points"), hjust = -0.5,
-                          cex = 0.6,
-                          dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
-    scale_color_manual(name = '',
-                       values = c('black', '#414141', '#979797', '#C6C6C6')) +
-    labs(x = 'Year',
-         y = '',
-         title = 'Figure 6 (1973 Enlargement)',
-         subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
-between 1973 and 1975') +
-    theme_sfi(lp = 'bottom',
-              y_axis_title_style = 'bold',
-              x_axis_title_style = 'bold',
-              title_style = 'bold')  +
-    theme(axis.text=element_text(size = 10, hjust = 1))
-
-  g1
-  
-```
-
-# Frankenreiter 6 1973 enlargement (version 2)
-
-```{r, fig.width = 7.25, fig.height = 7}
+```{r, fig.width = 9, fig.height = 7.25}
 
 # Get data
   data <- all_data$frankenreiter$f6 %>%
     mutate(year = as.numeric(year))
+
+  # recode new variable
+  data$new <- as.factor(ifelse(data$new == 1, 'New judges', 'Old judges'))
   
   # separate data into two datasets based on key
   data_1 <- data[data$key == '1973 enlargement',]
 
   # capitalize data 
-  data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
+  data_1$judgetrad <- as.factor(Hmisc::capitalize(data_1$judgetrad))
+  
+  # keep only last name
+  data_1$judgename <- gsub('Mertens de Wilmars', 'de Wilmars', data_1$judgename)
+  data_1$judgename <- gsub('Mackenzie Stuart', 'Stuart', data_1$judgename)
 
-  # recode data so the new judgetrad variable indicates if the judge is new
-  data_1$judgetrad <- ifelse(data_1$new == 1, paste0(data_1$judgetrad, ' New'), data_1$judgetrad)
+  # correct variable 'new' levles
+  data_1$new <- factor(data_1$new, levels = c('Old judges', 'New judges'))
+  data_1$judgetrad<- factor(data_1$judgetrad, levels = c('Roman', 'German','Nordic', 'Commonlaw'))
+  
+# 
+#   # recode data so the new judgetrad variable indicates if the judge is new
+#   data_1$judgetrad <- ifelse(data_1$new == 1, paste0(data_1$judgetrad, ' New'), data_1$judgetrad)
   
   # -----------------------
   # 1973 enlargement
@@ -546,29 +512,30 @@ between 1973 and 1975') +
   g1 <- ggplot(data = data_1,
                aes(x = year,
                    y = kl.dist3,
-                   group = interaction(judgetrad,judge),
+                   group = interaction(judgetrad,judgename),
                    color = judgetrad)) +
     geom_line(size = 1) +
     geom_point(size = 1,
                alpha = 0.6,
                color = 'black') +
-    xlim(c(1973, 1990)) +
-    geom_dl(aes(label = judge), 
-            method = list(dl.combine("last.points"), hjust = -0.5, 
-                          cex = 0.6,
-                          dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
+    xlim(c(1973, 1992)) +
+    geom_dl(aes(label = judgename), 
+            method = list(dl.combine("last.points"), cex = 0.6,hjust = -0.1, 
+                          dl.move('Donner', cex = 0.6,vjust = -0.3)), 
+                          alpha = 0.8, color = 'black') +
     scale_color_manual(name = '',
-                       values = c('black', '#414141', '#979797', '#C6C6C6')) +
+                       breaks = c('Roman', 'German', 'Nordic', 'Commonlaw'),
+                       values = c('#000000', '#434343', '#7F7F7F', '#ABABAB')) +
     labs(x = 'Year',
          y = '',
          title = 'Figure 6 (1973 Enlargement)',
-         subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
-between 1973 and 1975') +
+         subtitle = 'Development of writing style of ECJ in comparison to the writing of judges between 1973 and 1975') +
     theme_sfi(lp = 'bottom',
               y_axis_title_style = 'bold',
               x_axis_title_style = 'bold',
               title_style = 'bold')  +
-    theme(axis.text=element_text(size = 10, hjust = 1))
+    theme(axis.text=element_text(size = 10, hjust = 1)) +
+    facet_wrap(~new)
   
   g1
   
@@ -576,101 +543,88 @@ between 1973 and 1975') +
 ```
 
 
-# Frankenreiter 6 1995 enlargement (version 1)
 
-```{r, fig.width = 7.25, fig.height = 8}
-  
-# Get data
-  data <- all_data$frankenreiter$f6 %>%
-    mutate(year = as.numeric(year))
-  data_2 <- data[data$key == '1995 enlargement',]
-  data_2$judgetrad <- Hmisc::capitalize(data_2$judgetrad)
-  data_2$judgetrad <- ifelse(data_2$new == 1, paste0(data_2$judgetrad, ' New'), data_2$judgetrad)
-
-
-# version 5 barplot
-  g2 <- ggplot(data = data_2,
-         aes(x = year,
-             y = kl.dist3,
-             fill = judgetrad)) +
-    geom_point(size = 0.5, 
-               color = 'black',
-               alpha = 0.4) +
-    geom_line(size = 0.5,
-              alpha = 0.8) +
-    geom_dl(aes(label = judgetrad), 
-            method = list(dl.combine("last.points"), cex = 0.7,
-                          vjust = -0.3,alpha = 0.8, color = 'black',
-                          dl.trans(x = x - 2.8))) +
-    ylim(c(0, .035)) +
-    labs(x = 'Year',
-         y = '',
-         title = 'Figure 6 (1995 Enlargement)',
-         subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
-between 1973 and 1975') +
-    theme_sfi(lp = 'none',
-              y_axis_title_style = 'bold',
-              x_axis_title_style = 'bold',
-              title_style = 'bold') +
-    scale_fill_manual(name = '',
-                      values = c('black', 'black','black',"#595959", "#9C9C9C",'#D3D0D0')) +
-    theme(axis.text=element_text(size = 10, hjust = 1)) +
-    facet_wrap(~judge) 
-
-   g2 
-
-```
-
-
-
-# Frankenreiter 6 1995 enlargement (version 2)
+# Frankenreiter 6 1995 enlargement
 
 ```{r, fig.width = 7.25, fig.height = 8}
  
 # Get data
   data <- all_data$frankenreiter$f6 %>%
     mutate(year = as.numeric(year))
+ # recode new variable
+  data$new <- ifelse(data$new == 1, 'New judges', 'Old judges')
   data_2 <- data[data$key == '1995 enlargement',]
   data_2$judgetrad <- Hmisc::capitalize(data_2$judgetrad)
-  data_2$judgetrad <- ifelse(data_2$new == 1, paste0(data_2$judgetrad, ' New'), data_2$judgetrad)
+  
+  # correct variable 'new' levles
+  data_2$new <- factor(data_2$new, levels = c('Old judges', 'New judges'))
+  data_2$judgetrad<- factor(data_2$judgetrad, levels = c('Roman', 'German','Nordic', 'Commonlaw'))
+  
+  
+  data_2$judgename <- gsub('Moitinho de Almeida', 'de Almeida', data_2$judgename)
+  data_2$judgename <- gsub('Rodriguez Iglesias', 'Iglesias', data_2$judgename)
+  
+  data_2$judge_label <- ''
+  data_list <- list()
+  unique_names <- unique(data_2$judgename)
+  
+  for(i in 1:length(unique_names)) {
+    this_name <- unique_names[i]
+    sub_dat <- data_2[data_2$judgename == this_name,]
+    sub_dat <- sub_dat[order(sub_dat$kl.dist3, decreasing = TRUE),]
+    sub_dat$judge_label[i] <- this_name
+    data_list[[i]] <- sub_dat
+    print(this_name)
+    
+  }
+  data_2 <- do.call('rbind', data_list)
 
+  # judge names: Wathelet, Puissochet, Murray, de Almeida, Edward
+  # data_2$judgetrad <- ifelse(data_2$new == 1, paste0(data_2$judgetrad, ' New'), data_2$judgetrad)
+library(ggrepel)
     g3 <- ggplot(data = data_2,
                  aes(x = year,
                      y = kl.dist3,
-                     group = judge)) +
+                     group = interaction(judgetrad,judgename),
+                     color = judgetrad)) +
       ylim(c(0, .03)) +
       geom_point(size = 1, 
                  color = 'black',
                  alpha = 0.4) +
-      geom_line(size = 1,
-                alpha = 0.8) +
-      geom_dl(aes(label = judge),
-              method = list(dl.combine("last.points"), 
-                            cex = 0.5, 
-                            alpha = 0.8, 
-                            color = 'black',
-                            hjust = -0.5,
-                            dl.move('IE4', vjust = -1),
-                            dl.move('NL5', vjust = 1, hjust = -0.5),
-                            dl.move('IT8', hjust = -0.5),
-                            dl.move('FR6', hjust = -0.5),
-                            dl.move('PT1', vjust = 1, hjust = -0.5),
-                            dl.move('BE4', vjust = 4, hjust = 15),
-                            dl.move('GR2', vjust = 0, hjust = -0.5),
-                            dl.move('SE1', vjust = 0, hjust = -0.5))) +
-      xlim(c(1992, 2012)) +
-      facet_wrap(~judgetrad, nrow = 3) +
+      geom_line(size = 1) +
+      geom_dl(data = data_2[data_2$new == 'New judges',],
+              aes(label = judgename), 
+            method = list(dl.combine("last.points"), hjust = -0.1,  cex = 0.6,
+                          dl.move('Ragnemalm', hjust = 0.1, vjust = -0.4,  cex = 0.6),
+                          dl.move('Wathelet', hjust = 2, vjust = -0.4,  cex = 0.6)), 
+                          alpha = 0.8, color = 'black') +
+      geom_dl(data = data_2 %>% filter(judgename %in% c('Puissochet','Wathelet', 'Edward')),
+              aes(label = judgename), 
+            method = list(dl.combine("first.points"),  hjust = 1.1,  cex = 0.6),
+                          alpha = 0.8, color = 'black')  +
+      geom_dl(data = data_2 %>% filter(judgename %in% c('Hirsch','Mancini', 'Iglesias', 'de Almeida','Kakouris', 'Kapteyn', 'Gulmann', 'Murray')),
+              aes(label = judgename), 
+            method = list(dl.combine("last.points"),  hjust = -0.1,  cex = 0.6),
+                          alpha = 0.8, color = 'black')  +
+      scale_color_manual(name = '',
+                       breaks = c('Roman', 'German', 'Nordic', 'Commonlaw'),
+                       values = c('#000000', '#434343', '#7F7F7F', '#ABABAB')) +
+      xlim(c(1992, 2015)) +
       labs(x = 'Year',
            y = '',
            title = 'Figure 6 (1995 Enlargement)',
-           subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
-between 1973 and 1975') +
-      theme_sfi(lp = 'none',
+           subtitle = 'Development of writing style of ECJ in comparison to the writing of judges between 1973 and 1975') +
+      theme_sfi(lp = 'bottom',
                 y_axis_title_style = 'bold',
                 x_axis_title_style = 'bold',
                 title_style = 'bold') +
-    theme(axis.text=element_text(size = 10, hjust = 1))
+    theme(axis.text=element_text(size = 8, hjust = 1)) +
+            facet_wrap(~new) 
+
     
     g3
-
+    
 ```
+
+
+

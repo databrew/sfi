@@ -1,0 +1,688 @@
+
+# Packages
+library(sfi)
+library(webshot)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(ggiraph)
+library(scales)
+library(tidyverse)
+library(directlabels)
+library(knitr)
+library(Hmisc)
+library(gridExtra)
+library(RColorBrewer)
+library(extrafont)
+library(kableExtra)
+library(grid)
+
+# webshot::install_phantomjs()
+
+loadfonts()
+
+
+#### This markdown is for Frankenreiter figures.
+
+# Frankenreiter 2 (version 1)
+
+# # Get data
+# data <- all_data$frankenreiter$f2
+# data <- data %>%
+#   tidyr::gather(key = key,
+#                 value = value,
+#                 number_tokens: mean_sent_length)
+# 
+# # Relabel
+# key_dict <- 
+#   data.frame(key = c("ave_syllabels", 
+#                      "mean_sent_length",
+#                      "number_tokens", 
+#                      "perc_differentwords2"),
+#              new_key = c('Mean syllables per word',
+#                          'Mean sentence length',
+#                          'Tokens per opinion',
+#                          'Type-token ratio'))
+# data <- left_join(data, key_dict, by= 'key')
+# 
+# 
+# date_breaks <- as.Date(paste0(seq(1950, 
+#                                   2010,
+#                                   by = 10),
+#                               '-01-01'))
+# date_labels <- as.character(seq(1950, 
+#                                 2010,
+#                                 by = 10))
+# 
+# g1 <- ggplot(data = data,
+#              aes(x = docdate,
+#                  y = value)) +
+#   geom_point(size = 1,
+#              alpha = 1,
+#              color = 'black',
+#              pch = '.') +
+#   geom_smooth(se = TRUE,
+#               fill = 'darkgrey',
+#               alpha = 1,
+#               linetype = 0) +
+#   geom_vline(xintercept = date_breaks,
+#              alpha = 0.3) +
+#   facet_wrap(~new_key, 
+#              ncol = 2,
+#              scales = 'free_y') +
+#   scale_x_date(name = 'Date', 
+#                breaks = date_breaks, 
+#                labels = date_labels) +
+#   theme_sfi(lp = 'none',
+#             y_axis_title_style = 'bold',
+#             x_axis_title_style = 'bold',
+#             title_style = 'bold') +
+#   labs(x = '',
+#        y = '',
+#        title = 'Figure 1',
+#        subtitle = paste0('Development over time of four measures of style over time.',
+#                          '\n', 'Each opinion is represented by one point per panel'),
+#        caption = '*Lines smoothed using local regression') +
+#   theme(axis.text=element_text(size = 10, hjust = 1))
+# 
+# g1
+
+# Frankenreiter 2 (version 2)
+
+# Get data
+data <- all_data$frankenreiter$f2
+data <- data %>%
+  tidyr::gather(key = key,
+                value = value,
+                number_tokens: mean_sent_length)
+
+# Relabel
+key_dict <- 
+  data.frame(key = c("ave_syllabels", 
+                     "mean_sent_length",
+                     "number_tokens", 
+                     "perc_differentwords2"),
+             new_key = c('Mean syllables per word',
+                         'Mean sentence length',
+                         'Tokens per opinion',
+                         'Type-token ratio'))
+data <- left_join(data, key_dict, by= 'key')
+
+
+date_breaks <- as.Date(paste0(seq(1950, 
+                                  2010,
+                                  by = 10),
+                              '-01-01'))
+date_labels <- as.character(seq(1950, 
+                                2010,
+                                by = 10))
+
+x <- data %>%
+  mutate(year = as.numeric(format(docdate, '%Y'))) %>%
+  mutate(val = value) %>%
+  group_by(year, new_key) %>%
+  summarise(value = mean(value, na.rm = TRUE),
+            p25 = quantile(val, na.rm = TRUE, 0.25),
+            p75 = quantile(val, na.rm = TRUE, 0.75)) %>%
+  ungroup %>%
+  mutate(year = as.Date(paste0(year, '-01-01')))
+g2 <- 
+  ggplot(data = x,
+         aes(x = year,
+             y = value)) +
+  geom_ribbon(aes(x = year,
+                  ymin = p25,
+                  ymax = p75),
+              alpha = 0.6) +
+  geom_point(size = 2,
+             alpha = 1) +
+  geom_vline(xintercept = date_breaks,
+             alpha = 0.3) +
+  facet_wrap(~new_key, 
+             ncol = 2,
+             scales = 'free_y') +
+  scale_x_date(name = 'Date', 
+               breaks = date_breaks, 
+               labels = date_labels) +
+  theme_sfi(lp = 'none',
+            title_style = 'bold') +
+  labs(x = 'Year',
+       y = '',
+       title = '',
+       subtitle = paste0(''),
+       caption = '*Std error smoothed using local regression. Showing only mean points.')  +
+  theme(axis.text=element_text(size = 8, hjust = 1))
+
+g2
+
+ggsave("image_files/Frakenreiter_Figure_2.eps", width = 6, height = 7, device=cairo_ps, fallback_resolution = 1000)
+
+# Frankenreiter 3 (version 1)
+# 
+# # Get data
+# data <- all_data$frankenreiter$f3
+# 
+# g1 <- ggplot(data, aes(diff, similarity)) +
+#   geom_point(size = 1, 
+#              alpha = 0.9,
+#              color = 'black') +
+#   geom_smooth(method = 'loess',
+#               linetype = 0,
+#               fill = 'black',
+#               alpha = 0.3) +
+#   theme_sfi(lp = 'none',
+#             y_axis_title_style = 'bold',
+#             x_axis_title_style = 'bold',
+#             title_style = 'bold') +
+#   labs(x = '',
+#        y = '',
+#        title = 'Figure 3 Similarity and temporal distance',
+#        caption = '*Std error from local regression.') +
+#   theme(axis.text=element_text(size = 10, hjust = 1))
+# g1
+
+# Frankenreiter 3 (version 2)
+
+#Get data
+data <- all_data$frankenreiter$f3
+# FILTERING OUT SOME DATA TO MATCH THEIRS
+data <- data %>%
+  filter(!(similarity < 0.3 & diff < 25)) %>%
+  filter(diff <= 57)
+
+liney <- data %>%
+  group_by(diff) %>%
+  summarise(similarity = mean(similarity, na.rm = TRUE)) %>%
+  ungroup
+
+spiney <- data %>%
+  mutate(diff = round(diff, digits = -1)) %>%
+  group_by(diff) %>%
+  summarise(similarity = mean(similarity, na.rm = TRUE)) %>%
+  ungroup
+
+quanty <- data %>%
+  mutate(diff = round(diff, digits = -1)) %>%
+  group_by(diff) %>%
+  summarise(avg = mean(similarity, na.rm = TRUE),
+            med = median(similarity, na.rm = TRUE),
+            q75 = quantile(similarity, 0.75, na.rm = TRUE),
+            q25 = quantile(similarity, 0.25, na.rm = TRUE)) %>%
+  ungroup
+
+
+g2 <- ggplot(data = data %>%
+               mutate(diff = round(diff, digits = -1)),
+             aes(x = diff,
+                 y = similarity)) +
+  geom_violin(aes(group = factor(diff)),
+              alpha = 1,
+              fill = 'darkgrey',
+              color = NA) +
+  ylim(0, 1) +
+  geom_jitter(alpha = 0.7,
+              # pch = 1,
+              size = 1) +
+  theme_sfi(lp = 'none',
+            title_style = 'bold') +
+  labs(x = '',
+       y = '',
+       title = '',
+       subtitle = '',
+       caption = paste0('*Distribution represented with mirrored normal density (violin plot).', '\n', 'Data points randomly "jittered" on the X axis and grouped by every 10 years.')) +
+  theme(axis.text=element_text(size = 10, hjust = 1)) 
+
+g2
+
+ggsave("image_files/Frakenreiter_Figure_3.eps", width = 6, height = 7, device=cairo_ps, fallback_resolution = 1000)
+
+
+# Frankenreiter 4 (version 1)
+# 
+# # Get data
+# data <- all_data$frankenreiter$f4 %>%
+#   filter(diff >= 0) # we are making this modification to match the vis from the paper
+# 
+# g1 <- ggplot(data, aes(diff, similarity)) +
+#   geom_smooth(method = 'loess',
+#               linetype = 0,
+#               fill = 'darkgrey',
+#               alpha = 1) +
+#   geom_point(size = 1, 
+#              alpha = 0.9,
+#              color = 'black') +
+#   theme_sfi(lp = 'none',
+#             y_axis_title_style = 'bold',
+#             x_axis_title_style = 'bold',
+#             title_style = 'bold') +
+#   labs(x = '',
+#        y = '',
+#        title = paste0('Figure 4 Similarity between different', '\n' , 'judges as a function of time'),
+#        caption = '*Std error from local regression.') +
+#   theme(axis.text=element_text(size = 10, hjust = 1))
+# 
+# 
+# g1
+# 
+
+# Frankenreiter 4 (version 2)
+
+# Get data
+data <- all_data$frankenreiter$f4 %>%
+  filter(diff >= 0) # we are making this modification to match the vis from the paper
+
+
+liney <- data %>%
+  group_by(diff) %>%
+  summarise(similarity = mean(similarity, na.rm = TRUE)) %>%
+  ungroup
+
+spiney <- data %>%
+  mutate(diff = round(diff, digits = -1)) %>%
+  group_by(diff) %>%
+  summarise(similarity = mean(similarity, na.rm = TRUE)) %>%
+  ungroup
+
+quanty <- data %>%
+  mutate(diff = round(diff, digits = -1)) %>%
+  group_by(diff) %>%
+  summarise(avg = mean(similarity, na.rm = TRUE),
+            med = median(similarity, na.rm = TRUE),
+            q75 = quantile(similarity, 0.75, na.rm = TRUE),
+            q25 = quantile(similarity, 0.25, na.rm = TRUE)) %>%
+  ungroup
+
+
+g2 <- ggplot(data = data %>%
+               mutate(diff = round(diff, digits = -1)),
+             aes(x = diff,
+                 y = similarity)) +
+  geom_violin(aes(group = factor(diff)),
+              alpha = 1,
+              fill = 'darkgrey',
+              color = NA) +
+  geom_jitter(alpha = 0.4,
+              # pch = 1,
+              size = 1) +
+  
+  ylim(0, 1) +
+  theme_sfi(lp = 'none',
+            title_style = 'bold') +
+  labs(x = '',
+       y = '',
+       title = paste0(''),
+       subtitle = '',
+       caption = paste0('*Distribution represented with mirrored normal density (violin plot).', '\n', 'Data points randomly "jittered" on the X axis and grouped by every 10 years.'))  +
+  theme(axis.text=element_text(size = 10, hjust = 1))
+
+g2
+
+ggsave("image_files/Frakenreiter_Figure_4.eps", width = 6, height = 7, device=cairo_ps, fallback_resolution = 1000)
+
+# Frankenreiter 5 
+
+## 1955 - 2014
+
+
+# Get data
+data <- all_data$frankenreiter$f5
+
+# # assign Metrix MDS (1955-2014) to source 1
+# # assign Metrix MDS (1970-2014) to source 2
+# data$source <- ifelse(data$source == '1', 'Metrix MDS (1955-2014)', 
+#                       'Metrix MDS (1970-2014)')
+
+# data$source <- as.factor(data$source)
+
+data1 <- data[data$source == 1,]
+
+
+# plot the 1955 to 2014 data
+cols <- make_colors(length(unique(data1$year)), bw = TRUE)
+data1$year <- as.numeric(data1$year)
+g1 <- ggplot(data1,
+             aes(x = coord2,
+                 y = coord1,
+                 color = year)) +
+  geom_point(size = 4,
+             pch = 16,
+             alpha = 0.9)  +
+  ggrepel::geom_text_repel(data=subset(data1, year==  1981 | year ==1995 | year == 2004 | year ==  2007),
+                           aes(coord2, coord1, label=year), vjust = 2, hjust = -2) +
+  ggrepel::geom_text_repel(data=subset(data1, year ==  1973),
+                           aes(coord2, coord1, label=year), vjust = -1.5, hjust = 0) +
+  ggrepel::geom_text_repel(data=subset(data1, year ==  2013),
+                           aes(coord2, coord1, label=year), vjust = -1.5, hjust = 0) +
+  ggrepel::geom_text_repel(data=subset(data1, year ==  1986),
+                           aes(coord2, coord1, label=year), vjust = 1, hjust = -1) +
+  theme_sfi(lp = 'bottom',
+            title_style = 'bold', 
+            lkw = TRUE, 
+            lkt = 'point', 
+            legend_width = 40) +
+  labs(x = 'Coordinate 2',
+       y = 'Coordinate 1',
+       title = '',
+       subtitle = '') +
+  scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") 
+
+g1
+ggsave("image_files/Frakenreiter_Figure_5a.eps", width = 7, height = 8, device=cairo_ps, fallback_resolution = 1000)
+
+
+# Frankenreiter 5 
+
+## 1970 - 2014
+
+# Get data
+data <- all_data$frankenreiter$f5
+
+
+data2 <- data[data$source == 2,]
+cols <- make_colors(length(unique(data2$year)), bw = TRUE)
+data2$year <- as.numeric(data2$year)
+g2 <- ggplot(data2,
+             aes(x = coord2,
+                 y = coord1,
+                 color = year)) +
+  geom_point(size = 4,
+             pch = 16,
+             alpha = 0.9)  +
+  ggrepel::geom_text_repel(data=subset(data2, year ==  1970 | year == 1973 | year==  1981),
+                           aes(coord2, coord1, label=year), vjust = -1, hjust = 1.5) +
+  ggrepel::geom_text_repel(data=subset(data2,year == 2000 | year == 2004 | year ==  2007 | year==  2010 | year == 2014),
+                           aes(coord2, coord1, label=year), vjust = 1, hjust = -1.5) +
+  ggrepel::geom_text_repel(data=subset(data2,year == 1995),
+                           aes(coord2, coord1, label=year), vjust = 0, hjust = -1) +
+  ggrepel::geom_text_repel(data=subset(data2,year == 1986 | year == 1990),
+                           aes(coord2, coord1, label=year), vjust = 0, hjust = .5) +
+  theme_sfi(lp = 'bottom',
+            title_style = 'bold', 
+            lkw = TRUE, 
+            lkt = 'point', 
+            legend_width = 30) +
+  labs(x = 'Coordinate 2',
+       y = 'Coordinate 1',
+       title = '',
+       subtitle = '') +
+  scale_color_gradient(name = 'Year', low = "#2C2C2C", high = "#ABABAB") +
+  theme(axis.text=element_text(size = 10, hjust = 1))
+
+
+g2
+ggsave("image_files/Frakenreiter_Figure_5b.eps", width = 6, height = 7, device=cairo_ps, fallback_resolution = 1000)
+
+
+# Frankenreiter 6 1973 enlargement (version 1)
+# 
+# # Get data
+# data <- all_data$frankenreiter$f6 %>%
+#   mutate(year = as.numeric(year))
+# 
+# # separate data into two datasets based on key
+# data_1 <- data[data$key == '1973 enlargement',]
+# 
+# # capitalize data
+# data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
+# 
+# # recode data so the new judgetrad variable indicates if the judge is new
+# data_1$judgetrad <- ifelse(data_1$new == 1, paste0(data_1$judgetrad, ' New'), data_1$judgetrad)
+# 
+# # -----------------------
+# # 1973 enlargement
+# 
+# # Version 1 with lines at end
+# g1 <- ggplot(data = data_1,
+#              aes(x = year,
+#                  y = kl.dist3,
+#                  group = interaction(judgetrad,judge),
+#                  color = judgetrad)) +
+#   geom_line(size = 1) +
+#   xlim(c(1973, 1990)) +
+#   geom_dl(aes(label = judge),
+#           method = list(dl.combine("last.points"), hjust = -0.5,
+#                         cex = 0.6,
+#                         dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
+#   scale_color_manual(name = '',
+#                      values = c('black', '#414141', '#979797', '#C6C6C6')) +
+#   labs(x = 'Year',
+#        y = '',
+#        title = 'Figure 6 (1973 Enlargement)',
+#        subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
+#        between 1973 and 1975') +
+#   theme_sfi(lp = 'bottom',
+#             y_axis_title_style = 'bold',
+#             x_axis_title_style = 'bold',
+#             title_style = 'bold')  +
+#   theme(axis.text=element_text(size = 10, hjust = 1))
+# 
+# g1
+# 
+
+# # Frankenreiter 6 1973 enlargement (version 2)
+# 
+# 
+# # Get data
+# data <- all_data$frankenreiter$f6 %>%
+#   mutate(year = as.numeric(year))
+# 
+# # separate data into two datasets based on key
+# data_1 <- data[data$key == '1973 enlargement',]
+# 
+# # capitalize data 
+# data_1$judgetrad <- Hmisc::capitalize(data_1$judgetrad)
+# 
+# # recode data so the new judgetrad variable indicates if the judge is new
+# data_1$judgetrad <- ifelse(data_1$new == 1, paste0(data_1$judgetrad, ' New'), data_1$judgetrad)
+# 
+# # -----------------------
+# # 1973 enlargement
+# 
+# # Version 1 with lines at end
+# g1 <- ggplot(data = data_1,
+#              aes(x = year,
+#                  y = kl.dist3,
+#                  group = interaction(judgetrad,judge),
+#                  color = judgetrad)) +
+#   geom_line(size = 1) +
+#   geom_point(size = 1,
+#              alpha = 0.6,
+#              color = 'black') +
+#   xlim(c(1973, 1990)) +
+#   geom_dl(aes(label = judge), 
+#           method = list(dl.combine("last.points"), hjust = -0.5, 
+#                         cex = 0.6,
+#                         dl.move('DK1', vjust = -1)), alpha = 0.8, color = 'black') +
+#   scale_color_manual(name = '',
+#                      values = c('black', '#414141', '#979797', '#C6C6C6')) +
+#   labs(x = 'Year',
+#        y = '',
+#        title = 'Figure 6 (1973 Enlargement)',
+#        subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
+#        between 1973 and 1975') +
+#   theme_sfi(lp = 'bottom',
+#             y_axis_title_style = 'bold',
+#             x_axis_title_style = 'bold',
+#             title_style = 'bold')  +
+#   theme(axis.text=element_text(size = 10, hjust = 1))
+# 
+# g1
+# 
+# 
+# # Frankenreiter 6 1995 enlargement (version 1)
+# 
+# 
+# # Get data
+# data <- all_data$frankenreiter$f6 %>%
+#   mutate(year = as.numeric(year))
+# data_2 <- data[data$key == '1995 enlargement',]
+# data_2$judgetrad <- Hmisc::capitalize(data_2$judgetrad)
+# data_2$judgetrad <- ifelse(data_2$new == 1, paste0(data_2$judgetrad, ' New'), data_2$judgetrad)
+# 
+# 
+# # version 5 barplot
+# g2 <- ggplot(data = data_2,
+#              aes(x = year,
+#                  y = kl.dist3,
+#                  fill = judgetrad)) +
+#   geom_point(size = 0.5, 
+#              color = 'black',
+#              alpha = 0.4) +
+#   geom_line(size = 0.5,
+#             alpha = 0.8) +
+#   geom_dl(aes(label = judgetrad), 
+#           method = list(dl.combine("last.points"), cex = 0.7,
+#                         vjust = -0.3,alpha = 0.8, color = 'black',
+#                         dl.trans(x = x - 2.8))) +
+#   ylim(c(0, .035)) +
+#   labs(x = 'Year',
+#        y = '',
+#        title = 'Figure 6 (1995 Enlargement)',
+#        subtitle = 'Development of writing style of ECJ in comparison to the writing of judges
+#        between 1973 and 1975') +
+#   theme_sfi(lp = 'none',
+#             y_axis_title_style = 'bold',
+#             x_axis_title_style = 'bold',
+#             title_style = 'bold') +
+#   scale_fill_manual(name = '',
+#                     values = c('black', 'black','black',"#595959", "#9C9C9C",'#D3D0D0')) +
+#   theme(axis.text=element_text(size = 10, hjust = 1)) +
+#   facet_wrap(~judge) 
+# 
+# g2 
+
+# Frankenreiter 6 1995 enlargement (version 2)
+
+# Get data
+data <- all_data$frankenreiter$f6 %>%
+  mutate(year = as.numeric(year))
+
+# recode new variable
+data$new <- as.factor(ifelse(data$new == 1, 'New judges', 'Old judges'))
+
+# separate data into two datasets based on key
+data_1 <- data[data$key == '1973 enlargement',]
+
+# capitalize data 
+data_1$judgetrad <- as.factor(Hmisc::capitalize(data_1$judgetrad))
+
+# keep only last name
+data_1$judgename <- gsub('Mertens de Wilmars', 'de Wilmars', data_1$judgename)
+data_1$judgename <- gsub('Mackenzie Stuart', 'Stuart', data_1$judgename)
+
+# correct variable 'new' levles
+data_1$new <- factor(data_1$new, levels = c('Old judges', 'New judges'))
+data_1$judgetrad<- factor(data_1$judgetrad, levels = c('Roman', 'German','Nordic', 'Commonlaw'))
+
+# 
+#   # recode data so the new judgetrad variable indicates if the judge is new
+#   data_1$judgetrad <- ifelse(data_1$new == 1, paste0(data_1$judgetrad, ' New'), data_1$judgetrad)
+
+# -----------------------
+# 1973 enlargement
+
+# Version 1 with lines at end
+g1 <- ggplot(data = data_1,
+             aes(x = year,
+                 y = kl.dist3,
+                 group = interaction(judgetrad,judgename),
+                 color = judgetrad)) +
+  geom_line(size = 1.5) +
+  geom_point(size = 1,
+             alpha = 1,
+             color = 'black') +
+  xlim(c(1973, 1992)) +
+  geom_dl(aes(label = judgename), 
+          method = list(dl.combine("last.points"), cex = 1,hjust = -0.1, fontface = 'bold',
+                        dl.move('Donner', cex = 1,vjust = -0.3)), 
+          alpha = 1, color = 'black') +
+  scale_color_manual(name = '',
+                     breaks = c('Roman', 'German', 'Nordic', 'Commonlaw'),
+                     values = c('#000000', '#434343', '#7F7F7F', '#ABABAB')) +
+  labs(x = 'Year',
+       y = '',
+       title = '',
+       subtitle = '') +
+  theme_sfi(lp = 'bottom',
+            title_style = 'bold')  +
+  theme(axis.text=element_text(size = 10, hjust = 1)) +
+  facet_wrap(~new)
+
+g1
+
+ggsave("image_files/Frakenreiter_Figure_6a.eps", width = 9, height = 7, device=cairo_ps, fallback_resolution = 600)
+
+# Get data
+data <- all_data$frankenreiter$f6 %>%
+  mutate(year = as.numeric(year))
+# recode new variable
+data$new <- ifelse(data$new == 1, 'New judges', 'Old judges')
+data_2 <- data[data$key == '1995 enlargement',]
+data_2$judgetrad <- Hmisc::capitalize(data_2$judgetrad)
+
+# correct variable 'new' levles
+data_2$new <- factor(data_2$new, levels = c('Old judges', 'New judges'))
+data_2$judgetrad<- factor(data_2$judgetrad, levels = c('Roman', 'German','Nordic', 'Commonlaw'))
+
+
+data_2$judgename <- gsub('Moitinho de Almeida', 'de Almeida', data_2$judgename)
+data_2$judgename <- gsub('Rodriguez Iglesias', 'Iglesias', data_2$judgename)
+
+data_2$judge_label <- ''
+data_list <- list()
+unique_names <- unique(data_2$judgename)
+
+for(i in 1:length(unique_names)) {
+  this_name <- unique_names[i]
+  sub_dat <- data_2[data_2$judgename == this_name,]
+  sub_dat <- sub_dat[order(sub_dat$kl.dist3, decreasing = TRUE),]
+  sub_dat$judge_label[i] <- this_name
+  data_list[[i]] <- sub_dat
+  print(this_name)
+  
+}
+data_2 <- do.call('rbind', data_list)
+
+# judge names: Wathelet, Puissochet, Murray, de Almeida, Edward
+# data_2$judgetrad <- ifelse(data_2$new == 1, paste0(data_2$judgetrad, ' New'), data_2$judgetrad)
+library(ggrepel)
+g3 <- ggplot(data = data_2,
+             aes(x = year,
+                 y = kl.dist3,
+                 group = interaction(judgetrad,judgename),
+                 color = judgetrad)) +
+  ylim(c(0, .03)) +
+  geom_point(size = 1, 
+             color = 'black',
+             alpha = 1) +
+  geom_line(size = 1) +
+  geom_dl(data = data_2[data_2$new == 'New judges',],
+          aes(label = judgename), 
+          method = list(dl.combine("last.points"), hjust = -0.1,  cex = 1,
+                        dl.move('Ragnemalm', hjust = 0.1, vjust = -0.4,  cex = 1),
+                        dl.move('Wathelet', hjust = 2, vjust = -0.4,  cex = 1)), 
+          alpha = 1, color = 'black') +
+  geom_dl(data = data_2 %>% filter(judgename %in% c('Murray','Wathelet', 'Edward')),
+          aes(label = judgename), 
+          method = list(dl.combine("first.points"),  hjust = 1.1,  cex = 1),
+          alpha = 1, color = 'black')  +
+  geom_dl(data = data_2 %>% filter(judgename %in% c('Hirsch','Mancini', 'Iglesias', 'de Almeida','Kakouris', 'Kapteyn', 'Gulmann', 'Puissochet')),
+          aes(label = judgename), 
+          method = list(dl.combine("last.points"),  hjust = -0.1,  cex = 1),
+          alpha = 1, color = 'black')  +
+  scale_color_manual(name = '',
+                     breaks = c('Roman', 'German', 'Nordic', 'Commonlaw'),
+                     values = c('#000000', '#434343', '#7F7F7F', '#ABABAB')) +
+  xlim(c(1990, 2015)) +
+  labs(x = 'Year',
+       y = '',
+       title = '',
+       subtitle = '') +
+  theme_sfi(lp = 'bottom',
+            title_style = 'bold') +
+  theme(axis.text=element_text(size = 9, hjust = 1)) +
+  facet_wrap(~new) 
+
+
+g3
+ggsave("image_files/Frakenreiter_Figure_6b.eps", width = 10, height = 10, device=cairo_ps, fallback_resolution = 2000)
